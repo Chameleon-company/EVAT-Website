@@ -9,7 +9,7 @@ export async function getChargers(user, params = {}) {
   // Use token from context or fallback to localStorage
   const ctxToken = user?.token;
   const lsToken = (() => {
-    try { return JSON.parse(localStorage.getItem('user'))?.token; } catch { return null; }
+    try { return JSON.parse(localStorage.getItem('currentUser'))?.token; } catch { return null; }
   })();
   const token = ctxToken || lsToken;
 
