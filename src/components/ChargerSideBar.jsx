@@ -2,6 +2,9 @@ import React, { useState, useContext, useEffect } from 'react';
 import '../styles/ChargerSideBar.css';
 import { FavouritesContext } from '../context/FavouritesContext';
 
+
+import { useNavigate } from 'react-router-dom';
+
 export default function ChargerSideBar({ station, onClose }) {
   const [feedback, setFeedback] = useState('');
   const [kWh, setKWh] = useState('');
@@ -10,6 +13,9 @@ export default function ChargerSideBar({ station, onClose }) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
 
+
+
+  const navigate = useNavigate();
   if (!station) return null;
 
   // Check if station is in favourites
@@ -30,6 +36,13 @@ export default function ChargerSideBar({ station, onClose }) {
           <li><strong>Cost:</strong> {station.cost || 'N/A'}</li>
           <li><strong>Access:</strong> {station.access_key_required === 'true' ? 'Restricted' : 'Open'}</li>
         </ul>
+
+<button
+  className="booking-btn"
+  onClick={() => navigate('/bookingtool', { state: { station } })}
+>
+  📅 Book this charger
+</button>
 
         <button
           onClick={() => toggleFavourite(station)}

@@ -73,3 +73,16 @@
   background: #ccc;
   cursor: not-allowed;
 }
+
+.selected-station{
+  background: rgba(255,255,255,0.75);
+  border: 1px solid #dfe8d5;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.booking-scroll {
+  height: calc(100vh - 64px); /* adjust if navbar height differs */
+  overflow-y: auto;
+  padding-bottom: 48px;
+}

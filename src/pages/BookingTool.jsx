@@ -3,12 +3,17 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Background from "../components/Background";
 import "../styles/Booking.css";
+import { useLocation } from "react-router-dom";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function BookingTool() {
   const navigate = useNavigate();
+
+
+const location = useLocation();
+const station = location.state?.station; // station details from sidebar
 
   const [user, setUser] = useState(null);
   const [isGuest, setIsGuest] = useState(false);
@@ -63,8 +68,21 @@ export default function BookingTool() {
     <div className="dashboard-page">
       <NavBar />
       <Background>
-        <div style={{ padding: '1rem', width: '100%' }}>
+  <div className="booking-scroll" style={{ padding: '1rem', width: '100%' }}>
+
           <h1>Booking</h1>
+
+{/* show selected charger if you came from the Map sidebar */}
+{station && (
+  <div className="selected-station" style={{marginBottom: '1rem'}}>
+    <h3 style={{margin: 0}}>Booking for: {station.operator || "Unknown Operator"}</h3>
+    <p style={{margin: '4px 0'}}>Type: {station.connection_type || "N/A"}</p>
+    <p style={{margin: 0}}>Power: {station.power_output || "N/A"} kW</p>
+  </div>
+)}
+
+
+  ...
 
           {/* Tab bar */}
           <div className="tabbar">
