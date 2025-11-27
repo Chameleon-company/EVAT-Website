@@ -65,6 +65,8 @@ export const getChargerReviews = async (chargerId, options = {}) => {
   }
 };
 
+//test comment for merge PR
+
 /**
  * Get charger review statistics (average rating, total reviews)
  * @param {string} chargerId - The charger ID
