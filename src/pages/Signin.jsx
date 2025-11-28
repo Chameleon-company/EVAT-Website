@@ -16,6 +16,24 @@ function Signin() {
   const [submitted, setSubmitted] = useState(false);
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
+  const [isEmailEmpty, setIsEmailEmpty] = useState(false);
+
+  const handleValidation = (e) => {
+  e.preventDefault();
+
+  const isEmailEmpty = email.trim() === '';
+  const isPasswordEmpty = password.trim() === '';
+
+  setIsEmailEmpty(isEmailEmpty);
+  setIsPasswordEmpty(isPasswordEmpty);
+  setError(null); // Clear previous errors
+
+  if (!isEmailEmpty && !isPasswordEmpty) {
+    handleSubmit(e);
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +49,6 @@ function Signin() {
 
       //need to delete user data then reload it from api after sign in
       const data = await response.json();
-
       if (response.ok) {
         // Extract access token from possibly nested structure
         const accessToken =
@@ -58,11 +75,11 @@ function Signin() {
         // Navigate to map page after successful login
         navigate('/map');
       } else {
-        setError(data?.message || 'Sign in failed.');
+        setError('User does not exist or incorrect password.');
       }
     } catch (err) {
       console.error('Error signing in:', err);
-      setError('An unexpected error occurred.');
+      setError('An unexpected error occurred. Please contact this number to resolve: +61 123 456 789.');
     } finally {
       setSubmitted(false);
     }
@@ -110,42 +127,58 @@ function Signin() {
     <div className="auth-container">
       <img src="/chameleon.png" alt="Chameleon" className="logo-image" />
 
-      <form onSubmit={handleSubmit} className="auth-form">
-        <label className="label">Email</label>
-        <div className="input-group">
-          <UserIcon className="icon" />
-          <input
-            className="input"
-            type="text"
-            name="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      <form onSubmit={handleValidation} className="auth-form">
+        <div className='input-container'>
+          <label className="label">Email</label>
+          <div className="input-group">
+            <UserIcon className="icon" />
+            <input
+              className="input"
+              type="text"
+              name="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          {isEmailEmpty && (
+            <div className="error-message">
+              This field is required
+            </div>
+          )}
         </div>
 
-        <label className="label">Password</label>
-        <div className="input-group">
-          <KeyRound className="icon" />
-          <input
-            className="input"
-            type={showPassword ? 'text' : 'password'}
-            name="password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-          />
-          <span
-            className="icon-right"
-            onClick={() => setShowPassword(!showPassword)}
-            role="button"
-          >
-            {showPassword ? <EyeOff /> : <Eye />}
-          </span>
+        <div className='input-container'>
+          <label className="label">Password</label>
+          <div className="input-group">
+            <KeyRound className="icon" />
+            <input
+              className="input"
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
+            <span
+              className="icon-right"
+              onClick={() => setShowPassword(!showPassword)}
+              role="button"
+            >
+              {showPassword ? <EyeOff /> : <Eye />}
+            </span>
+          </div>
+          {isPasswordEmpty && (
+            <div className="error-message">
+              This field is required
+            </div>
+          )}
+          {error && <p className="error-message">{error}</p>}
+          {submitted && <p className="success-message">Sign in submitted</p>}
         </div>
 
+
+      <div className="button-group">
         <button type="submit" className="auth-button" disabled={submitted}>
           {submitted ? "Signing In..." : "SIGN IN"}
         </button>
@@ -157,10 +190,8 @@ function Signin() {
         >
           CREATE NEW ACCOUNT
         </button>
+      </div>  
       </form>
-
-      {error && <p className="error-message">{error}</p>}
-      {submitted && <p className="success-message">Sign in submitted</p>}
     </div>
   );
 }
