@@ -67,95 +67,107 @@ function Signup() {
       <form onSubmit={handleSubmit} className="auth-form">
         <img src="/chameleon.png" alt="Chameleon" className="logo-image" />
 
-        <label className="auth-label">First Name</label>
-        <div className="input-group">
-          <User className="icon" />
-          <input
-            type="text"
-            name="firstName"
-            placeholder="First Name"
-            value={form.firstName}
-            onChange={handleChange}
-            required
-            className="input"
-          />
+        <div className='input-container'>
+          <label className="auth-label">First Name</label>
+          <div className="input-group">
+            <User className="icon" />
+            <input
+              type="text"
+              name="firstName"
+              placeholder="First Name"
+              value={form.firstName}
+              onChange={handleChange}
+              required
+              className="input"
+            />
+          </div>
         </div>
 
-        <label className="auth-label">Last Name</label>
-        <div className="input-group">
-          <User className="icon" />
-          <input
-            type="text"
-            name="lastName"
-            placeholder="Last Name"
-            value={form.lastName}
-            onChange={handleChange}
-            required
-            className="input"
-          />
+        <div className='input-container'>
+          <label className="auth-label">Last Name</label>
+          <div className="input-group">
+            <User className="icon" />
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Last Name"
+              value={form.lastName}
+              onChange={handleChange}
+              required
+              className="input"
+            />
+          </div>
         </div>
 
-        <label className="auth-label">Mobile Number</label>
-        <div className="input-group">
-          <Phone className="icon" />
-          <input
-            type="tel"
-            name="mobile"
-            placeholder="Mobile Number"
-            value={form.mobile}
-            onChange={handleChange}
-            pattern="04\d{8}" // Australian format: starts with 04 + 8 digits
-            required
-            className="input"
-          />
+        <div className='input-container'>
+          <label className="auth-label">Mobile Number</label>
+          <div className="input-group">
+            <Phone className="icon" />
+            <input
+              type="tel"
+              name="mobile"
+              placeholder="Mobile Number"
+              value={form.mobile}
+              onChange={handleChange}
+              pattern="04\d{8}" // Australian format: starts with 04 + 8 digits
+              required
+              className="input"
+            />
+          </div>
         </div>
 
-        <label className="auth-label">Email</label>
-        <div className="input-group">
-          <User className="icon" />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={form.email}
-            onChange={handleChange}
-            required
-            className="input"
-          />
+        <div className='input-container'>
+          <label className="auth-label">Email</label>
+          <div className="input-group">
+            <User className="icon" />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={form.email}
+              onChange={handleChange}
+              required
+              className="input"
+            />
+          </div>
         </div>
 
-        <label className="auth-label">Password</label>
-        <div className="input-group">
-          <KeyRound className="icon" />
-          <input
-            type={showPassword ? 'text' : 'password'}
-            name="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            required
-            className="input"
-          />
-          <span
-            className="icon-right"
-            onClick={() => setShowPassword(!showPassword)}
-            style={{ cursor: 'pointer' }}
-          >
-            {showPassword ? <EyeOff /> : <Eye />}
-          </span>
+        <div className='input-container'>
+          <label className="auth-label">Password</label>
+          <div className="input-group">
+            <KeyRound className="icon" />
+            <input
+              type={showPassword ? 'text' : 'password'}
+              name="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              required
+              className="input"
+            />
+            <span
+              className="icon-right"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{ cursor: 'pointer' }}
+            >
+              {showPassword ? <EyeOff /> : <Eye />}
+            </span>
+          </div>
         </div>
 
-        <button type="submit" className="auth-button">
-          CREATE ACCOUNT
-        </button>
+        <div className="button-group">
+            <button type="submit" className="auth-button">
+              CREATE ACCOUNT
+            </button>
 
-        <button
-          type="button"
-          className="auth-button"
-          onClick={() => navigate('/')}
-        >
-          BACK TO SIGN IN
-        </button>
+            <button
+              type="button"
+              className="auth-button"
+              onClick={() => navigate('/')}
+            >
+              BACK TO SIGN IN
+            </button>
+        </div>
 
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         {submitted && <p className="success-message">Signup successful!</p>}
