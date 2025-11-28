@@ -1,0 +1,123 @@
+
+/* src/pages/ApiTester.css */
+.api-tester-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.api-tester-container h1 {
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2A5F3B;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.api-tester-form-group {
+  margin-bottom: 1.25rem;
+}
+
+.api-tester-form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.api-tester-input,
+.api-tester-textarea,
+.api-tester-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.api-tester-textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.api-tester-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  transition: background-color 0.2s; 
+  width: 100%;
+  background-color: #649D5F;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.api-tester-button:hover:not(:disabled) {
+  background-color: #4b8d47;
+}
+
+.api-tester-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.api-tester-error {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+}
+
+.api-tester-response {
+  margin-top: 2rem;
+}
+
+.api-tester-status {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.api-tester-status.success { color: #28a745; }
+.api-tester-status.error   { color: #dc3545; }
+
+.api-tester-details {
+  margin-bottom: 1rem;
+}
+
+.api-tester-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.5rem 0;
+}
+
+.api-tester-pre {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.api-tester-content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  box-sizing: border-box;
+}
