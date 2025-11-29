@@ -189,7 +189,7 @@
 }
 
 .review-textarea {
-  width: 100%;
+  width: 90%; /* Will cause the sidebar to scroll horizontally */
   min-height: 80px;
   padding: 12px;
   border: 1px solid #d1d5db;
@@ -303,6 +303,7 @@
 }
 
 .review-comment {
+  word-wrap: break-word; /* Breaks a full word to wrap across lines as a long word can cause horizontal scrolling */
   font-size: 14px;
   color: #374151;
   line-height: 1.5;
