@@ -5,6 +5,8 @@ import { FavouritesContext } from '../context/FavouritesContext';
 import SideBarBookingTool from '../components/SideBarBookingTool';
 import { UserContext } from '../context/user';
 import { submitChargerReview, getChargerReviews, getChargerReviewStats, checkUserReviewStatus, updateChargerReview } from '../services/chargerReviewService';
+import { toast } from "react-toastify";
+
 
 export default function ChargerSideBar({ station, onClose }) {
   const [kWh, setKWh] = useState('');
@@ -108,13 +110,42 @@ export default function ChargerSideBar({ station, onClose }) {
     kWh && pricePerKWh ? (kWh * pricePerKWh).toFixed(2) : '';
 
   const handleSubmitReview = async () => {
-    if (!userReview.rating || !station?._id || !user?.token) {
-      if (!user?.token) {
+    // Prevent submitting a review if one of these aren't present
+    if (!userReview.rating || !userReview.comment || !station?._id || !user?.token) {
+      if (!user?.token) { // Is user signed in?
         alert('Please sign in to submit a review.');
         return;
       }
       return;
     }
+
+    if (userReview.comment.length <= 4) { // Prevent small or empty comments
+      toast.error(
+        <div>
+          Comment must be at least 5 characters!
+        </div>,
+        { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "review-error-comment" }
+      );
+      return;
+    } else if (userReview.comment.length >= 256) {
+      toast.error(
+        <div>
+          Comment must be less than 256 characters!
+        </div>,
+        { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "review-error-comment" }
+      );
+    }
+
+    if (user.rating < 0 || user.rating > 5) { // Prevent malformed reviews
+      toast.error(
+        <div>
+          Rating must be between 1 and 5!
+        </div>,
+        { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "review-error-rating" }
+      );
+      return;
+    }
+
 
     setIsSubmittingReview(true);
     try {
@@ -126,7 +157,12 @@ export default function ChargerSideBar({ station, onClose }) {
       if (userHasReviewed && existingUserReview) {
         // Update existing review
         await updateChargerReview(existingUserReview.id, reviewData, user.token);
-        alert('Review updated successfully!');
+        toast.success(
+          <div>
+            Review Updated Successfully!
+          </div>,
+          { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "review-success" }
+        );
       } else {
         // Create new review
         const newReviewData = {
@@ -134,7 +170,11 @@ export default function ChargerSideBar({ station, onClose }) {
           ...reviewData
         };
         await submitChargerReview(newReviewData, user.token);
-        alert('Review submitted successfully!');
+        toast.success(
+          <div>
+            Review Submitted Successfully!
+          </div>,
+          { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "review-success" })
       }
 
       setUserReview({ rating: 0, comment: '' });
@@ -147,9 +187,19 @@ export default function ChargerSideBar({ station, onClose }) {
     } catch (error) {
       console.error('Error submitting review:', error);
       if (error.message.includes('already reviewed')) {
-        alert('You have already reviewed this charger. You can update your existing review.');
+        toast.error(
+          <div>
+            You have already reviewed this charger. You can update your existing review
+          </div>,
+          { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "review-error-existing" }
+        );
       } else {
-        alert('Failed to submit review. Please try again.');
+        toast.error(
+          <div>
+            Failed to submit review. Please try again.
+          </div>,
+          { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "review-error-unknown" }
+        );
       }
     } finally {
       setIsSubmittingReview(false);
@@ -287,51 +337,6 @@ export default function ChargerSideBar({ station, onClose }) {
           </div>
         </div>
 
-        {/* <div className="sidebar-section"> */}
-        {/* Rating Stars */}
-        {/* <h4 style={{ marginBottom: '6px' }}>⭐ Rate this charger</h4>
-          <div style={{ marginBottom: '12px' }}>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <span
-                key={star}
-                style={{
-                  cursor: 'pointer',
-                  fontSize: '1.5rem',
-                  color: (hoverRating || rating) >= star ? '#f39c12' : '#ccc'
-                }}
-                onClick={() => setRating(star)}
-                onMouseEnter={() => setHoverRating(star)}
-                onMouseLeave={() => setHoverRating(0)}
-              >★</span>
-            ))}
-          </div> */}
-
-        {/* Full Review Button */}
-        {/* <button
-            onClick={() => {
-              if (!user?.token) {
-                alert('Please sign in to review this charger.');
-                return;
-              }
-              // If user has reviewed, populate form with existing review data
-              if (userHasReviewed && existingUserReview) {
-                setUserReview({
-                  rating: existingUserReview.rating,
-                  comment: existingUserReview.comment
-                });
-              } else {
-                // Reset form for new review
-                setUserReview({ rating: 0, comment: '' });
-              }
-              setShowReviewForm(!showReviewForm);
-            }}
-            className={`action-btn review-btn ${userHasReviewed ? 'reviewed' : ''}`}
-          >
-            <Star size={18} fill={userHasReviewed ? '#fbbf24' : 'none'} color={userHasReviewed ? '#fbbf24' : '#374151'} />
-            <span>{userHasReviewed ? 'Update Review' : 'Review'}</span>
-          </button>
-        </div> */}
-
         {/* Review Form */}
         {showReviewForm && (
           <div className="sidebar-section">
@@ -350,6 +355,7 @@ export default function ChargerSideBar({ station, onClose }) {
                 ))}
               </div>
               <textarea
+                required minlength="5" maxlength="255"
                 placeholder={userHasReviewed ? "Update your review..." : "Write your review..."}
                 value={userReview.comment}
                 onChange={(e) => setUserReview(prev => ({ ...prev, comment: e.target.value }))}
@@ -357,7 +363,7 @@ export default function ChargerSideBar({ station, onClose }) {
               />
               <button
                 onClick={handleSubmitReview}
-                disabled={isSubmittingReview || !userReview.rating}
+                disabled={isSubmittingReview || !userReview.rating || userReview.comment.length <= 4 || userReview.comment.length >= 255}
                 className="submit-review-btn"
               >
                 {isSubmittingReview
@@ -370,11 +376,6 @@ export default function ChargerSideBar({ station, onClose }) {
         )}
 
         {/* Reviews Section */}
-        {/* <div className="reviews-header" onClick={() => setShowReviews(!showReviews)}>
-            <h4>Reviews</h4>
-            <span className="review-count-badge">{reviews.length}</span>
-            {showReviews ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-          </div> */}
         {showReviews && (
           <div className="sidebar-section">
             <div className="section-header">See all reviews</div>
@@ -392,7 +393,11 @@ export default function ChargerSideBar({ station, onClose }) {
                           {review.userAvatar || review.userName?.charAt(0) || 'U'}
                         </div>
                         <div className="reviewer-details">
-                          <span className="reviewer-name">{review.userName || 'Anonymous'}</span>
+                          <span className="reviewer-name">{ 'Anonymous'}</span>
+                          {/*<span className="reviewer-name">{review.userName || 'Anonymous'}</span>
+                          Usernames are hardcoded when a review is made making it a bad idea to use it from the charger_reviews
+                          as a user can update their username and it not be updated elsewhere. The best practice would be to lookup
+                          user id and use the firstName parameter, this doesnt exist on some old accounts at the moment */}
                           <div className="review-rating">
                             {[1, 2, 3, 4, 5].map((star) => (
                               <Star
@@ -405,7 +410,7 @@ export default function ChargerSideBar({ station, onClose }) {
                           </div>
                         </div>
                       </div>
-                      <span className="review-date">{formatDate(review.timeAgo || review.createdAt)}</span>
+                      <span className="review-date">{formatDate(review.createdAt)}</span> {/* Unable to validate this */}
                     </div>
                     <p className="review-comment">{review.comment}</p>
                   </div>
@@ -415,12 +420,12 @@ export default function ChargerSideBar({ station, onClose }) {
           </div>
         )}
 
-        
+
         {/* Booking Tool */}
         <div className="sidebar-section">
           <div className="section-header">Book this Charger</div>
           <SideBarBookingTool stationName={station?.operator || "Unknown"} />
-          
+
           {/* EV Cost Estimator */}
           <div className="sidebar-section">
             <div className="section-header">EV Cost Calculator</div>
@@ -460,7 +465,7 @@ export default function ChargerSideBar({ station, onClose }) {
               </div>
             )}
           </div>
-  
+
 
         </div>
       </div>
