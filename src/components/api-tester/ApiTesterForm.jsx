@@ -1,30 +1,30 @@
 // src/components/api-tester/ApiTesterForm.jsx
 const ApiTesterForm = ({
-  method,
-  setMethod,
-  endpoint,
-  setEndpoint,
-  body,
-  setBody,
-  token,
-  setToken,
-  showToken,
-  setShowToken,
+  method,       setMethod,
+  endpoint,     setEndpoint,
+  body,         setBody,
+  token,        setToken,
+  showToken,    setShowToken,
   loading,
   onSend,
 }) => {
   const autoFillToken = () => {
     try {
+      // get user data from local storage
       const userData = localStorage.getItem('currentUser');
+      // handle no data found
       if (!userData) {
         alert('No login session found. Please log in first.');
         return;
       }
+      // parse JSON
       const parsed = JSON.parse(userData);
       if (parsed.token) {
+        // token found
         setToken(parsed.token);
         alert('Current login token loaded!');
       } else {
+        // no token found
         alert('No token found in session.');
       }
     } catch (e) {
