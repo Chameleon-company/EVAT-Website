@@ -111,7 +111,8 @@ const ApiTesterForm = ({
             value={body}
             onChange={(e) => setBody(e.target.value)}
             className="api-tester-textarea"
-            placeholder='{ "make": "Tesla", "model": "Model 3" }'
+            placeholder='Enter JSON body or click a Quick Endpoint'
+            style={{width: '50%'}}
           />
         </div>
       )}

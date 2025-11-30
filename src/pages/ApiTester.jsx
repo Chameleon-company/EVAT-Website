@@ -126,7 +126,13 @@ const ApiTester = () => {
   // quick endpoint selected
   const handleEndpointClick = (item) => {
     setMethod(item.method);
-    setEndpoint(item.endpoint.replace(/\{[^}]+\}/g, '123'));
+    setEndpoint(item.endpoint.replace(/\{[^}]+\}/g, '123')); // adds 123 if path expects input
+    // clear body for GET/DELETE or no example
+    setBody('');
+    // auto-fill body if it exists and is POST/PUT/PATCH
+    if (item.body && ['POST', 'PUT', 'PATCH'].includes(item.method)) {
+      setBody(item.body.trim());
+    }
   };
 
   // hide page in production unless ?devtools=1 is in URL
