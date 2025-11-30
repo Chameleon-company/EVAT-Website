@@ -254,3 +254,54 @@
 .endpoint-group-title.admin-only {
   color: #dc3545;
 }
+
+/* search bar */
+.api-sidebar-search-wrapper {
+  padding: 0;
+  position: sticky;
+  top: 0;
+  background: rgba(240, 248, 255, 0.98);
+  z-index: 10;
+  border-bottom: 1px solid #e0e7ff;
+  width: 100%;
+}
+
+.api-sidebar-search-input {
+  width: 97%;
+  padding: 5px 5px;
+  border: 1px solid #c8d6ff;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.api-sidebar-search-input:focus {
+  border-color: #649D5F;
+  box-shadow: 0 0 0 3px rgba(100, 157, 95, 0.15);
+}
+
+.api-sidebar-search-results {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 6px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.api-sidebar-no-results {
+  padding: 30px 20px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+/* make group count smaller when searching */
+.endpoint-group-title .search-count {
+  font-weight: normal;
+  opacity: 0.7;
+  margin-left: 6px;
+  font-size: 0.9em;
+}

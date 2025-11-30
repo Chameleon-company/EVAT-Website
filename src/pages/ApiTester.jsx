@@ -20,6 +20,7 @@ const ApiTester = () => {
   const [error, setError] = useState('');                   // error message
   const [loading, setLoading] = useState(false);            // in flight state
   const [history, setHistory] = useState([]);               // array of past requests
+  const [endpointSearch, setEndpointSearch] = useState(''); // searching the quick endpoint list
   const baseUrl = import.meta.env.VITE_API_URL;             // base url
 
   // automatically load token when loading the page
