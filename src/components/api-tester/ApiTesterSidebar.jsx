@@ -1,15 +1,16 @@
 // src/components/api-tester/ApiTesterSidebar.jsx
 import {
-  userAuth,
   adminAuth,
-  profile,
-  vehicles,
-  chargeStations,
-  chargerSessions,
+  admin,
   chargerReviews,
-  navigation,
+  chargerSessions,
+  charger,
   feedback,
-  adminOnly,
+  navigation,
+  profile,
+  station,
+  user,
+  vehicle,
 } from '../../data/apiEndpoints';
 
 // on clicking an endpoint item
@@ -46,16 +47,17 @@ const ApiTesterSidebar = ({ onEndpointClick }) => {
       <h1>Quick Endpoints</h1>
       <div className="api-tester-endpoint-list">
         {/* list of endpoints */}
-        {renderGroup(userAuth, 'User & Auth')}
-        {renderGroup(adminAuth, 'Admin Auth (2FA)')}
-        {renderGroup(profile, 'Profile')}
-        {renderGroup(vehicles, 'Vehicles')}
-        {renderGroup(chargeStations, 'Charger Stations')}
-        {renderGroup(chargerSessions, 'Charging Sessions')}
-        {renderGroup(chargerReviews, 'Reviews')}
-        {renderGroup(navigation, 'Navigation')}
-        {renderGroup(feedback, 'Feedback')}
-        {renderGroup(adminOnly, 'Admin Only', true)}
+        {renderGroup(adminAuth, 'Admin Auth Route', true)}
+        {renderGroup(admin, 'Admin Route', true)}
+        {renderGroup(chargerReviews, 'Charger Reviews Route')}
+        {renderGroup(chargerSessions, 'Charger Session Route')}
+        {renderGroup(charger, 'Charger')}
+        {renderGroup(feedback, 'Feedback Route')}
+        {renderGroup(navigation, 'Navigation Route')}
+        {renderGroup(profile, 'Profile Route')}
+        {renderGroup(station, 'Station Route')}
+        {renderGroup(user, 'User Route')}
+        {renderGroup(vehicle, 'Vehicle Route')}
       </div>
     </div>
   );
