@@ -203,19 +203,19 @@ const templates = {
   "password": "string",
   "firstName": "string",
   "lastName": "string",
-  "mobile": "string",
+  "mobile": "string"
 }`,
 
 };
 
 // Admin Auth Route
 const adminAuth = [
-  { method: 'POST',   endpoint: '/admin-auth/login',              label: 'Admin login (step 1)',                  body: templates.adminLogin },
-  { method: 'POST',   endpoint: '/admin-auth/verify-2fa',         label: 'Admin 2FA verification',                body: templates.adminVerfiy },
-  { method: 'PUT',    endpoint: '/admin-auth/update-credentials', label: 'Update admin credentials',              body: templates.adminLogin },
+  { method: 'POST',   endpoint: '/admin-auth/login',              label: 'Admin login (step 1)',                  body: templates.adminLogin },   // NOT WORKING - 500 internal server error
+  { method: 'POST',   endpoint: '/admin-auth/verify-2fa',         label: 'Admin 2FA verification',                body: templates.adminVerfiy },  // tested and working
+  { method: 'PUT',    endpoint: '/admin-auth/update-credentials', label: 'Update admin credentials',              body: templates.adminLogin },   // NOT WORKING - 403 forbidden
 ];
 
-// Admin Route
+// Admin Route // NOT WORKING - 403 forbidden
 const admin = [
   { method: 'GET',    endpoint: '/admin/users',                   label: '[Admin] Get all users' },
   { method: 'DELETE', endpoint: '/admin/users/{userId}',          label: '[Admin] Delete user' },
@@ -228,7 +228,7 @@ const admin = [
   { method: 'DELETE', endpoint: '/admin/stations/{stationId}',    label: '[Admin] Delete station' },
 ];
 
-// Charger Reviews Route
+// Charger Reviews Route // NOT WORKING
 const chargerReviews = [
   { method: 'POST',   endpoint: '/charger-reviews',                                   label: 'Submit review',                           body: templates.reviewAdd },
   { method: 'PUT',    endpoint: '/charger-reviews/{reviewId}',                        label: 'Update review',                           body: templates.reviewUpdate },
@@ -243,21 +243,21 @@ const chargerReviews = [
 
 // Charger Session Route
 const chargerSessions = [
-  { method: 'GET',    endpoint: '/charger-sessions/{sessionId}',          label: 'Get session by ID' },
-  { method: 'GET',    endpoint: '/charger-sessions/user/{userId}',        label: 'Get user sessions' },
-  { method: 'GET',    endpoint: '/charger-sessions/station/{stationId}',  label: 'Get station sessions' },
-  { method: 'POST',   endpoint: '/charger-sessions/',                     label: 'Start new session',             body: templates.sessionStart },
-  { method: 'PATCH',  endpoint: '/charger-sessions/end/{sessionId}',      label: 'End session' },
-  { method: 'GET',    endpoint: '/charger-sessions/sessions/stream',      label: 'Get session stream' },
-  { method: 'GET',    endpoint: '/charger-sessions/sessions/logs',        label: '[Admin] Session logs' },
+  { method: 'GET',    endpoint: '/charger-sessions/{sessionId}',          label: 'Get session by ID' },                                             // tested and working
+  { method: 'GET',    endpoint: '/charger-sessions/user/{userId}',        label: 'Get user sessions' },                                             // tested and working
+  { method: 'GET',    endpoint: '/charger-sessions/station/{stationId}',  label: 'Get station sessions' },                                          // tested and working
+  { method: 'POST',   endpoint: '/charger-sessions/',                     label: 'Start new session',             body: templates.sessionStart },   // tested and working
+  { method: 'PATCH',  endpoint: '/charger-sessions/end/{sessionId}',      label: 'End session' },                                                   // tested and working
+  //{ method: 'GET',    endpoint: '/charger-sessions/sessions/stream',      label: 'Get session stream' },                                          // NOT WORKING - never gets response
+  { method: 'GET',    endpoint: '/charger-sessions/sessions/logs',        label: '[Admin] Session logs' },                                          // tested and working
 ];
 
 // Charger
 const charger = [
-  { method: 'POST',   endpoint: '/altchargers/nearby',            label: 'Find nearby chargers',                  body: templates.locationNearby },
+  { method: 'POST',   endpoint: '/altchargers/nearby',            label: 'Find nearby chargers',                  body: templates.locationNearby },   // tested and working
 ];
 
-// Feedback Route
+// Feedback Route // NOT WORKING
 const feedback = [
   { method: 'POST',   endpoint: '/feedback/',                     label: 'Submit feedback',                       body: templates.feedbackAdd },
   { method: 'GET',    endpoint: '/feedback/',                     label: '[Admin] Get all feedback' },
@@ -270,40 +270,40 @@ const feedback = [
 
 // Navigation Route
 const navigation = [
-  { method: 'POST',   endpoint: '/navigation/from-points',        label: 'Route from coordinates',                body: templates.navigationFromPoints },
-  { method: 'POST',   endpoint: '/navigation/from-sentence',      label: 'Route from address text',               body: templates.navigationFromSentence },
+  { method: 'POST',   endpoint: '/navigation/from-points',        label: 'Route from coordinates',                body: templates.navigationFromPoints },     // tested and working
+  { method: 'POST',   endpoint: '/navigation/from-sentence',      label: 'Route from address text',               body: templates.navigationFromSentence },   // NOT WORKING - no idea
 ];
 
 // Profile Route
 const profile = [
-  { method: 'GET',    endpoint: '/profile/user-profile',              label: 'Get full user profile' },
-  { method: 'POST',   endpoint: '/profile/vehicle-model',             label: 'Update vehicle model',              body: templates.profileAddVehicle },
-  { method: 'POST',   endpoint: '/profile/add-favourite-station',     label: 'Add favourite station',             body: templates.profileAddFavouriteStation },
-  { method: 'POST',   endpoint: '/profile/remove-favourite-station',  label: 'Remove favourite station',          body: templates.profileRemoveFavouriteStation },
+  { method: 'GET',    endpoint: '/profile/user-profile',              label: 'Get full user profile' },                                                             // tested and working
+  { method: 'POST',   endpoint: '/profile/vehicle-model',             label: 'Update vehicle model',              body: templates.profileAddVehicle },              // tested and working
+  { method: 'POST',   endpoint: '/profile/add-favourite-station',     label: 'Add favourite station',             body: templates.profileAddFavouriteStation },     // tested and working
+  { method: 'POST',   endpoint: '/profile/remove-favourite-station',  label: 'Remove favourite station',          body: templates.profileRemoveFavouriteStation },  // tested and working
 ];
 
 // Station Route
 const station = [
-  { method: 'GET',    endpoint: '/chargers',                      label: 'Get all chargers' },
-  { method: 'GET',    endpoint: '/chargers/nearest-charger',      label: 'Get nearest charger' },
-  { method: 'GET',    endpoint: '/chargers/{stationId}',          label: 'Get charger by station ID' },
-  { method: 'GET',    endpoint: '/chargers/GoogleMapsChargers',   label: 'Get Google Maps chargers' },
+  { method: 'GET',    endpoint: '/chargers',                      label: 'Get all chargers' },            // tested and working
+  { method: 'GET',    endpoint: '/chargers/nearest-charger',      label: 'Get nearest charger' },         // NOT WORKING - might need a body for the long and lat
+  { method: 'GET',    endpoint: '/chargers/{stationId}',          label: 'Get charger by station ID' },   // tested and working
+  { method: 'GET',    endpoint: '/chargers/GoogleMapsChargers',   label: 'Get Google Maps chargers' },    // NOT WORKING - no idea
 ];
 
 // User Route
 const user = [
-  { method: 'POST',   endpoint: '/auth/register',                 label: 'Register new user',                     body: templates.userRegister },
-  { method: 'POST',   endpoint: '/auth/login',                    label: 'Login',                                 body: templates.userLogin },
-  { method: 'POST',   endpoint: '/auth/refresh-token',            label: 'Refresh access token',                  body: templates.refreshToken },
-  { method: 'GET',    endpoint: '/auth/profile',                  label: 'Get user profile' },
-  { method: 'PUT',    endpoint: '/auth/profile',                  label: 'Update user profile',                   body: templates.userUpdate },
-  { method: 'GET',    endpoint: '/auth/user-list',                label: '[Admin] Get all users' },
+  { method: 'POST',   endpoint: '/auth/register',                 label: 'Register new user',                     body: templates.userRegister },   // tested and working
+  { method: 'POST',   endpoint: '/auth/login',                    label: 'Login',                                 body: templates.userLogin },      // tested and working
+  { method: 'POST',   endpoint: '/auth/refresh-token',            label: 'Refresh access token',                  body: templates.refreshToken },   // NOT WORKING - no idea
+  { method: 'GET',    endpoint: '/auth/profile',                  label: 'Get user profile' },                                                      // tested and working
+  { method: 'PUT',    endpoint: '/auth/profile',                  label: 'Update user profile',                   body: templates.userUpdate },     // tested and working
+  { method: 'GET',    endpoint: '/auth/user-list',                label: '[Admin] Get all users' },                                                 // tested and working
 ];
 
 // Vehicle Route
 const vehicle = [
-  { method: 'GET',    endpoint: '/vehicle',                       label: 'Get all vehicles' },
-  { method: 'GET',    endpoint: '/vehicle/{vehicleId}',           label: 'Get vehicle by ID' },
+  { method: 'GET',    endpoint: '/vehicle',                       label: 'Get all vehicles' },            // tested and working
+  { method: 'GET',    endpoint: '/vehicle/{vehicleId}',           label: 'Get vehicle by ID' },           // tested and working
 ];
 
 // export all groups
