@@ -12,6 +12,7 @@ import Game from "./pages/Game";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import ContactSupport from './pages/ContactSupport';
+import ApiTester from './pages/ApiTester';
 
 
 
@@ -31,6 +32,7 @@ function App() {
             <Route path="/cost" element={<Cost />} />
             <Route path="/game" element={<Game />} /> 
             <Route path="/support" element={<ContactSupport />} />
+            <Route path="/apitester" element={<ApiTester />} />
             {/* Catch-all Route */}
             <Route path="*" element={<div>404 Page Not Found</div>} />
           </Routes>

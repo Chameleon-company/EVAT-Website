@@ -1,0 +1,307 @@
+/* @import url('https://rsms.me/inter/inter.css');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap'); */
+
+/* src/pages/ApiTester.css */
+
+
+.api-tester-form-group {
+  margin-bottom: 1.25rem;
+}
+
+.api-tester-form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.api-tester-input,
+.api-tester-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.api-tester-textarea {
+  resize: vertical;
+  min-height: 120px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.api-tester-button-clear {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  transition: background-color 0.2s; 
+  width: 250px;
+  background-color: #dc3545;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  align-self: right;
+}
+
+.api-tester-button-clear:hover:not(:disabled) {
+  background-color: #811b25;
+}
+.api-tester-clear-btn {
+  background: #dc3545 !important;
+  font-size: 0.9rem;
+  padding: 6px 12px;
+}
+
+.api-tester-button {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  transition: background-color 0.2s; 
+  width: 100%;
+  background-color: #649D5F;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.api-tester-button:hover:not(:disabled) {
+  background-color: #4b8d47;
+}
+
+.api-tester-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.api-tester-error {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+}
+
+.api-tester-response {
+  margin-top: 2rem;
+}
+
+.api-tester-status {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.api-tester-status.success { color: #28a745; }
+.api-tester-status.error   { color: #dc3545; }
+
+.api-tester-details {
+  margin-bottom: 1rem;
+}
+
+.api-tester-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  display: 'flex';
+  font-size: '1.2rem';
+  align-items: 'center';
+  justify-content: 'space-between' 
+}
+
+.api-tester-pre {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+/* Make the entire page content scrollable */
+.api-tester-content {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;                    /* crucial for flex children to shrink */
+  padding: 1rem;
+  overflow: hidden;                 /* prevent double scrollbars */
+  box-sizing: border-box;
+}
+
+.api-tester-main-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 2rem;
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* LEFT PANEL */
+.api-tester-left {
+  overflow-y: auto;
+  padding-right: 1rem;
+}
+
+/* Left panel — this is the one that should scroll */
+.api-tester-container {
+  overflow-y: auto;
+  border-radius: 16px;
+  padding: 2rem;
+  height: 100%;                     /* fill the grid cell */
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+.api-tester-container h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2A5F3B;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* Right sidebar — stays fixed, scrolls independently */
+.api-tester-sidebar {
+  overflow-y: auto;
+  padding: 1rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.api-tester-sidebar-inner {
+  height: 100%;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.api-tester-sidebar h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2A5F3B;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ENDPOINT LIST */
+.api-tester-endpoint-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.api-tester-endpoint-item {
+  padding: 11px 14px;
+  background: white;
+  border-radius: 10px;
+  margin-bottom: 9px;
+  cursor: pointer;
+  border: 1px solid #e3e6ea;
+  transition: all 0.2s;
+}
+
+.api-tester-endpoint-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  border-color: #649D5F;
+}
+
+.method-badge {
+  display: inline-block;
+  width: 50px;
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  color: white;
+  margin-right: 10px;
+}
+
+.method-get { background: #28a745; }
+.method-post { background: #007bff; }
+.method-put { background: #d6aa24; }
+.method-delete { background: #dc3545; }
+.method-patch { background: #d67d08; }
+
+.api-tester-endpoint-item code {
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.92rem;
+}
+
+.endpoint-label {
+  color: #555;
+  font-size: 0.88rem;
+  margin-left: 8px;
+}
+
+.endpoint-group-title {
+  font-weight: 600;
+  color: #2c3e50;
+  padding: 12px 0 8px;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.1rem;
+}
+
+.endpoint-group-title.admin-only {
+  color: #dc3545;
+}
+
+/* search bar */
+.api-sidebar-search-wrapper {
+  padding: 0;
+  position: sticky;
+  top: 0;
+  background: rgba(240, 248, 255, 0.98);
+  z-index: 10;
+  border-bottom: 1px solid #e0e7ff;
+  width: 100%;
+}
+
+.api-sidebar-search-input {
+  width: 97%;
+  padding: 5px 5px;
+  border: 1px solid #c8d6ff;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.2s;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.api-sidebar-search-input:focus {
+  border-color: #649D5F;
+  box-shadow: 0 0 0 3px rgba(100, 157, 95, 0.15);
+}
+
+.api-sidebar-search-results {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 6px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.api-sidebar-no-results {
+  padding: 30px 20px;
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+/* make group count smaller when searching */
+.endpoint-group-title .search-count {
+  font-weight: normal;
+  opacity: 0.7;
+  margin-left: 6px;
+  font-size: 0.9em;
+}
