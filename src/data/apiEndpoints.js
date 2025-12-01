@@ -248,7 +248,7 @@ const chargerSessions = [
   { method: 'GET',    endpoint: '/charger-sessions/station/{stationId}',  label: 'Get station sessions' },                                          // tested and working
   { method: 'POST',   endpoint: '/charger-sessions/',                     label: 'Start new session',             body: templates.sessionStart },   // tested and working
   { method: 'PATCH',  endpoint: '/charger-sessions/end/{sessionId}',      label: 'End session' },                                                   // tested and working
-  //{ method: 'GET',    endpoint: '/charger-sessions/sessions/stream',      label: 'Get session stream' },                                          // NOT WORKING - never gets response
+  //{ method: 'GET',    endpoint: '/charger-sessions/sessions/stream',      label: 'Get session stream' },                                             // NOT WORKING - never gets response
   { method: 'GET',    endpoint: '/charger-sessions/sessions/logs',        label: '[Admin] Session logs' },                                          // tested and working
 ];
 
@@ -284,10 +284,13 @@ const profile = [
 
 // Station Route
 const station = [
-  { method: 'GET',    endpoint: '/chargers',                      label: 'Get all chargers' },            // tested and working
-  { method: 'GET',    endpoint: '/chargers/nearest-charger',      label: 'Get nearest charger' },         // NOT WORKING - might need a body for the long and lat
-  { method: 'GET',    endpoint: '/chargers/{stationId}',          label: 'Get charger by station ID' },   // tested and working
-  { method: 'GET',    endpoint: '/chargers/GoogleMapsChargers',   label: 'Get Google Maps chargers' },    // NOT WORKING - no idea
+  { method: 'GET',    endpoint: '/chargers',                                                  label: 'Get all chargers' },            // tested and working
+  { method: 'GET',    endpoint: '/chargers/nearest-charger?lat={latValue}&lon={lonValue}',    label: 'Get nearest charger' },         // tested and working
+  // nearest-charger can also have  &connector={connectorTypes}     allows for multiple comma-separated string
+  //                                &current={ AC | AC3 | DC }      allows for multiple comma-separated string
+  //                                &operator={operatorName}        allows for multiple comma-separated string
+  { method: 'GET',    endpoint: '/chargers/{stationId}',                                      label: 'Get charger by station ID' },   // tested and working
+  { method: 'GET',    endpoint: '/chargers/GoogleMapsChargers',                               label: 'Get Google Maps chargers' },    // NOT WORKING - no idea
 ];
 
 // User Route
