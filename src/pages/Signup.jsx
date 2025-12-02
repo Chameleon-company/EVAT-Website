@@ -44,8 +44,8 @@ function Signup() {
     if (form.firstName.trim() === '') {
       errors.firstName = 'First name is required';
       isValid = false;
-    } else if (form.firstName.trim().length < 2) {
-      errors.firstName = 'First name must be at least 2 characters';
+    } else if (form.firstName.trim().length < 1 || form.firstName.trim().length > 40) {
+      errors.firstName = 'The name must be at least 1 character and no more than 40 characters';
       isValid = false;
     }
 
@@ -53,8 +53,8 @@ function Signup() {
     if (form.lastName.trim() === '') {
       errors.lastName = 'Last name is required';
       isValid = false;
-    } else if (form.lastName.trim().length < 2) {
-      errors.lastName = 'Last name must be at least 2 characters';
+    } else if (form.lastName.trim().length < 1 || form.lastName.trim().length > 40) {
+      errors.lastName = 'The name must be at least 1 character and no more than 40 characters';
       isValid = false;
     }
 
@@ -204,7 +204,7 @@ function Signup() {
           <div className="input-group">
             <User className="icon" />
             <input
-              type="email"
+              type="text"
               name="email"
               placeholder="Email"
               value={form.email}
