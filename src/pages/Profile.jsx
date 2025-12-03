@@ -298,7 +298,7 @@ function Profile() {
     try {
       const token = user?.token;
 
-      // The car selected must exist in allVehicles (from /api/vehicle)
+      // The car selected must exist in allVehicles (fro /api/vehicle)
       const selectedVehicle = allVehicles.find(
         (v) =>
           v.make === user.car?.make &&
