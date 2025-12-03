@@ -34,6 +34,10 @@ function Profile() {
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
   const [years, setYears] = useState([]);
+   // Payment information
+  const [paymentErrors, setPaymentErrors] = useState({});
+  const [paymentSuccessMessage, setPaymentSuccessMessage] = useState("");
+  const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
 
   // Reset tab to "dashboard" if user navigates back with reset flag
   useEffect(() => {
@@ -209,6 +213,46 @@ function Profile() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const validatePaymentForm = () => {
+  const errors = {};
+
+  const cardNum = (user.cardNumber || "").replace(/\s+/g, "");
+  if (!cardNum) {
+    errors.cardNumber = "Card number is required";
+  } else if (!/^\d{16}$/.test(cardNum)) {
+    errors.cardNumber = "Card number must be 16 digits";
+  }
+
+  if (!user.expiryDate) {
+    errors.expiryDate = "Expiry date is required";
+  } else if (!/^(0[1-9]|1[0-2])\/([0-9]{2})$/.test(user.expiryDate)) {
+    errors.expiryDate = "Expiry must be in MM/YY format";
+  } else {
+    const [mm, yy] = user.expiryDate.split("/").map(Number);
+    const now = new Date();
+    const currentYear = now.getFullYear() % 100;
+    const currentMonth = now.getMonth() + 1;
+
+    if (yy < currentYear || (yy === currentYear && mm < currentMonth)) {
+      errors.expiryDate = "Card has expired";
+    }
+  }
+
+  if (!user.cvv) {
+    errors.cvv = "CVV is required";
+  } else if (!/^\d{3}$/.test(user.cvv)) {
+    errors.cvv = "CVV must be 3 digits";
+  }
+
+  if (!user.billingAddress) {
+    errors.billingAddress = "Billing address is required";
+  }
+
+  setPaymentErrors(errors);
+  return Object.keys(errors).length === 0;
+};
+
+
   const handleSaveAbout = async () => {
     if (!validateAboutForm()) return;
 
@@ -306,52 +350,29 @@ function Profile() {
     }
   };
 
-  const handleSavePayment = () => {
-    // Remove spaces for validation
-    const cardNum = (user.cardNumber || "").replace(/\s+/g, "");
-    if (!/^\d{16}$/.test(cardNum)) {
-      alert("Card number must be 16 digits.");
-      return;
-    }
+ const handleSavePayment = () => {
+  if (!validatePaymentForm()) return;
 
-    if (!/^\d{3}$/.test(user.cvv || "")) {
-      alert("CVV must be 3 digits.");
-      return;
-    }
+  const cardNum = (user.cardNumber || "").replace(/\s+/g, "");
 
-    // Validate expiry date to have MM/YY format
-    const expRegex = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/;
-    if (!user.expiryDate || !expRegex.test(user.expiryDate)) {
-      alert("Expiry date must be in MM/YY format.");
-      return;
-    }
+  setUser(prev => {
+    const next = { ...prev, cardNumber: cardNum };
+    localStorage.setItem("currentUser", JSON.stringify(next));
+    return next;
+  });
 
-    // Check if expiry date is in the future
-    const [inputMonth, inputYear] = user.expiryDate
-      .split("/")
-      .map((s) => parseInt(s, 10));
-    const now = new Date();
-    const currentYear = now.getFullYear() % 100; // last 2 digits
-    const currentMonth = now.getMonth() + 1; // 0-indexed
+  setEditingPayment(false);
+  setPaymentErrors({});
+  setPaymentSuccessMessage("Payment information updated successfully!");
+  setIsPaymentSuccess(true);
 
-    if (
-      inputYear < currentYear ||
-      (inputYear === currentYear && inputMonth < currentMonth)
-    ) {
-      alert("Card has expired. Please enter a valid card detail.");
-      return;
-    }
+  // ✅ Auto-hide after 3 seconds
+  setTimeout(() => {
+    setPaymentSuccessMessage("");
+    setIsPaymentSuccess(false);
+  }, 3000);
+};
 
-    // Save locally
-    setUser((prev) => {
-      const next = { ...prev, cardNumber: cardNum };
-      localStorage.setItem("currentUser", JSON.stringify(next));
-      return next;
-    });
-
-    setEditingPayment(false);
-    alert("Payment information updated locally.");
-  };
 
   if (!user) return null;
 
@@ -552,90 +573,124 @@ function Profile() {
           )}
 
           {activeTab === "payment" && (
-            <div>
-              <h3 className="section-title">Payment Information</h3>
-              <div className="section-body">
-                <p>
-                  Card:{" "}
-                  {editingPayment ? (
-                    <input
-                      type="text"
-                      value={user.cardNumber || ""}
-                      onChange={(e) => {
-                        // Only digits, max 16
-                        let val = e.target.value
-                          .replace(/\D/g, "")
-                          .slice(0, 16);
-                        // Add spaces every 4 digits for display
-                        val = val.replace(/(\d{4})(?=\d)/g, "$1 ");
-                        setUser({ ...user, cardNumber: val });
-                      }}
-                      placeholder="1234 5678 9012 3456"
-                    />
-                  ) : user.cardNumber ? (
-                    "**** **** **** " +
-                    user.cardNumber.replace(/\s/g, "").slice(-4)
-                  ) : (
-                    "**** **** **** 1234"
-                  )}
-                </p>
+  <div>
+    <h3 className="section-title">Payment Information</h3>
+    <div className="section-body">
 
-                <p>
-                  Expiry Date:{" "}
-                  {editingPayment ? (
-                    <input
-                      type="text"
-                      value={user.expiryDate || ""}
-                      onChange={(e) => {
-                        let val = e.target.value.replace(/\D/g, "").slice(0, 4); // digits only, max 4
-                        if (val.length > 2)
-                          val = val.slice(0, 2) + "/" + val.slice(2); // insert '/'
-                        setUser({ ...user, expiryDate: val });
-                      }}
-                      placeholder="MM/YY"
-                    />
-                  ) : (
-                    user.expiryDate || "MM/YY"
-                  )}
-                </p>
+      {/* ✅ CARD NUMBER */}
+      <p>
+        Card:
+        {editingPayment ? (
+          <>
+            <input
+              type="text"
+              value={user.cardNumber || ""}
+              placeholder="1234 5678 9012 3456"
+              className={isPaymentSuccess ? "input-success" : ""}
+              onChange={(e) => {
+                let val = e.target.value.replace(/\D/g, "").slice(0, 16);
+                val = val.replace(/(\d{4})(?=\d)/g, "$1 ");
+                setUser({ ...user, cardNumber: val });
+                setPaymentErrors({ ...paymentErrors, cardNumber: "" });
+              }}
+            />
+            {paymentErrors.cardNumber && (
+              <small className="error-text">{paymentErrors.cardNumber}</small>
+            )}
+          </>
+        ) : (
+          user.cardNumber
+            ? "**** **** **** " + user.cardNumber.replace(/\s/g, "").slice(-4)
+            : "**** **** **** 1234"
+        )}
+      </p>
 
-                <p>
-                  CVV:{" "}
-                  {editingPayment ? (
-                    <input
-                      type="text"
-                      value={user.cvv || ""}
-                      onChange={(e) => {
-                        const val = e.target.value
-                          .replace(/\D/g, "")
-                          .slice(0, 3);
-                        setUser({ ...user, cvv: val });
-                      }}
-                      placeholder="123"
-                    />
-                  ) : (
-                    "***"
-                  )}
-                </p>
+      {/* ✅ EXPIRY DATE */}
+      <p>
+        Expiry Date:
+        {editingPayment ? (
+          <>
+            <input
+              type="text"
+              value={user.expiryDate || ""}
+              placeholder="MM/YY"
+              className={isPaymentSuccess ? "input-success" : ""}
+              onChange={(e) => {
+                let val = e.target.value.replace(/\D/g, "").slice(0, 4);
+                if (val.length > 2) val = val.slice(0, 2) + "/" + val.slice(2);
+                setUser({ ...user, expiryDate: val });
+                setPaymentErrors({ ...paymentErrors, expiryDate: "" });
+              }}
+            />
+            {paymentErrors.expiryDate && (
+              <small className="error-text">{paymentErrors.expiryDate}</small>
+            )}
+          </>
+        ) : (
+          user.expiryDate || "MM/YY"
+        )}
+      </p>
 
-                <p>
-                  Billing Address:{" "}
-                  {editingPayment ? (
-                    <input
-                      type="text"
-                      value={user.billingAddress || ""}
-                      onChange={(e) =>
-                        setUser({ ...user, billingAddress: e.target.value })
-                      }
-                      placeholder="N/A"
-                    />
-                  ) : (
-                    user.billingAddress || "N/A"
-                  )}
-                </p>
-              </div>
-            </div>
-          )}
+      {/* ✅ CVV */}
+      <p>
+        CVV:
+        {editingPayment ? (
+          <>
+            <input
+              type="text"
+              value={user.cvv || ""}
+              placeholder="123"
+              className={isPaymentSuccess ? "input-success" : ""}
+              onChange={(e) => {
+                const val = e.target.value.replace(/\D/g, "").slice(0, 3);
+                setUser({ ...user, cvv: val });
+                setPaymentErrors({ ...paymentErrors, cvv: "" });
+              }}
+            />
+            {paymentErrors.cvv && (
+              <small className="error-text">{paymentErrors.cvv}</small>
+            )}
+          </>
+        ) : (
+          "***"
+        )}
+      </p>
+
+      {/* ✅ BILLING ADDRESS */}
+      <p>
+        Billing Address:
+        {editingPayment ? (
+          <>
+            <input
+              type="text"
+              value={user.billingAddress || ""}
+              placeholder="Enter your billing address"
+              className={isPaymentSuccess ? "input-success" : ""}
+              onChange={(e) => {
+                setUser({ ...user, billingAddress: e.target.value });
+                setPaymentErrors({ ...paymentErrors, billingAddress: "" });
+              }}
+            />
+            {paymentErrors.billingAddress && (
+              <small className="error-text">{paymentErrors.billingAddress}</small>
+            )}
+          </>
+        ) : (
+          user.billingAddress || "N/A"
+        )}
+      </p>
+
+      {/* ✅ SUCCESS MESSAGE */}
+      {paymentSuccessMessage && (
+        <div className="success-text fade-in">
+          {paymentSuccessMessage}
+        </div>
+      )}
+
+    </div>
+  </div>
+)}
+
 
           {activeTab === "history" && (
             <div className="history-container">
