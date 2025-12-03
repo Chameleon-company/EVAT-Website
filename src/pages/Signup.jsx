@@ -17,6 +17,13 @@ function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [validationErrors, setValidationErrors] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    mobile: '',
+    password: '',
+  });
   const navigate = useNavigate();
 
   //Update form on input change
@@ -24,12 +31,77 @@ function Signup() {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
     setErrorMessage('');
+    // Clear validation error for this field when user types
+    setValidationErrors(prev => ({ ...prev, [name]: '' }));
+  };
+
+  //Validate form fields
+  const validateForm = () => {
+    const errors = {};
+    let isValid = true;
+
+    // First Name validation
+    if (form.firstName.trim() === '') {
+      errors.firstName = 'First name is required';
+      isValid = false;
+    } else if (form.firstName.trim().length < 1 || form.firstName.trim().length > 40) {
+      errors.firstName = 'The name must be at least 1 character and no more than 40 characters';
+      isValid = false;
+    }
+
+    // Last Name validation
+    if (form.lastName.trim() === '') {
+      errors.lastName = 'Last name is required';
+      isValid = false;
+    } else if (form.lastName.trim().length < 1 || form.lastName.trim().length > 40) {
+      errors.lastName = 'The name must be at least 1 character and no more than 40 characters';
+      isValid = false;
+    }
+
+    // Email validation
+    if (form.email.trim() === '') {
+      errors.email = 'Email is required';
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      errors.email = 'Please enter a valid email address';
+      isValid = false;
+    }
+
+    // Mobile validation (Australian format)
+    if (form.mobile.trim() === '') {
+      errors.mobile = 'Mobile number is required';
+      isValid = false;
+    } else if (!/^04\d{8}$/.test(form.mobile)) {
+      errors.mobile = 'Mobile must be in format 04XXXXXXXX (10 digits)';
+      isValid = false;
+    }
+
+    // Password validation
+    if (form.password.trim() === '') {
+      errors.password = 'Password is required';
+      isValid = false;
+    } else if (form.password.length < 8) {
+      errors.password = 'Password must be at least 8 characters';
+      isValid = false;
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(form.password)) {
+      errors.password = 'Password must contain uppercase, lowercase, and number';
+      isValid = false;
+    }
+
+    setValidationErrors(errors);
+    return isValid;
   };
 
   //Submit registration form
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
+    
+    // Validate form before submitting
+    if (!validateForm()) {
+      return;
+    }
+    
     setSubmitted(true);
 
     try {
@@ -77,10 +149,14 @@ function Signup() {
               placeholder="First Name"
               value={form.firstName}
               onChange={handleChange}
-              required
               className="input"
             />
           </div>
+          {validationErrors.firstName && (
+            <div className="error-message">
+              {validationErrors.firstName}
+            </div>
+          )}
         </div>
 
         <div className='input-container'>
@@ -93,10 +169,14 @@ function Signup() {
               placeholder="Last Name"
               value={form.lastName}
               onChange={handleChange}
-              required
               className="input"
             />
           </div>
+          {validationErrors.lastName && (
+            <div className="error-message">
+              {validationErrors.lastName}
+            </div>
+          )}
         </div>
 
         <div className='input-container'>
@@ -106,14 +186,17 @@ function Signup() {
             <input
               type="tel"
               name="mobile"
-              placeholder="Mobile Number"
+              placeholder="04XXXXXXXX"
               value={form.mobile}
               onChange={handleChange}
-              pattern="04\d{8}" // Australian format: starts with 04 + 8 digits
-              required
               className="input"
             />
           </div>
+          {validationErrors.mobile && (
+            <div className="error-message">
+              {validationErrors.mobile}
+            </div>
+          )}
         </div>
 
         <div className='input-container'>
@@ -121,15 +204,19 @@ function Signup() {
           <div className="input-group">
             <User className="icon" />
             <input
-              type="email"
+              type="text"
               name="email"
               placeholder="Email"
               value={form.email}
               onChange={handleChange}
-              required
               className="input"
             />
           </div>
+          {validationErrors.email && (
+            <div className="error-message">
+              {validationErrors.email}
+            </div>
+          )}
         </div>
 
         <div className='input-container'>
@@ -139,10 +226,9 @@ function Signup() {
             <input
               type={showPassword ? 'text' : 'password'}
               name="password"
-              placeholder="Password"
+              placeholder="Minimum 8 characters"
               value={form.password}
               onChange={handleChange}
-              required
               className="input"
             />
             <span
@@ -153,6 +239,11 @@ function Signup() {
               {showPassword ? <EyeOff /> : <Eye />}
             </span>
           </div>
+          {validationErrors.password && (
+            <div className="error-message">
+              {validationErrors.password}
+            </div>
+          )}
         </div>
 
         <div className="button-group">
