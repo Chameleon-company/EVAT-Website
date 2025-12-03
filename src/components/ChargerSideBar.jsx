@@ -4,7 +4,10 @@ import '../styles/ChargerSideBar.css';
 import { FavouritesContext } from '../context/FavouritesContext';
 import SideBarBookingTool from '../components/SideBarBookingTool';
 import { UserContext } from '../context/user';
-import { submitChargerReview, getChargerReviews, getChargerReviewStats, checkUserReviewStatus, updateChargerReview } from '../services/chargerReviewService';
+import {
+  submitChargerReview, getChargerReviews, getChargerReviewStats,
+  checkUserReviewStatus, updateChargerReview, getUsername
+} from '../services/chargerReviewService';
 import { toast } from "react-toastify";
 
 
@@ -54,6 +57,21 @@ export default function ChargerSideBar({ station, onClose }) {
         getChargerReviewStats(station._id)
       ]);
 
+      // Change the username value
+      if (user?.token) { // User is signed in
+        for (var i in reviewsResponse['data']['reviews']) { // Replace the username value with the first name
+          var username = await getUsername(reviewsResponse['data']['reviews'][i]['userId'], user.token);
+          //console.log(username['data']);
+          reviewsResponse['data']['reviews'][i]['userName'] = username['data']['firstName'] || '';
+          //console.log(reviewsResponse['data']['reviews'][i]);
+        }
+      }
+      else { // User is not signed in
+        for (var i in reviewsResponse['data']['reviews']) { 
+          reviewsResponse['data']['reviews'][i]['userName'] = ''; // Blank out username
+        }
+      }
+
       setReviews(reviewsResponse.data?.reviews || []);
       setReviewStats(statsResponse.data || { averageRating: 0, totalReviews: 0 });
 
@@ -79,28 +97,9 @@ export default function ChargerSideBar({ station, onClose }) {
       }
     } catch (error) {
       console.error('Error loading charger data:', error);
-      // For demo purposes, use mock data
-      setReviews([
-        {
-          id: '1',
-          userName: 'John Doe',
-          userAvatar: 'JD',
-          rating: 5,
-          comment: 'Great charging station! Fast and reliable.',
-          createdAt: new Date(Date.now() - 86400000).toISOString(),
-          timeAgo: '1 day ago'
-        },
-        {
-          id: '2',
-          userName: 'Sarah M.',
-          userAvatar: 'SM',
-          rating: 4,
-          comment: 'Good location, but sometimes busy during peak hours.',
-          createdAt: new Date(Date.now() - 172800000).toISOString(),
-          timeAgo: '2 days ago'
-        }
-      ]);
-      setReviewStats({ averageRating: 4.3, totalReviews: 12 });
+      // If error occurs, show no reviews
+      setReviews([{}]);
+      setReviewStats({ averageRating: 0, totalReviews: 0 });
     } finally {
       setIsLoading(false);
     }
@@ -355,12 +354,16 @@ export default function ChargerSideBar({ station, onClose }) {
                 ))}
               </div>
               <textarea
-                required minlength="5" maxlength="255"
+                required minLength="5" maxLength="255"
                 placeholder={userHasReviewed ? "Update your review..." : "Write your review..."}
                 value={userReview.comment}
                 onChange={(e) => setUserReview(prev => ({ ...prev, comment: e.target.value }))}
                 className="review-textarea"
               />
+              {/* Min/Max character information*/}
+              <p className={(userReview.comment.length <= 4) ? "review-charCount-invalid" : "review-charCount-valid"}>
+                {userReview.comment.length}/255
+              </p>
               <button
                 onClick={handleSubmitReview}
                 disabled={isSubmittingReview || !userReview.rating || userReview.comment.length <= 4 || userReview.comment.length >= 255}
@@ -393,9 +396,8 @@ export default function ChargerSideBar({ station, onClose }) {
                           {review.userAvatar || review.userName?.charAt(0) || 'U'}
                         </div>
                         <div className="reviewer-details">
-                          <span className="reviewer-name">{ 'Anonymous'}</span>
-                          {/*<span className="reviewer-name">{review.userName || 'Anonymous'}</span>
-                          Usernames are hardcoded when a review is made making it a bad idea to use it from the charger_reviews
+                          <span className="reviewer-name">{review.userName || 'Anonymous'}</span>
+                          {/* Usernames are hardcoded when a review is made making it a bad idea to use it from the charger_reviews
                           as a user can update their username and it not be updated elsewhere. The best practice would be to lookup
                           user id and use the firstName parameter, this doesnt exist on some old accounts at the moment */}
                           <div className="review-rating">
