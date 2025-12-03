@@ -61,9 +61,7 @@ export default function ChargerSideBar({ station, onClose }) {
       if (user?.token) { // User is signed in
         for (var i in reviewsResponse['data']['reviews']) { // Replace the username value with the first name
           var username = await getUsername(reviewsResponse['data']['reviews'][i]['userId'], user.token);
-          //console.log(username['data']);
           reviewsResponse['data']['reviews'][i]['userName'] = username['data']['firstName'] || '';
-          //console.log(reviewsResponse['data']['reviews'][i]);
         }
       }
       else { // User is not signed in
