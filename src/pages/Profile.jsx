@@ -6,9 +6,10 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { CircleUserRound, Car, CreditCard, BookText, LogOut, Pencil, Check, X, ArrowLeft } from 'lucide-react';
+import { toast } from "react-toastify";
 import NavBar from "../components/NavBar";
 import Background from "../components/Background";
-import profileImage from "../assets/profileImage.png";
 import "../styles/Profile.css";
 import ChatBubble from "../components/ChatBubble";
 import BookingHistoryTable from "../components/BookingHistoryTable";
@@ -22,6 +23,7 @@ function Profile() {
   // Local state management
   const [errors, setErrors] = useState({});
   const [user, setUser] = useState(null);
+  const [originalUser, setOriginalUser] = useState(null);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [editingCar, setEditingCar] = useState(false);
   const [editingPayment, setEditingPayment] = useState(false);
@@ -34,7 +36,7 @@ function Profile() {
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
   const [years, setYears] = useState([]);
-   // Payment information
+  // Payment information
   const [paymentErrors, setPaymentErrors] = useState({});
   const [paymentSuccessMessage, setPaymentSuccessMessage] = useState("");
   const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
@@ -214,44 +216,43 @@ function Profile() {
   };
 
   const validatePaymentForm = () => {
-  const errors = {};
+    const errors = {};
 
-  const cardNum = (user.cardNumber || "").replace(/\s+/g, "");
-  if (!cardNum) {
-    errors.cardNumber = "Card number is required";
-  } else if (!/^\d{16}$/.test(cardNum)) {
-    errors.cardNumber = "Card number must be 16 digits";
-  }
-
-  if (!user.expiryDate) {
-    errors.expiryDate = "Expiry date is required";
-  } else if (!/^(0[1-9]|1[0-2])\/([0-9]{2})$/.test(user.expiryDate)) {
-    errors.expiryDate = "Expiry must be in MM/YY format";
-  } else {
-    const [mm, yy] = user.expiryDate.split("/").map(Number);
-    const now = new Date();
-    const currentYear = now.getFullYear() % 100;
-    const currentMonth = now.getMonth() + 1;
-
-    if (yy < currentYear || (yy === currentYear && mm < currentMonth)) {
-      errors.expiryDate = "Card has expired";
+    const cardNum = (user.cardNumber || "").replace(/\s+/g, "");
+    if (!cardNum) {
+      errors.cardNumber = "Card number is required";
+    } else if (!/^\d{16}$/.test(cardNum)) {
+      errors.cardNumber = "Card number must be 16 digits";
     }
-  }
 
-  if (!user.cvv) {
-    errors.cvv = "CVV is required";
-  } else if (!/^\d{3}$/.test(user.cvv)) {
-    errors.cvv = "CVV must be 3 digits";
-  }
+    if (!user.expiryDate) {
+      errors.expiryDate = "Expiry date is required";
+    } else if (!/^(0[1-9]|1[0-2])\/([0-9]{2})$/.test(user.expiryDate)) {
+      errors.expiryDate = "Expiry must be in MM/YY format";
+    } else {
+      const [mm, yy] = user.expiryDate.split("/").map(Number);
+      const now = new Date();
+      const currentYear = now.getFullYear() % 100;
+      const currentMonth = now.getMonth() + 1;
 
-  if (!user.billingAddress) {
-    errors.billingAddress = "Billing address is required";
-  }
+      if (yy < currentYear || (yy === currentYear && mm < currentMonth)) {
+        errors.expiryDate = "Card has expired";
+      }
+    }
 
-  setPaymentErrors(errors);
-  return Object.keys(errors).length === 0;
-};
+    if (!user.cvv) {
+      errors.cvv = "CVV is required";
+    } else if (!/^\d{3}$/.test(user.cvv)) {
+      errors.cvv = "CVV must be 3 digits";
+    }
 
+    if (!user.billingAddress) {
+      errors.billingAddress = "Billing address is required";
+    }
+
+    setPaymentErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleSaveAbout = async () => {
     if (!validateAboutForm()) return;
@@ -274,29 +275,60 @@ function Profile() {
         body: JSON.stringify(payload),
       });
 
-      if (!response.ok) throw new Error("Failed to update profile info");
+
+      if (!response.ok) {
+        toast.error(
+          <div>
+            Failed to update profile info
+          </div>,
+          { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "profile-update-error" }
+        );
+        throw new Error("Failed to update profile info");
+      }
 
       setEditingAbout(false);
-      setSuccessMessage("Profile information updated successfully!");
+      toast.success(
+        <div>
+          Profile information updated successfully!
+        </div>,
+        { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "profile-update-success" }
+      );
       setIsSuccess(true);
       setErrors({});
 
-      // Auto-hide after 3 seconds
-      setTimeout(() => {
-        setSuccessMessage("");
-        setIsSuccess(false);
-      }, 3000);
     } catch (err) {
       setSuccessMessage("");
       setIsSuccess(false);
       console.error(err);
-      alert(`Failed to update profile: ${err.message}`);
+      toast.error(
+        <div>
+          Failed to update profile: {err.message}
+        </div>,
+        { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "profile-update-error" }
+      );
     }
   };
 
   const handleSaveCar = async () => {
     try {
       const token = user?.token;
+
+      let newErrors = {};
+
+      console.log(user.car.make || user.car.make === "")
+      if (user.car.make == "Select") {
+        newErrors.carMake = "Please select a make";
+      }
+
+      console.log(user.car.model)
+      if (user.car.model == "Select" || user.car.model === "") {
+        newErrors.carModel = "Please select a model";
+      }
+      console.log(user.car.year)
+      if (user.car.year == "Select" || user.car.year === "") {
+        newErrors.carYear = "Please select a year";
+      }
+      setErrors(newErrors);
 
       // The car selected must exist in allVehicles (fro /api/vehicle)
       const selectedVehicle = allVehicles.find(
@@ -307,7 +339,12 @@ function Profile() {
       );
 
       if (!selectedVehicle) {
-        alert("Invalid vehicle selection");
+        toast.error(
+          <div>
+            Invalid vehicle selection
+          </div>,
+          { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "vehicle-invalid-error" }
+        );
         return;
       }
 
@@ -343,36 +380,45 @@ function Profile() {
       });
 
       setEditingCar(false);
-      alert("Vehicle updated successfully!");
+      toast.success(
+        <div>
+          Vehicle updated successfully!
+        </div>,
+        { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "vehicle-update-success" }
+      );
     } catch (err) {
       console.error(err);
-      alert(`Failed to update vehicle: ${err.message}`);
+      toast.error(
+        <div>
+          Failed to update vehicle: {err.message}
+        </div>,
+        { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "vehicle-update-error" }
+      );
     }
   };
 
- const handleSavePayment = () => {
-  if (!validatePaymentForm()) return;
+  const handleSavePayment = () => {
+    if (!validatePaymentForm()) return;
 
-  const cardNum = (user.cardNumber || "").replace(/\s+/g, "");
+    const cardNum = (user.cardNumber || "").replace(/\s+/g, "");
 
-  setUser(prev => {
-    const next = { ...prev, cardNumber: cardNum };
-    localStorage.setItem("currentUser", JSON.stringify(next));
-    return next;
-  });
+    setUser(prev => {
+      const next = { ...prev, cardNumber: cardNum };
+      localStorage.setItem("currentUser", JSON.stringify(next));
+      return next;
+    });
 
-  setEditingPayment(false);
-  setPaymentErrors({});
-  setPaymentSuccessMessage("Payment information updated successfully!");
-  setIsPaymentSuccess(true);
+    setEditingPayment(false);
+    setPaymentErrors({});
+    setPaymentSuccessMessage("Payment information updated successfully!");
+    setIsPaymentSuccess(true);
 
-  // ✅ Auto-hide after 3 seconds
-  setTimeout(() => {
-    setPaymentSuccessMessage("");
-    setIsPaymentSuccess(false);
-  }, 3000);
-};
-
+    // ✅ Auto-hide after 3 seconds
+    setTimeout(() => {
+      setPaymentSuccessMessage("");
+      setIsPaymentSuccess(false);
+    }, 3000);
+  };
 
   if (!user) return null;
 
@@ -380,43 +426,72 @@ function Profile() {
     <div className="dashboard-page">
       <NavBar />
       <Background>
-        <div className="dashboard-left">
-          <h1>My Dashboard</h1>
-          <div className="dashboard-profile-image">
-            <img src={profileImage} alt="Profile" />
-          </div>
-        </div>
-
         <div className="dashboard-center">
           {activeTab === "dashboard" && (
             <>
-              <button
-                className="dashboard-btn"
-                onClick={() => setActiveTab("about")}
-              >
-                About Me
-              </button>
-              <button
-                className="dashboard-btn"
-                onClick={() => setActiveTab("car")}
-              >
-                My Car
-              </button>
-              <button
-                className="dashboard-btn"
-                onClick={() => setActiveTab("payment")}
-              >
-                Payment
-              </button>
-              <button
-                className="dashboard-btn"
-                onClick={() => setActiveTab("history")}
-              >
-                Booking History
+              <h1>My Dashboard</h1>
+              <div className="dashboard-profile-image">
+                <div className="avatar">
+                  {user.firstName?.charAt(0) || '?'}
+                </div>
+              </div>
+              <div className="button-container">
+                <button
+                  className="dashboard-btn"
+                  onClick={() => setActiveTab("about")}
+                >
+                  <div className="button-contents">
+                    <CircleUserRound />
+                    <p>About Me</p>
+                  </div>
+                </button>
+                <button
+                  className="dashboard-btn"
+                  onClick={() => setActiveTab("car")}
+                >
+                  <div className="button-contents">
+                    <Car />
+                    <p>My Car</p>
+                  </div>
+                </button>
+                <button
+                  className="dashboard-btn"
+                  onClick={() => setActiveTab("payment")}
+                > <div className="button-contents">
+                    <CreditCard />
+                    <p>Payment</p>
+                  </div>
+                </button>
+                <button
+                  className="dashboard-btn"
+                  onClick={() => setActiveTab("history")}
+                >
+                  <div className="button-contents">
+                    <BookText />
+                    <p>Booking History</p>
+                  </div>
+                </button>
+              </div>
+              <button className="back-button" onClick={() => {
+                handleSignOut();
+                toast.success(
+                  <div>
+                    Signed Out Successfully! <br />
+                    Cya!
+                  </div>,
+                  { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "SignOut-success" }
+                );
+              }
+              }>
+                <div className="button-contents">
+                  <LogOut />
+                  <p>Sign Out</p>
+                </div>
               </button>
             </>
           )}
 
+          {/* Sub-Menus */}
           {activeTab === "about" && (
             <div>
               <h3 className="section-title">About Me</h3>
@@ -488,6 +563,60 @@ function Profile() {
                   <div className="success-text fade-in">{successMessage}</div>
                 )}
               </div>
+
+              <div className="button-container">
+                <button
+                  className="button"
+                  onClick={() => {
+                    if (editingAbout) {
+                      handleSaveAbout();
+                    } else {
+                      setOriginalUser(user); // Save the current values before editing
+                      setEditingAbout(true);
+                    }
+                  }}
+                >
+                  <div className="button-contents">
+                    {editingAbout ? <Check /> : <Pencil />}
+                    <p>{editingAbout ? "Save" : "Edit"}</p>
+                  </div>
+                </button>
+
+                {editingAbout && (
+                  <button
+                    className="back-button"
+                    onClick={() => {
+                      setUser(originalUser);
+                      setEditingAbout(false);
+                      setErrors({});
+                      toast.info(
+                        <div>
+                          Changes discarded
+                        </div>,
+                        { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "user-discard-info" }
+                      );
+                    }}
+                  >
+                    <div className="button-contents">
+                      <X />
+                      <p>Cancel</p>
+                    </div>
+                  </button>
+                )}
+
+                {!editingAbout && (
+                  <button
+                    className="back-button"
+                    onClick={() => setActiveTab("dashboard")}
+                  >
+                    <div className="button-contents">
+                      <ArrowLeft />
+                      <p>Back</p>
+                    </div>
+                  </button>
+                )}
+
+              </div>
             </div>
           )}
 
@@ -500,7 +629,7 @@ function Profile() {
                   {editingCar ? (
                     <select
                       value={user.car?.make || "Select"}
-                      onChange={(e) =>
+                      onChange={(e) => {
                         setUser({
                           ...user,
                           car: {
@@ -509,8 +638,8 @@ function Profile() {
                             model: "",
                             year: "",
                           },
-                        })
-                      }
+                        });
+                      }}
                     >
                       {makes.map((make, idx) => (
                         <option key={idx} value={make}>
@@ -521,18 +650,23 @@ function Profile() {
                   ) : (
                     user.car?.make || "N/A"
                   )}
+                  {errors.carMake && (
+                    <small className="error-text">{errors.carMake}</small>
+                  )}
                 </p>
-
                 <p>
                   Car Model:{" "}
                   {editingCar ? (
                     <select
                       value={user.car?.model || "Select"}
-                      onChange={(e) =>
+                      onChange={(e) => {
                         setUser({
                           ...user,
                           car: { ...user.car, model: e.target.value, year: "" },
-                        })
+                        });
+                        setErrors({ ...errors, carMake: "" });
+                      }
+
                       }
                     >
                       {models.map((model, idx) => (
@@ -544,8 +678,10 @@ function Profile() {
                   ) : (
                     user.car?.model || "N/A"
                   )}
+                  {errors.carModel && (
+                    <small className="error-text">{errors.carModel}</small>
+                  )}
                 </p>
-
                 <p>
                   Model Year:{" "}
                   {editingCar ? (
@@ -567,238 +703,256 @@ function Profile() {
                   ) : (
                     user.car?.year || "N/A"
                   )}
+                  {errors.carYear && (
+                    <small className="error-text">{errors.carYear}</small>
+                  )}
                 </p>
               </div>
+
+              <div className="button-container">
+                <button
+                  className="button"
+                  onClick={() => {
+                    if (editingCar) {
+                      handleSaveCar();
+                    } else {
+                      setOriginalUser(user); // Save the current values before editing
+                      setEditingCar(true);
+                    }
+                  }}
+                >
+                  <div className="button-contents">
+                    {editingCar ? <Check /> : <Pencil />}
+                    <p>{editingCar ? "Save" : "Edit"}</p>
+                  </div>
+                </button>
+
+                {editingCar && (
+                  <button
+                    className="back-button"
+                    onClick={() => {
+                      setUser(originalUser);
+                      setEditingCar(false);
+                      setErrors({});
+                      toast.info(
+                        <div>
+                          Changes discarded
+                        </div>,
+                        { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "vehicle-discard-info" }
+                      );
+                    }}
+                  >
+                    <div className="button-contents">
+                      <X />
+                      <p>Cancel</p>
+                    </div>
+                  </button>
+                )}
+
+                {!editingCar && (
+                  <button
+                    className="back-button"
+                    onClick={() => setActiveTab("dashboard")}
+                  >
+                    <div className="button-contents">
+                      <ArrowLeft />
+                      <p>Back</p>
+                    </div>
+                  </button>
+                )}
+              </div>
             </div>
           )}
 
           {activeTab === "payment" && (
-  <div>
-    <h3 className="section-title">Payment Information</h3>
-    <div className="section-body">
+            <div>
+              <h3 className="section-title">Payment Information</h3>
+              <div className="section-body">
 
-      {/* ✅ CARD NUMBER */}
-      <p>
-        Card:
-        {editingPayment ? (
-          <>
-            <input
-              type="text"
-              value={user.cardNumber || ""}
-              placeholder="1234 5678 9012 3456"
-              className={isPaymentSuccess ? "input-success" : ""}
-              onChange={(e) => {
-                let val = e.target.value.replace(/\D/g, "").slice(0, 16);
-                val = val.replace(/(\d{4})(?=\d)/g, "$1 ");
-                setUser({ ...user, cardNumber: val });
-                setPaymentErrors({ ...paymentErrors, cardNumber: "" });
-              }}
-            />
-            {paymentErrors.cardNumber && (
-              <small className="error-text">{paymentErrors.cardNumber}</small>
-            )}
-          </>
-        ) : (
-          user.cardNumber
-            ? "**** **** **** " + user.cardNumber.replace(/\s/g, "").slice(-4)
-            : "**** **** **** 1234"
-        )}
-      </p>
+                {/* ✅ CARD NUMBER */}
+                <p>
+                  Card:
+                  {editingPayment ? (
+                    <>
+                      <input
+                        type="text"
+                        value={user.cardNumber || ""}
+                        placeholder="1234 5678 9012 3456"
+                        className={isPaymentSuccess ? "input-success" : ""}
+                        onChange={(e) => {
+                          let val = e.target.value.replace(/\D/g, "").slice(0, 16);
+                          val = val.replace(/(\d{4})(?=\d)/g, "$1 ");
+                          setUser({ ...user, cardNumber: val });
+                          setPaymentErrors({ ...paymentErrors, cardNumber: "" });
+                        }}
+                      />
+                      {paymentErrors.cardNumber && (
+                        <small className="error-text">{paymentErrors.cardNumber}</small>
+                      )}
+                    </>
+                  ) : (
+                    user.cardNumber
+                      ? "**** **** **** " + user.cardNumber.replace(/\s/g, "").slice(-4)
+                      : "**** **** **** 1234"
+                  )}
+                </p>
 
-      {/* ✅ EXPIRY DATE */}
-      <p>
-        Expiry Date:
-        {editingPayment ? (
-          <>
-            <input
-              type="text"
-              value={user.expiryDate || ""}
-              placeholder="MM/YY"
-              className={isPaymentSuccess ? "input-success" : ""}
-              onChange={(e) => {
-                let val = e.target.value.replace(/\D/g, "").slice(0, 4);
-                if (val.length > 2) val = val.slice(0, 2) + "/" + val.slice(2);
-                setUser({ ...user, expiryDate: val });
-                setPaymentErrors({ ...paymentErrors, expiryDate: "" });
-              }}
-            />
-            {paymentErrors.expiryDate && (
-              <small className="error-text">{paymentErrors.expiryDate}</small>
-            )}
-          </>
-        ) : (
-          user.expiryDate || "MM/YY"
-        )}
-      </p>
+                {/* ✅ EXPIRY DATE */}
+                <p>
+                  Expiry Date:
+                  {editingPayment ? (
+                    <>
+                      <input
+                        type="text"
+                        value={user.expiryDate || ""}
+                        placeholder="MM/YY"
+                        className={isPaymentSuccess ? "input-success" : ""}
+                        onChange={(e) => {
+                          let val = e.target.value.replace(/\D/g, "").slice(0, 4);
+                          if (val.length > 2) val = val.slice(0, 2) + "/" + val.slice(2);
+                          setUser({ ...user, expiryDate: val });
+                          setPaymentErrors({ ...paymentErrors, expiryDate: "" });
+                        }}
+                      />
+                      {paymentErrors.expiryDate && (
+                        <small className="error-text">{paymentErrors.expiryDate}</small>
+                      )}
+                    </>
+                  ) : (
+                    user.expiryDate || "MM/YY"
+                  )}
+                </p>
 
-      {/* ✅ CVV */}
-      <p>
-        CVV:
-        {editingPayment ? (
-          <>
-            <input
-              type="text"
-              value={user.cvv || ""}
-              placeholder="123"
-              className={isPaymentSuccess ? "input-success" : ""}
-              onChange={(e) => {
-                const val = e.target.value.replace(/\D/g, "").slice(0, 3);
-                setUser({ ...user, cvv: val });
-                setPaymentErrors({ ...paymentErrors, cvv: "" });
-              }}
-            />
-            {paymentErrors.cvv && (
-              <small className="error-text">{paymentErrors.cvv}</small>
-            )}
-          </>
-        ) : (
-          "***"
-        )}
-      </p>
+                {/* ✅ CVV */}
+                <p>
+                  CVV:
+                  {editingPayment ? (
+                    <>
+                      <input
+                        type="text"
+                        value={user.cvv || ""}
+                        placeholder="123"
+                        className={isPaymentSuccess ? "input-success" : ""}
+                        onChange={(e) => {
+                          const val = e.target.value.replace(/\D/g, "").slice(0, 3);
+                          setUser({ ...user, cvv: val });
+                          setPaymentErrors({ ...paymentErrors, cvv: "" });
+                        }}
+                      />
+                      {paymentErrors.cvv && (
+                        <small className="error-text">{paymentErrors.cvv}</small>
+                      )}
+                    </>
+                  ) : (
+                    "***"
+                  )}
+                </p>
 
-      {/* ✅ BILLING ADDRESS */}
-      <p>
-        Billing Address:
-        {editingPayment ? (
-          <>
-            <input
-              type="text"
-              value={user.billingAddress || ""}
-              placeholder="Enter your billing address"
-              className={isPaymentSuccess ? "input-success" : ""}
-              onChange={(e) => {
-                setUser({ ...user, billingAddress: e.target.value });
-                setPaymentErrors({ ...paymentErrors, billingAddress: "" });
-              }}
-            />
-            {paymentErrors.billingAddress && (
-              <small className="error-text">{paymentErrors.billingAddress}</small>
-            )}
-          </>
-        ) : (
-          user.billingAddress || "N/A"
-        )}
-      </p>
+                {/* ✅ BILLING ADDRESS */}
+                <p>
+                  Billing Address:
+                  {editingPayment ? (
+                    <>
+                      <input
+                        type="text"
+                        value={user.billingAddress || ""}
+                        placeholder="Enter your billing address"
+                        className={isPaymentSuccess ? "input-success" : ""}
+                        onChange={(e) => {
+                          setUser({ ...user, billingAddress: e.target.value });
+                          setPaymentErrors({ ...paymentErrors, billingAddress: "" });
+                        }}
+                      />
+                      {paymentErrors.billingAddress && (
+                        <small className="error-text">{paymentErrors.billingAddress}</small>
+                      )}
+                    </>
+                  ) : (
+                    user.billingAddress || "N/A"
+                  )}
+                </p>
 
-      {/* ✅ SUCCESS MESSAGE */}
-      {paymentSuccessMessage && (
-        <div className="success-text fade-in">
-          {paymentSuccessMessage}
-        </div>
-      )}
+                {/* ✅ SUCCESS MESSAGE */}
+                {paymentSuccessMessage && (
+                  <div className="success-text fade-in">
+                    {paymentSuccessMessage}
+                  </div>
+                )}
 
-    </div>
-  </div>
-)}
+              </div>
 
+              <div className="button-contents">
+                <button
+                  className="button"
+                  onClick={() => {
+                    if (editingPayment) {
+                      handleSavePayment();
+                    } else {
+                      setEditingPayment(true);
+                    }
+                  }}
+                >
+                  <div className="button-contents">
+                    {editingPayment ? <Check /> : <Pencil />}
+                    <p>{editingPayment ? "Save" : "Edit"}</p>
+                  </div>
+                </button>
+
+                {editingPayment && (
+                  <button
+                    className="back-button"
+                    onClick={() => setEditingPayment(false)}
+                  >
+                    <div className="button-contents">
+                      <X />
+                      <p>Cancel</p>
+                    </div>
+                  </button>
+                )}
+
+                {!editingPayment && (
+                  <button
+                    className="back-button"
+                    onClick={() => setActiveTab("dashboard")}
+                  >
+                    <div className="button-contents">
+                      <ArrowLeft />
+                      <p>Back</p>
+                    </div>
+                  </button>
+                )}
+
+              </div>
+            </div>
+          )}
 
           {activeTab === "history" && (
-            <div className="history-container">
+
+            <div>
               <h3 className="section-title">Booking History</h3>
               <div className="section-body">
-                <BookingHistoryTable />
+                <div className="history-container">
+                  <BookingHistoryTable />
+                </div>
+              </div>
+
+              <div className="button-container">
+                <button
+                  className="back-button"
+                  onClick={() => setActiveTab("dashboard")}
+                >
+                  <div className="button-contents">
+                    <ArrowLeft />
+                    <p>Back</p>
+                  </div>
+                </button>
               </div>
             </div>
           )}
         </div>
-
-        {/* RIGHT SECTION */}
-        <div className="dashboard-right">
-          {activeTab === "dashboard" && (
-            <button className="button" onClick={handleSignOut}>
-              SIGN OUT
-            </button>
-          )}
-
-          {activeTab === "about" && (
-            <>
-              <button
-                className="button"
-                onClick={() => {
-                  if (editingAbout) {
-                    handleSaveAbout();
-                  } else {
-                    setEditingAbout(true);
-                  }
-                }}
-              >
-                {editingAbout ? "SAVE" : "EDIT"}
-              </button>
-              {editingAbout && (
-                <button
-                  className="button cancel-button"
-                  onClick={() => setEditingAbout(false)}
-                >
-                  CANCEL
-                </button>
-              )}
-              <button
-                className="back-button"
-                onClick={() => setActiveTab("dashboard")}
-              >
-                BACK
-              </button>
-            </>
-          )}
-
-          {activeTab === "car" && (
-            <>
-              <button
-                className="button"
-                onClick={() => {
-                  if (editingCar) {
-                    handleSaveCar();
-                  } else {
-                    setEditingCar(true);
-                  }
-                }}
-              >
-                {editingCar ? "SAVE" : "EDIT"}
-              </button>
-              <button
-                className="back-button"
-                onClick={() => setActiveTab("dashboard")}
-              >
-                BACK
-              </button>
-            </>
-          )}
-
-          {activeTab === "payment" && (
-            <>
-              <button
-                className="button"
-                onClick={() => {
-                  if (editingPayment) {
-                    handleSavePayment();
-                  } else {
-                    setEditingPayment(true);
-                  }
-                }}
-              >
-                {editingPayment ? "SAVE" : "EDIT"}
-              </button>
-              <button
-                className="back-button"
-                onClick={() => setActiveTab("dashboard")}
-              >
-                BACK
-              </button>
-            </>
-          )}
-
-          {activeTab === "history" && (
-            <button
-              className="back-button"
-              onClick={() => setActiveTab("dashboard")}
-            >
-              BACK
-            </button>
-          )}
-        </div>
-      </Background>
+      </Background >
       <ChatBubble />
-    </div>
+    </div >
   );
 }
 
