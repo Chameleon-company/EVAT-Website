@@ -206,9 +206,9 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
       
       {/* warning if selected date and time is in the past */}
       {selectedDate && selectedTime && isPastDateTime() && (
-        <p className="error-text" style={{ color: "#d32f2f", fontSize: "0.875rem", marginTop: "4px" }}>
+        <div className="error-message">
           Selected time is in the past
-        </p>
+        </div>
       )}
 
       {/* notes text area - does not accept characters past the limit */}
@@ -224,9 +224,9 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
 
       {/* recent booking warning */}
       {recentBookingWarning && (
-        <p className="warning-text" style={{ color: "#f57c00", fontSize: "0.875rem" }}>
+        <div className="error-message">
             Please wait a few seconds before booking again.
-        </p>
+        </div>
       )}
 
       {/* agree to booking terms checkbox */}
