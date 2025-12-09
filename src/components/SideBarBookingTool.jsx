@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 
 const API_URL = import.meta.env.VITE_API_URL
 const BOOKING_ENDPOINT = `${API_URL}/bookings`;
+const NOTES_MAX_LENGTH = 100;   // this should be changed to match the character limit of the notes string in the database
 
 export default function SidebarBookingTool({ stationName = "Unknown Station" }) {
   const [user, setUser] = useState(null);
@@ -29,6 +30,10 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
     }
   }, []);
 
+  // notes remaining characters
+  const notesRemaining = NOTES_MAX_LENGTH - notes.length;
+
+  // combines data and time into one date object
   const combineDateTime = () => {
     if (!selectedDate || !selectedTime) return null;
     const combined = new Date(selectedDate);
@@ -39,6 +44,7 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
     return combined;
   };
 
+  // confirm booking
   const handleConfirm = async () => {
     const dateTime = combineDateTime();
     if (!dateTime || !agree) return;
@@ -55,7 +61,7 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       tzOffsetMinutes: new Date().getTimezoneOffset(),
       vehicle: vehicle || undefined,
-      notes: notes || undefined,
+      notes: notes.trim() || undefined,
       stationName,
     };
 
@@ -95,6 +101,7 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
         { position: "top-center", autoClose: 1000, closeOnClick: true, draggable: true, closeButton: true, toastId: "booking-success" }
       );
 
+      // reset form
       setSelectedDate(null);
       setSelectedTime(null);
       setVehicle("");
@@ -131,9 +138,17 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
         placeholderText="Pick a time"
         className="booking-datepicker"
       />
-
-      <label>Notes</label>
-      <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Any notes..." />
+      
+      {/* notes text area - does not accept characters past the limit */}
+      <label>
+        Notes (optional) – {notesRemaining} characters remaining
+      </label>
+      <textarea 
+        value={notes} 
+        onChange={(e) => setNotes(e.target.value.slice(0, NOTES_MAX_LENGTH))} // cut the string at the max length
+        placeholder="Any notes..." 
+        rows={3}
+      />
 
       <label className="checkbox">
         <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
