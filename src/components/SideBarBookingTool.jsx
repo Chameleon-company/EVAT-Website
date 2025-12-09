@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 const API_URL = import.meta.env.VITE_API_URL
 const BOOKING_ENDPOINT = `${API_URL}/bookings`;
 const NOTES_MAX_LENGTH = 100;   // this should be changed to match the character limit of the notes string in the database
+const RECENT_BOOKING_THRESHOLD_SECONDS = 30;
 
 export default function SidebarBookingTool({ stationName = "Unknown Station" }) {
   const [user, setUser] = useState(null);
@@ -16,6 +17,7 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
   const [notes, setNotes] = useState("");
   const [agree, setAgree] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [recentBookingWarning, setRecentBookingWarning] = useState(false);
 
   useEffect(() => {
     // load current user
@@ -30,6 +32,16 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
       setUser(null);
     }
   }, []);
+
+  // auto-clear the warning after 30 seconds so it doesn't linger forever
+  useEffect(() => {
+    if (recentBookingWarning) {
+      const timer = setTimeout(() => {
+        setRecentBookingWarning(false);
+      }, RECENT_BOOKING_THRESHOLD_SECONDS * 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [recentBookingWarning]);
 
   // notes remaining characters
   const notesRemaining = NOTES_MAX_LENGTH - notes.length;
@@ -54,6 +66,26 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
 
   // confirm booking
   const handleConfirm = async () => {
+    // check for recent booking (anti-spam)
+    const lastBooking = localStorage.getItem("lastBooking");
+    if (lastBooking) {
+      try {
+        const { createdAt } = JSON.parse(lastBooking);
+        const secondsAgo = (Date.now() - new Date(createdAt)) / 1000;
+        // if the bookings are close together
+        if (secondsAgo < RECENT_BOOKING_THRESHOLD_SECONDS) {
+          setRecentBookingWarning(true);
+          toast.warn("Please wait a moment before making another booking.",
+          { 
+            toastId: "anti-spam",
+            autoClose: 5000,
+            position: "top-center"
+          });
+          return; // block the booking attempt
+        }
+      } catch {}
+    }
+
     // check selected date is valid
     if (isPastDateTime()) {
       toast.error("You cannot book a time in the past.", { position: "top-center" });
@@ -107,7 +139,12 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
       // add item to local storage
       localStorage.setItem(
         "lastBooking",
-        JSON.stringify({ ...payload, serverId, reference, createdAt: new Date().toISOString() })
+        JSON.stringify({ 
+          ...payload, 
+          serverId, 
+          reference, 
+          createdAt: new Date().toISOString() 
+        })
       );
 
       // successful booking
@@ -117,7 +154,13 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
           <br />
           Reference: {String(reference)}
         </div>,
-        { position: "top-center", autoClose: 1000, closeOnClick: true, draggable: true, closeButton: true, toastId: "booking-success" }
+        { 
+          position: "top-center", 
+          autoClose: 1000, 
+          closeOnClick: true, 
+          draggable: true, 
+          closeButton: true, 
+          toastId: "booking-success" }
       );
 
       // reset form
@@ -126,6 +169,7 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
       setVehicle("");
       setNotes("");
       setAgree(false);
+      setRecentBookingWarning(false);
     } catch {
       toast.error("Network error while booking", { position: "top-center" });
     } finally {
@@ -177,6 +221,13 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
         placeholder="Any notes..." 
         rows={3}
       />
+
+      {/* recent booking warning */}
+      {recentBookingWarning && (
+        <p className="warning-text" style={{ color: "#f57c00", fontSize: "0.875rem" }}>
+            Please wait a few seconds before booking again.
+        </p>
+      )}
 
       {/* agree to booking terms checkbox */}
       <label className="checkbox">
