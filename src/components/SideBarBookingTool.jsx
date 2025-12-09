@@ -18,6 +18,7 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+    // load current user
     const u = localStorage.getItem("currentUser");
     if (u) {
       try {
@@ -33,6 +34,13 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
   // notes remaining characters
   const notesRemaining = NOTES_MAX_LENGTH - notes.length;
 
+  // checks if the selected datetime in the past
+  const isPastDateTime = () => {
+    const chosen = combineDateTime();
+    if (!chosen) return false;
+    return chosen <= new Date();
+  };
+
   // combines data and time into one date object
   const combineDateTime = () => {
     if (!selectedDate || !selectedTime) return null;
@@ -46,15 +54,24 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
 
   // confirm booking
   const handleConfirm = async () => {
+    // check selected date is valid
+    if (isPastDateTime()) {
+      toast.error("You cannot book a time in the past.", { position: "top-center" });
+      return;
+    }
+
+    // check if there is a time and date selected
     const dateTime = combineDateTime();
     if (!dateTime || !agree) return;
 
+    // check user id exists
     const userId = user?.id || user?._id;
     if (!userId) {
       toast.error("Please sign in first.", { position: "top-center" });
       return;
     }
 
+    // create payload for request
     const payload = {
       userId,
       datetime: dateTime.toISOString(),
@@ -87,11 +104,13 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
       const serverId = body.id || body._id || "N/A";
       const reference = body.reference || serverId;
 
+      // add item to local storage
       localStorage.setItem(
         "lastBooking",
         JSON.stringify({ ...payload, serverId, reference, createdAt: new Date().toISOString() })
       );
 
+      // successful booking
       toast.success(
         <div>
           Booking confirmed!
@@ -116,6 +135,7 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
 
   return (
     <div className="sidebar-booking">
+      {/* date picker */}
       <label>Date</label>
       <DatePicker
         selected={selectedDate}
@@ -126,6 +146,7 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
         className="booking-datepicker"
       />
 
+      {/* time picker */}
       <label>Time</label>
       <DatePicker
         selected={selectedTime}
@@ -139,6 +160,13 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
         className="booking-datepicker"
       />
       
+      {/* warning if selected date and time is in the past */}
+      {selectedDate && selectedTime && isPastDateTime() && (
+        <p className="error-text" style={{ color: "#d32f2f", fontSize: "0.875rem", marginTop: "4px" }}>
+          Selected time is in the past
+        </p>
+      )}
+
       {/* notes text area - does not accept characters past the limit */}
       <label>
         Notes (optional) – {notesRemaining} characters remaining
@@ -150,15 +178,17 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
         rows={3}
       />
 
+      {/* agree to booking terms checkbox */}
       <label className="checkbox">
         <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
         <span>I agree to booking terms</span>
       </label>
 
+      {/* confirm booking button */}
       <button
         className="book-button"
         onClick={handleConfirm}
-        disabled={!selectedDate || !selectedTime || !agree || submitting}
+        disabled={!selectedDate || !selectedTime || !agree || submitting || isPastDateTime()}
       >
         {submitting ? "Submitting..." : "Confirm Booking"}
       </button>
