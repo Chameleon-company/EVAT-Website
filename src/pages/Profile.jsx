@@ -315,16 +315,13 @@ function Profile() {
 
       let newErrors = {};
 
-      console.log(user.car.make || user.car.make === "")
       if (user.car.make == "Select") {
         newErrors.carMake = "Please select a make";
       }
 
-      console.log(user.car.model)
       if (user.car.model == "Select" || user.car.model === "") {
         newErrors.carModel = "Please select a model";
       }
-      console.log(user.car.year)
       if (user.car.year == "Select" || user.car.year === "") {
         newErrors.carYear = "Please select a year";
       }
