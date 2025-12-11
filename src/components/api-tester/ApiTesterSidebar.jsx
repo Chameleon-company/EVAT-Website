@@ -3,6 +3,7 @@ import { useState } from 'react';
 import {
   adminAuth,
   admin,
+  booking,
   chargerReviews,
   chargerSessions,
   charger,
@@ -10,6 +11,7 @@ import {
   navigation,
   profile,
   station,
+  supportRequest,
   user,
   vehicle,
 } from '../../data/apiEndpoints';
@@ -38,6 +40,7 @@ const ApiTesterSidebar = ({ onEndpointClick }) => {
   const groups = [
     { title: 'Admin Auth Route', endpoints: adminAuth, isAdmin: true },
     { title: 'Admin Route', endpoints: admin, isAdmin: true },
+    { title: 'Booking Route', endpoints: booking },
     { title: 'Charger Reviews Route', endpoints: chargerReviews },
     { title: 'Charger Session Route', endpoints: chargerSessions },
     { title: 'Charger', endpoints: charger },
@@ -45,6 +48,7 @@ const ApiTesterSidebar = ({ onEndpointClick }) => {
     { title: 'Navigation Route', endpoints: navigation },
     { title: 'Profile Route', endpoints: profile },
     { title: 'Station Route', endpoints: station },
+    { title: 'Support Request Route', endpoints: supportRequest },
     { title: 'User Route', endpoints: user },
     { title: 'Vehicle Route', endpoints: vehicle },
   ];
@@ -109,41 +113,6 @@ const ApiTesterSidebar = ({ onEndpointClick }) => {
       </div>
     </div>
   );
-
-
-  {/* render the group options */}
-  // const renderGroup = (endpoints, title, isAdmin = false) => (
-  //   <details open>
-  //     <summary className={`endpoint-group-title ${isAdmin ? 'admin-only' : ''}`}>
-  //       {title}
-  //     </summary>
-  //     {endpoints.map((item, idx) => (
-  //       <EndpointItem key={idx} item={item} onEndpointClick={onEndpointClick} />
-  //     ))}
-  //   </details>
-  // );
-
-  // return (
-  //   <div className="api-tester-sidebar">
-  //     <h1>Quick Endpoints</h1>
-  //     <div className="api-tester-endpoint-list">
-        {/* list of endpoints */}
-        {/* {renderGroup(adminAuth, 'Admin Auth Route', true)}
-        {renderGroup(admin, 'Admin Route', true)}
-        {renderGroup(chargerReviews, 'Charger Reviews Route')}
-        {renderGroup(chargerSessions, 'Charger Session Route')}
-        {renderGroup(charger, 'Charger')}
-        {renderGroup(feedback, 'Feedback Route')}
-        {renderGroup(navigation, 'Navigation Route')}
-        {renderGroup(profile, 'Profile Route')}
-        {renderGroup(station, 'Station Route')}
-        {renderGroup(user, 'User Route')}
-        {renderGroup(vehicle, 'Vehicle Route')}
-      </div>
-    </div>
-  ); */}
-
-
 };
 
 export default ApiTesterSidebar;

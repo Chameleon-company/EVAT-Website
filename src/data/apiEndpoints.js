@@ -50,6 +50,13 @@ const templates = {
   "mobile": "string",
   "role": "user | admin"
 }`,
+  // add booking
+  bookingAdd: 
+`{
+  "userId": "string",
+  "stationName": "string",
+  "datetime": "2025-09-07T04:00:00Z"
+}`,
 
   // add station
   stationAdd: 
@@ -167,6 +174,15 @@ const templates = {
   "stationId": "string"
 }`,
 
+  // add a support request
+  supportRequestAdd: 
+`{
+  "name": "string",
+  "email": "email@email.com",
+  "issue": "station",
+  "description": "string"
+}`,
+
   // remove favourite station to profile
   profileRemoveFavouriteStation: 
 `{
@@ -226,6 +242,12 @@ const admin = [
   { method: 'POST',   endpoint: '/admin/stations',                label: '[Admin] Add station',                   body: templates.stationAdd },
   { method: 'PUT',    endpoint: '/admin/stations/{stationId}',    label: '[Admin] Update station',                body: templates.stationUpdate },
   { method: 'DELETE', endpoint: '/admin/stations/{stationId}',    label: '[Admin] Delete station' },
+];
+
+// Booking Route
+const booking = [
+  { method: 'GET',    endpoint: '/bookings/me?userId={userId}',   label: 'List my bookings' },
+  { method: 'POST',   endpoint: '/bookings',                      label: 'Create a booking',                      body: templates.bookingAdd},
 ];
 
 // Charger Reviews Route // NOT WORKING
@@ -293,6 +315,12 @@ const station = [
   { method: 'GET',    endpoint: '/chargers/GoogleMapsChargers',                               label: 'Get Google Maps chargers' },    // NOT WORKING - no idea
 ];
 
+// Support Request Route
+const supportRequest = [
+  { method: 'GET',    endpoint: '/support-requests/me?userId={userId}',   label: 'List my support requests' },
+  { method: 'POST',   endpoint: '/support-requests',                      label: 'Create a support request',      body: templates.supportRequestAdd},
+];
+
 // User Route
 const user = [
   { method: 'POST',   endpoint: '/auth/register',                 label: 'Register new user',                     body: templates.userRegister },   // tested and working
@@ -313,6 +341,7 @@ const vehicle = [
 export {
   adminAuth,
   admin,
+  booking,
   chargerReviews,
   chargerSessions,
   charger,
@@ -320,6 +349,7 @@ export {
   navigation,
   profile,
   station,
+  supportRequest,
   user,
   vehicle,
 };
@@ -328,6 +358,7 @@ export {
 export const allEndpoints = [
   ...adminAuth,
   ...admin,
+  ...booking,
   ...chargerReviews,
   ...chargerSessions,
   ...charger,
@@ -335,6 +366,7 @@ export const allEndpoints = [
   ...navigation,
   ...profile,
   ...station,
+  ...supportRequest,
   ...user,
   ...vehicle,
 ];
