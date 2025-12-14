@@ -1,5 +1,3 @@
-/* VoiceQuery Component Styles */
-
 .voice-query-container {
   width: 100%;
   max-width: 800px;
@@ -22,14 +20,11 @@
   font-weight: 600;
 }
 
-/* 搜索表单 */
 .voice-query-form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-
-/* 搜索输入框容器 */
 .search-input-wrapper {
   position: relative;
   display: flex;
@@ -46,8 +41,6 @@
   background: white;
   box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
-
-/* 搜索图标 */
 .search-icon {
   width: 20px;
   height: 20px;
@@ -55,8 +48,6 @@
   margin-right: 0.75rem;
   flex-shrink: 0;
 }
-
-/* 输入框 */
 .search-input {
   flex: 1;
   border: none;
@@ -76,7 +67,6 @@
   cursor: not-allowed;
 }
 
-/* 麦克风按钮 */
 .mic-button {
   background: transparent;
   border: none;
@@ -124,7 +114,6 @@
   }
 }
 
-/* 录音指示器 */
 .recording-indicator {
   display: flex;
   align-items: center;
@@ -166,14 +155,12 @@
   }
 }
 
-/* 按钮组 */
 .button-group {
   display: flex;
   gap: 1rem;
   margin-top: 0.5rem;
 }
 
-/* 提交按钮 */
 .submit-button {
   flex: 1;
   background: #4CAF50;
@@ -207,7 +194,6 @@
   transform: none;
 }
 
-/* 清空按钮 */
 .clear-button {
   flex: 0.4;
   background: white;
@@ -231,7 +217,6 @@
   cursor: not-allowed;
 }
 
-/* 加载动画 */
 .spinner {
   width: 18px;
   height: 18px;
@@ -247,7 +232,6 @@
   }
 }
 
-/* 错误信息 */
 .error-message {
   background: #ffebee;
   color: #c62828;
@@ -257,8 +241,6 @@
   margin-top: 1rem;
   animation: fadeIn 0.3s ease;
 }
-
-/* 错误横幅（浏览器不支持） */
 .error-banner {
   background: #fff3cd;
   color: #856404;
@@ -268,8 +250,6 @@
   text-align: center;
   font-weight: 500;
 }
-
-/* 结果面板 */
 .result-panel {
   margin-top: 1.5rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -318,8 +298,6 @@
   font-size: 0.85rem;
   text-align: center;
 }
-
-/* 响应式设计 */
 @media (max-width: 640px) {
   .voice-query-card {
     padding: 1.5rem;
