@@ -126,7 +126,7 @@ export default function Map() {
     priceRange: [priceMin, priceMax],
     operatorType: [],
     showOnlyAvailable: false,
-    showReliability: true
+    showCongestion: true
   });
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -316,10 +316,9 @@ export default function Map() {
           />
           <BoundsWatcher onChange={setBbox} />
           <ClusterMarkers
-            showReliability={filters.showReliability}
+            showCongestion={filters.showCongestion}
             stations={filteredStations}
             onSelectStation={(st) => setSelectedStation(st)}
-            isDark={isDark}
           />
 
 

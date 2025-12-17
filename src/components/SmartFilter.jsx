@@ -9,7 +9,7 @@ import '../styles/SmartFilter.css';
  * - Filter by charging speed (<22kW, 22-50kW, 50-150kW, 150kW+)
  * - Set price range with a slider (0-100)
  * - Toggle availability filter (show only available stations)
- * - Toggle reliability overlay
+ * - Toggle congestion overlay (reworked from reliability layer)
  * 
  * @param {boolean} isOpen - Controls modal visibility
  * @param {function} onClose - Callback to close the modal
@@ -102,13 +102,13 @@ const SmartFilter = ({
   };
 
   /**
-   * Toggle reliability overlay
-   * Enables/disables the reliability score overlay on the map
+   * Toggle congestion icons
+   * Enables/disables the congestion icons on the map
    */
-  const handleReliabilityToggle = () => {
+  const handleCongestionToggle = () => {
     setFilters(prev => ({
       ...prev,
-      showReliability: !prev.showReliability
+      showCongestion: !prev.showCongestion
     }));
   };
 
@@ -122,7 +122,7 @@ const SmartFilter = ({
       priceRange: [priceMin, priceMax],
       operatorType: [],
       showOnlyAvailable: false,
-      showReliability: true
+      showCongestion: true
     };
     setFilters(resetFilters);
   };
@@ -267,16 +267,16 @@ const SmartFilter = ({
           </div>
         </div>
 
-        {/* Reliability Overlay Toggle Section */}
+        {/* Congestion Toggle Section */}
         <div className="filter-section">
-          <h3>Reliability Overlay</h3>
+          <h3>Congestion Icons</h3>
           <div className="toggle-container">
-            <span className="toggle-label">show reliability layer</span>
+            <span className="toggle-label">Colors icons showing predicted congestion</span>
             <label className="toggle-switch">
               <input
                 type="checkbox"
-                checked={filters.showReliability}
-                onChange={handleReliabilityToggle}
+                checked={filters.showCongestion}
+                onChange={handleCongestionToggle}
               />
               <span className="toggle-slider"></span>
             </label>

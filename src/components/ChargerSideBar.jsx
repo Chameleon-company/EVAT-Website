@@ -9,6 +9,7 @@ import {
   checkUserReviewStatus, updateChargerReview, getUsername
 } from '../services/chargerReviewService';
 import { toast } from "react-toastify";
+import { getChargerCongestion } from '../services/chargerCongestionService';
 
 
 export default function ChargerSideBar({ station, onClose }) {
@@ -33,7 +34,7 @@ export default function ChargerSideBar({ station, onClose }) {
   const [kms, setKms] = useState('');
   const [carEfficiency, setCarEfficiency] = useState('');
   const [evPricePerKWh, setEvPricePerKWh] = useState('');
-  const [evpricePerKWh, setevPricePerKWh] = useState('');
+  const [congestionLevel, setCongestionLevel] = useState('');
 
   useEffect(() => {
     if (!station) return;
@@ -52,9 +53,10 @@ export default function ChargerSideBar({ station, onClose }) {
     setIsLoading(true);
     try {
       // Load reviews and stats in parallel
-      const [reviewsResponse, statsResponse] = await Promise.all([
+      const [reviewsResponse, statsResponse, congestionResponse] = await Promise.all([
         getChargerReviews(station._id),
-        getChargerReviewStats(station._id)
+        getChargerReviewStats(station._id),
+        getChargerCongestion([station._id], user?.token)
       ]);
 
       // Change the username value
@@ -65,10 +67,23 @@ export default function ChargerSideBar({ station, onClose }) {
         }
       }
       else { // User is not signed in
-        for (var i in reviewsResponse['data']['reviews']) { 
+        for (var i in reviewsResponse['data']['reviews']) {
           reviewsResponse['data']['reviews'][i]['userName'] = ''; // Blank out username
         }
       }
+
+      // Find the congestion level
+      const levelsMap = congestionResponse.data.congestionLevels.reduce((map, level) => {
+        map[level.chargerId] = level;
+        return map;
+      }, {});
+      // Capitalise the first letter
+      const level = levelsMap[station._id].congestion_level
+      const levelCapitalised =
+        level.charAt(0).toUpperCase()
+        + level.slice(1)
+      // Set the congestion level
+      setCongestionLevel(levelCapitalised || "Unknown");
 
       setReviews(reviewsResponse.data?.reviews || []);
       setReviewStats(statsResponse.data || { averageRating: 0, totalReviews: 0 });
@@ -316,6 +331,10 @@ export default function ChargerSideBar({ station, onClose }) {
 
         {/* Station Details */}
         <div className="sidebar-section">
+          <div className="detail-item">
+            <span className="detail-label">Congestion:</span>
+            <span className="detail-value">{congestionLevel || 'Unknown'}</span>
+          </div>
           <div className="detail-item">
             <span className="detail-label">Type:</span>
             <span className="detail-value">{station.connection_type || 'N/A'}</span>
