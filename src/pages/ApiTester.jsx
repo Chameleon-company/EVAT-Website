@@ -6,11 +6,11 @@ import ApiTesterSidebar from "../components/api-tester/ApiTesterSidebar";
 import ApiTesterResponse from "../components/api-tester/ApiTesterResponse";
 import ApiTesterForm from "../components/api-tester/ApiTesterForm";
 
-import "../styles/ApiTester.css";
 import '../styles/Buttons.css';
 import '../styles/Fonts.css';
 import '../styles/Forms.css';
 import '../styles/Elements.css';
+import '../styles/Validation.css';
 
 const ApiTester = () => {
   // set the state
@@ -150,8 +150,7 @@ const ApiTester = () => {
         <NavBar />
         {/* background */}
         <div className="background-image" />
-        <h1 className='h1 text-center full-width'>My Dashboard</h1>
-        <ChatBubble />
+        <h1 className='h1 text-center auto-width'>Nothing to see here!</h1>
       </div>
     );
   }
@@ -160,13 +159,11 @@ const ApiTester = () => {
   return (
     <div>
       <NavBar />
-      {/* background */}
-      <div className="background-image" />
-      <div className="container full-width">
-        <div className="api-tester-content">
+      <h1 className='h1 text-center auto-width'>Internal API Tester</h1>
+      <div className="container auto-width">
+        <div className="grid-content">
           {/* left panel */}
-          <div className="api-tester-container">
-            <h1>Internal API Tester</h1>
+          <div>
             {/* request history */}
             <ApiTesterHistory history={history} onLoad={loadFromHistory} onClear={clearHistory} />
 
@@ -194,9 +191,8 @@ const ApiTester = () => {
           {/* quick endpoints */}
           <ApiTesterSidebar onEndpointClick={handleEndpointClick} />
         </div>
-      <ChatBubble />
+      </div>
     </div>
-  </div>
   );
 };
 

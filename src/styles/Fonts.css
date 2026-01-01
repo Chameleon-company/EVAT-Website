@@ -65,6 +65,11 @@ input, textarea, select {
   font-family: var(--font-body);
 }
 
+/* Tiny text */
+.text-tiny {
+  font-size: 0.7rem;
+}
+
 /* Small text */
 small, .text-small {
   font-size: 0.875rem;

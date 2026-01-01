@@ -34,11 +34,13 @@ const ApiTesterForm = ({
 
   return (
     <>
-      <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '12px', marginBottom: '10px' }}>
+      <div>
         {/* HTTP method selector (dropdown box) */}
-        <div className="api-tester-form-group">
-          <label>Method</label>
-          <select value={method} onChange={(e) => setMethod(e.target.value)} className="api-tester-select">
+        <div>
+          <label className='form-label'>Method</label>
+          <select 
+            className="full-width font-bold"
+            value={method} onChange={(e) => setMethod(e.target.value)}>
             <option>GET</option>
             <option>POST</option>
             <option>PUT</option>
@@ -47,56 +49,52 @@ const ApiTesterForm = ({
         </div>
 
         {/* API path entry */}
-        <div className="api-tester-form-group">
-          <label>Endpoint</label>
+        <div>
+          <label className='form-label'>Endpoint</label>
           <input
+            className="input form-full-width font-bold"
             type="text"
             value={endpoint}
             onChange={(e) => setEndpoint(e.target.value)}
-            className="api-tester-input"
             placeholder="e.g. /vehicle"
           />
         </div>
       </div>
 
       {/* authorization token field */}
-      <div style={{  marginBottom: '10px' }}>
-        <div className="api-tester-form-group">
-          <label>
+      <div>
+        <div>
+          <label className='form-label'>
             Authorization Bearer Token{' '}
-            <span style={{ fontWeight: 'normal', color: '#666' }}> (required for protected routes)</span>
+            <span> (required for protected routes)</span>
           </label>
           {/* token input field */}
-          <div style={{ position: 'relative' , marginBottom: '12px'}}>
+          <div>
             <input
+              className="input form-full-width"
               type={showToken ? 'text' : 'password'}
               value={token}
               onChange={(e) => setToken(e.target.value)}
-              className="api-tester-input"
               placeholder="Paste JWT or click button"
               autoComplete="off"
             />
           </div>
 
           {/* show / hide token button */}
-          <div style={{ display: 'flex', gap: '12px' }}>
+          <div>
             <button
+              className="btn btn-primary two-hundred-width btn-small"
               type="button"
               onClick={() => setShowToken(!showToken)}
-              className="api-tester-button"
-              style={{ width: '200px' }}
-            >
-              {showToken ? 'Hide' : 'Show'} Token
+            >{showToken ? 'Hide' : 'Show'} Token
             </button>
 
             {/* auto fill token button */}
             <button
+              className="btn btn-primary two-hundred-width btn-small"
               type="button"
               onClick={autoFillToken}
-              className="api-tester-button"
-              style={{width: '250px', padding: '10px', fontSize: '1rem'}}
-            >
-              Auto-Fill Current Token
+            >Auto-Fill Current Token
             </button>
           </div>
         </div>
@@ -105,22 +103,21 @@ const ApiTesterForm = ({
       {/* JSON text area - currently only for POST and PUT */}
       {/* hidden for GET and DELETE */}
       {method !== 'GET' && method !== 'DELETE' && (
-        <div className="api-tester-form-group" style={{ marginBottom: '20px' }}>
-          <label>JSON Body</label>
+        <div>
+          <label className='form-label'>JSON Body</label>
           <textarea
+            className="input font-bold half-width fit-height"
             value={body}
             onChange={(e) => setBody(e.target.value)}
-            className="api-tester-textarea"
             placeholder='Enter JSON body or click a Quick Endpoint'
-            style={{width: '50%'}}
           />
         </div>
       )}
 
       {/* send request button */}
       <button
-        onClick={onSend} disabled={loading} className="api-tester-button"
-        style={{ width: '100%', padding: '14px', fontSize: '1.1rem' }}
+        className="btn btn-primary btn-full"
+        onClick={onSend} disabled={loading}
       >
         {loading ? 'Sending...' : 'Send Request'}
       </button>

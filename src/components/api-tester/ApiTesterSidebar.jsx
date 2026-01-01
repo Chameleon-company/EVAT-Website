@@ -20,15 +20,18 @@ import {
 const EndpointItem = ({ item, onEndpointClick }) => (
   <div
     onClick={() => onEndpointClick(item)}
-    className="api-tester-endpoint-item"
+    className={`endpoint-item endpoint-item-${item.method.toLowerCase()}`}
   >
-    {/* fill method */}
-    <span className={`method-badge method-${item.method.toLowerCase()}`}>
-      {item.method}
-    </span>
-    {/* fill endpoint path */}
-    <code>{item.endpoint}</code>
-    <span className="endpoint-label">{item.label}</span>
+    <div className="endpoint-top-row text-tiny ">
+      {/* method */}
+      <span className={`method-badge uppercase font-bold method-${item.method.toLowerCase()}`}>
+        {item.method}
+      </span>
+      {/* description */}
+      <span className="endpoint-description">{item.label}</span>
+    </div>
+    {/* path */}
+    <code className="endpoint-path font-bold text-small">{item.endpoint}</code>
   </div>
 );
 
@@ -67,31 +70,31 @@ const ApiTesterSidebar = ({ onEndpointClick }) => {
     .filter(group => group.endpoints.length > 0);
 
   return (
-    <div className="api-tester-sidebar">
-      <h2>Quick Endpoints</h2>
+    <div>
+      <h6>Quick Endpoints</h6>
 
       {/* search bar */}
-      <div className="api-sidebar-search-wrapper">
+      <div>
         <input
+          className="input form-full-width"
           type="text"
           placeholder="Search endpoints... (e.g. login, admin, POST)"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="api-sidebar-search-input"
           autoFocus
         />
         {search && (
           // search results
-          <div className="api-sidebar-search-results">
+          <div>
             {filteredGroups.reduce((acc, g) => acc + g.endpoints.length, 0)} results
           </div>
         )}
       </div>
 
-      <div className="api-tester-endpoint-list">
+      <div className="endpoint-sidebar">
         {filteredGroups.length === 0 ? (
           // if no endpoints in filtered group
-          <div className="api-sidebar-no-results">
+          <div className="text-center font-bold">
             No endpoints match "{search}"
           </div>
         ) : (
@@ -99,9 +102,9 @@ const ApiTesterSidebar = ({ onEndpointClick }) => {
           filteredGroups.map((group, i) => (
             <details key={i} open>
               {/* endpoint group titles */}
-              <summary className={`endpoint-group-title ${group.isAdmin ? 'admin-only' : ''}`}>
+              <summary className={`h6 endpoint-group-title ${group.isAdmin ? 'admin-only' : ''}`}>
                 {group.title}
-                {search && <span className="search-count"> ({group.endpoints.length})</span>}
+                {search && <span>({group.endpoints.length})</span>}
               </summary>
               {/* show endpoints */}
               {group.endpoints.map((item, idx) => (

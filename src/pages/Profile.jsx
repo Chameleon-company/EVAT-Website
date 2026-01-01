@@ -322,8 +322,8 @@ function Profile() {
       {/* background */}
       <div className="background-image" />
       {/* title */}
-      <h1 className='h1 text-center full-width'>My Dashboard</h1>
-      <div className="container full-width">
+      <h1 className='h1 text-center auto-width'>My Dashboard</h1>
+      <div className="container auto-width">
         {/* left container - profile image*/}
         <div className="container-left">
           <div className="profile-image">

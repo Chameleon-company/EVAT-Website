@@ -25,8 +25,8 @@ function Favourite() {
       {/* background */}
       <div className="background-image" />
       {/* title */}
-      <h1 className='h1 text-center full-width'>My Favourite Stations</h1>
-      <div className="container center full-width">
+      <h1 className='h1 text-center auto-width'>My Favourite Stations</h1>
+      <div className="container center auto-width">
 
         {error && <p className="error-msg">Error loading favourites: {error}</p>}
         {loading && !error && <p>Loading favourite stations...</p>}

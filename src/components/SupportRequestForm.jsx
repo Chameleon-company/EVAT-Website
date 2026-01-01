@@ -110,7 +110,7 @@ export default function SupportRequestForm() {
   };
 
   return (
-    <div className="container center full-width">
+    <div className="container center auto-width">
       <h2 className="center">Submit a Request</h2>
 
       <form onSubmit={handleSubmit} className="form-section">

@@ -143,8 +143,8 @@ function Game() {
       {/* background */}
       <div className="background-image" />
       {/* title */}
-      <h1 className='h1 text-center full-width'>Rewards</h1>
-      <div className="container full-width">
+      <h1 className='h1 text-center auto-width'>Rewards</h1>
+      <div className="container auto-width">
         <div className="container-left">
           <h5>Character</h5>
           <div>

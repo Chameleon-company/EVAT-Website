@@ -238,22 +238,6 @@
   --btn-font-size: 1.125rem;
 }
 
-/* Full Width */
-.btn-full {
-  width: 100%;
-  min-width: unset;
-}
-
-.two-hundred-width {
-  width: auto;
-  min-width: 200px;
-}
-
-.one-hundred-width {
-  width: auto;
-  min-width: 100px;
-}
-
 /* Main Chat Bubble Button */
 .btn-chat-bubble {
   background: var(--btn-primary);
