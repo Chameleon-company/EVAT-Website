@@ -3,18 +3,16 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Profile from './pages/Profile';
 import Map from './pages/Map';
-import Feedback from './pages/Feedback';
-import Favourite from './pages/Favourite';
-import { UserProvider } from './context/user';
-import { FavouritesProvider } from "./context/FavouritesContext";
 import Cost from "./pages/Cost";
 import Game from "./pages/Game";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+import Feedback from './pages/Feedback';
+import Favourite from './pages/Favourite';
 import ContactSupport from './pages/ContactSupport';
 import ApiTester from './pages/ApiTester';
-
-
+import { UserProvider } from './context/user';
+import { FavouritesProvider } from "./context/FavouritesContext";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (

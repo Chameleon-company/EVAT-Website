@@ -1,8 +1,5 @@
 import React, { useEffect, useState, useMemo, useContext } from 'react';
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import 'leaflet.markercluster/dist/MarkerCluster.css';
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import L from 'leaflet';
 import NavBar from '../components/NavBar';
 import LocateUser from '../components/LocateUser';
@@ -15,8 +12,15 @@ import { getChargers, getConnectorTypes, getOperatorTypes } from '../services/ch
 import ChatBubble from "../components/ChatBubble";
 
 // styles
+import 'leaflet/dist/leaflet.css';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import '../styles/SmartFilter.css';
 import '../styles/Map.css';
+import '../styles/Buttons.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/Elements.css';
 
 // Configure default Leaflet marker icons
 delete L.Icon.Default.prototype._getIconUrl;

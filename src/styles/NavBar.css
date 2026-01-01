@@ -1,9 +1,9 @@
-.nav-bar {
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    background-color: #AAC597;
+    background-color: #172235;
     padding: 0.5rem 0.5rem;
     top: 0;
     left: 0;
@@ -13,7 +13,7 @@
     position: sticky;
 }
 
-.left-section {
+.left-navbar {
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -21,25 +21,20 @@
     margin-left: 1rem;
 }
 
-.logo {
-    width: 50px;
+.title-navbar {
+  margin: 0.1rem;
+  padding: 0.1rem;
+  padding-left: 2rem;
+  vertical-align: middle;
+}
+
+.logo-navbar {
+    width: auto;
     height: 50px;
     flex-shrink: 0;
 }
 
-.logo-text {
-    font-family: 'Jockey One', sans-serif;
-    font-weight: 400;
-    font-size: 20px;
-    color: #000;
-    margin: 0;
-    line-height: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.right-section {
+.right-navbar {
     display: flex;
     margin-right: 1.5rem;
     align-items: center;
@@ -47,30 +42,7 @@
     flex-shrink: 0;
 }
 
-.nav-buttons {
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: nowrap;
-}
-
-.nav-button {
-    background: none;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    color: #1a1a1a;
-    transition: font-weight 0.3s, color 0.3s;
-    padding: 0;
-    white-space: nowrap;
-}
-
-.nav-button:hover,
-.nav-button.active {
-    font-weight: bold;
-    color: #3d7e3a;
-}
-
-.profile-icon {
+.icon-navbar {
     width: 45px;
     height: 45px;
     border-radius: 50%;
@@ -82,7 +54,7 @@
     flex-shrink: 0;
 }
 
-@media (max-width: 1024px) {
+/* @media (max-width: 1024px) {
     .left-section {
         gap: 0.2rem;
         margin-left: 1rem;
@@ -92,7 +64,7 @@
         font-size: 0.9rem;
     }
 
-    .profile-icon {
+    .icon-navbar {
         width: 35px;
         height: 35px;
     }
@@ -133,7 +105,7 @@
         margin-right: 0;
     }
 
-    .profile-icon {
+    .icon-navbar {
         display: none;
     }
 
@@ -145,4 +117,4 @@
         width: 70px;
         height: 70px;
     }
-}
+} */

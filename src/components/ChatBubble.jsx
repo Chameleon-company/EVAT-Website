@@ -5,7 +5,11 @@
 
 import React from "react";
 import { MessageCircle } from "lucide-react";
-import "../styles/ChatBubble.css";
+
+import '../styles/Buttons.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/Elements.css';
 
 function ChatBubble({ url = "https://example.com" }) {
   const handleClick = () => {
@@ -13,7 +17,7 @@ function ChatBubble({ url = "https://example.com" }) {
   };
 
   return (
-    <button className="chat-bubble-btn" onClick={handleClick}>
+    <button className="btn btn-chat-bubble" onClick={handleClick}>
       <MessageCircle size={28} />
     </button>
   );

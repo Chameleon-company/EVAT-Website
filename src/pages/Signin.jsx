@@ -2,7 +2,11 @@ import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, KeyRound, User as UserIcon } from 'lucide-react';
 import { UserContext } from '../context/user';
-import '../styles/Style.css';
+
+import '../styles/Buttons.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/Elements.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const url = `${API_URL}/auth/login`;
@@ -107,12 +111,12 @@ function Signin() {
   
   //UI Rendering
   return (
-    <div className="auth-container">
-      <img src="/chameleon.png" alt="Chameleon" className="logo-image" />
+    <div className="container center">
+      <img src="../src/assets/logo.png" alt="EV Adoption Tool" className="logo-image" />
 
-      <form onSubmit={handleSubmit} className="auth-form">
-        <label className="label">Email</label>
-        <div className="input-group">
+      <form onSubmit={handleSubmit} className="form-section">
+        <label className='form-label required'>Email</label>
+        <div>
           <UserIcon className="icon" />
           <input
             className="input"
@@ -125,8 +129,8 @@ function Signin() {
           />
         </div>
 
-        <label className="label">Password</label>
-        <div className="input-group">
+        <label className='form-label required'>Password</label>
+        <div>
           <KeyRound className="icon" />
           <input
             className="input"
@@ -138,7 +142,7 @@ function Signin() {
             required
           />
           <span
-            className="icon-right"
+            className="icon"
             onClick={() => setShowPassword(!showPassword)}
             role="button"
           >
@@ -146,13 +150,17 @@ function Signin() {
           </span>
         </div>
 
-        <button type="submit" className="auth-button" disabled={submitted}>
+        <div className="spacer">  </div>
+
+        <button 
+          className="btn btn-primary" 
+          disabled={submitted}
+        >
           {submitted ? "Signing In..." : "SIGN IN"}
         </button>
 
         <button
-          type="button"
-          className="auth-button"
+          className="btn btn-primary"
           onClick={() => navigate('/signup')}
         >
           CREATE NEW ACCOUNT

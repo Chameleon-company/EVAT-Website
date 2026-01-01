@@ -7,7 +7,11 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import "../styles/ContactSupport.css";
+
+import '../styles/Buttons.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/Elements.css';
 
 const API_URL = import.meta.env.VITE_API_URL
 const SUPPORT_ENDPOINT = `${API_URL}/support-requests`;
@@ -106,54 +110,64 @@ export default function SupportRequestForm() {
   };
 
   return (
-    <div className="contact-form-container">
-    <h2>Submit a Request</h2>
+    <div className="container center full-width">
+      <h2 className="center">Submit a Request</h2>
 
-    <form onSubmit={handleSubmit} className="contact-form">
+      <form onSubmit={handleSubmit} className="form-section">
+        <label className='form-label required'>Name</label>
         <input
-        type="text"
-        name="name"
-        placeholder="Your Name"
-        value={formData.name}
-        onChange={handleChange}
-        required
+          className="input"
+          type="text"
+          name="name"
+          placeholder="Your Name"
+          value={formData.name}
+          onChange={handleChange}
+          required
         />
 
+        <label className='form-label required'>Email</label>
         <input
-        type="email"
-        name="email"
-        placeholder="Your Email"
-        value={formData.email}
-        onChange={handleChange}
-        required
+          className="input"
+          type="email"
+          name="email"
+          placeholder="Your Email"
+          value={formData.email}
+          onChange={handleChange}
+          required
         />
 
+        <label className='form-label required'>Issue Type</label>
         <select
-        name="issue"
-        value={formData.issue}
-        onChange={handleChange}
-        required
+          name="issue"
+          value={formData.issue}
+          onChange={handleChange}
+          required
         >
-        <option value="">Select Issue Type</option>
-        <option value="station">Can't Find a Station</option>
-        <option value="payment">Payment Issue</option>
-        <option value="info">Incorrect Station Info</option>
-        <option value="other">Other</option>
+          <option value="">Select Issue Type</option>
+          <option value="station">Can't Find a Station</option>
+          <option value="payment">Payment Issue</option>
+          <option value="info">Incorrect Station Info</option>
+          <option value="other">Other</option>
         </select>
 
+        <label className='form-label required'>Description of Issue</label>
         <textarea
-        name="description"
-        placeholder="Describe your issue..."
-        rows={5}
-        value={formData.description}
-        onChange={handleChange}
-        required
+          name="description"
+          placeholder="Describe your issue..."
+          rows={5}
+          value={formData.description}
+          onChange={handleChange}
+          required
         />
 
-        <button type="submit" disabled={submitting}>
-        {submitting ? "Submitting..." : "Submit Request"}
+        <button 
+          className="btn btn-primary"
+          type="submit" 
+          disabled={submitting}
+        >
+          {submitting ? "Submitting..." : "Submit Request"}
         </button>
-    </form>
+      </form>
     </div>
   );
 }

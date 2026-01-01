@@ -42,11 +42,11 @@
 }
 
 .form-group label {
-  font-weight: 600;
+  /* font-weight: 600;
   color: #333;
-  font-size: 14px;
+  font-size: 14px; */
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  /* letter-spacing: 0.5px; */
 }
 
 .email-input-container {
@@ -67,21 +67,21 @@
 }
 
 .input {
-  padding: 12px 16px;
+  /* padding: 12px 16px;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   font-size: 16px;
-  background-color: #f8f9fa;
+  background-color: #f8f9fa; */
   transition: all 0.3s ease;
-  width: 100%;
+  /* width: 100%;
   box-sizing: border-box;
-  color: #333;
+  color: #333; */
 }
 
 .input:focus {
-  outline: none;
+  /* outline: none;
   border-color: #4CAF50;
-  background-color: #fff;
+  background-color: #fff; */
   box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 

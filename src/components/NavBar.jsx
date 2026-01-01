@@ -1,8 +1,12 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import '../styles/Style.css';
 import logo from '../assets/logo.png';
-import profileIcon from '../assets/profileIcon.png';
+import profileImage from '../assets/profileImage.png';
+
 import '../styles/NavBar.css';
+import '../styles/Buttons.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/Elements.css';
 
 function NavBar() {
     const navigate = useNavigate();
@@ -12,20 +16,36 @@ function NavBar() {
     const isActive = (path) => location.pathname === path;
 
     return (
-        <nav className="nav-bar">
-            <div className="left-section">
-                <img src={logo} alt="Logo" className="logo" />
-                <span className="logo-text">Chameleon</span>
+        <nav className="navbar">
+            <div className="left-navbar">
+                <img src={logo} alt="Logo" className="logo-navbar" />
+                <h5 className='title-navbar'>Electric Vehicle Adoption Tool</h5>
             </div>
-            <div className="right-section">
-                <div className="nav-buttons">
-                    <button className={`nav-button ${isActive('/profile') ? 'active' : ''}`} onClick={() => navigate('/profile', { state: { resetDashboard: true } })}>My Dashboard</button>
-                    <button className={`nav-button ${isActive('/map') ? 'active' : ''}`} onClick={() => navigate('/map')}>Map</button>
-                    <button className={`nav-button ${isActive('/favourites') ? 'active' : ''}`} onClick={() => navigate('/favourites')}>Favourites</button>
-                    <button className={`nav-button ${isActive('/game') ? 'active' : ''}`} onClick={() => navigate('/game')}>Game</button>
-                    <button className={`nav-button ${isActive('/support') ? 'active' : ''}`} onClick={() => navigate('/support')}>Contact Support</button>
+            <div className="right-navbar">
+                <div>
+                    <button 
+                        className={`btn btn-navbar ${isActive('/profile') ? 'active' : ''}`} 
+                        onClick={() => navigate('/profile', { state: { resetDashboard: true } })}
+                    >My Dashboard</button>
+                    <button 
+                        className={`btn btn-navbar ${isActive('/map') ? 'active' : ''}`} 
+                        onClick={() => navigate('/map')}
+                    >Map</button>
+
+                    <button 
+                        className={`btn btn-navbar ${isActive('/favourites') ? 'active' : ''}`} 
+                        onClick={() => navigate('/favourites')}
+                    >Favourites</button>
+                    <button 
+                        className={`btn btn-navbar ${isActive('/game') ? 'active' : ''}`} 
+                        onClick={() => navigate('/game')}
+                    >Rewards</button>
+                    <button 
+                        className={`btn btn-navbar ${isActive('/support') ? 'active' : ''}`} 
+                        onClick={() => navigate('/support')}
+                    >Contact Support</button>
                 </div>
-                <img src={profileIcon} alt="Profile" className="profile-icon" />
+                <img src={profileImage} alt="Profile" className="icon-navbar middle" />
             </div>
         </nav>
         

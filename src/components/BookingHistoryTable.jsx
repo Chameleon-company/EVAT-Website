@@ -5,7 +5,12 @@
 // link station names to details.
 
 import React, { useEffect, useState } from "react";
-import "../styles/BookingHistory.css";
+
+import "../styles/Tables.css";
+import '../styles/Buttons.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/Elements.css';
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -88,8 +93,8 @@ export default function BookingHistoryTable() {
   if (bookings.length === 0) return <p>No bookings yet.</p>;
 
   return (
-    <div className="booking-table-wrapper">
-      <table className="booking-table">
+    <div className="table-wrapper center">
+      <table className="table">
         <thead>
           <tr>
             <th>Station</th>
@@ -104,14 +109,14 @@ export default function BookingHistoryTable() {
           {bookings.map((b) => (
             <tr
               key={b.id}
-              className={`station-info-row ${b.access_key_required === "true" ? "restricted" : "open"}`}
+              className={`table-row ${b.access_key_required === "true" ? "restricted" : "open"}`}
             >
-              <td>{b.station}</td>
-              <td>{b.date}</td>
-              <td>{b.time}</td>
-              <td>{b.bookedAt}</td>
-              <td>{b.notes}</td>
-              <td>{b.id}</td>
+              <td className="table-col-left">{b.station}</td>
+              <td className="table-col-center">{b.date}</td>
+              <td className="table-col-center">{b.time}</td>
+              <td className="table-col-center">{b.bookedAt}</td>
+              <td className="table-col-left small-cell">{b.notes}</td>
+              <td className="table-col-right">{b.id}</td>
             </tr>
           ))}
         </tbody>

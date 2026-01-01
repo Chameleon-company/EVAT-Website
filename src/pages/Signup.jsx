@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, KeyRound, User, Phone } from 'lucide-react';
-import '../styles/Style.css';
+
+import '../styles/Buttons.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/Elements.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const url = `${API_URL}/auth/register`;
@@ -63,42 +67,43 @@ function Signup() {
   };
 
   return (
-    <div className="auth-container">
-      <form onSubmit={handleSubmit} className="auth-form">
-        <img src="/chameleon.png" alt="Chameleon" className="logo-image" />
+    <div className="container center">
+      <img src="../src/assets/logo.png" alt="EV Adoption Tool" className="logo-image" />
 
-        <label className="auth-label">First Name</label>
-        <div className="input-group">
+      <form onSubmit={handleSubmit} className="form-section">
+        <label className='form-label required'>First Name</label>
+        <div>
           <User className="icon" />
           <input
+            className="input"
             type="text"
             name="firstName"
             placeholder="First Name"
             value={form.firstName}
             onChange={handleChange}
             required
-            className="input"
           />
         </div>
 
-        <label className="auth-label">Last Name</label>
-        <div className="input-group">
+        <label className='form-label required'>Last Name</label>
+        <div>
           <User className="icon" />
           <input
+            className="input"
             type="text"
             name="lastName"
             placeholder="Last Name"
             value={form.lastName}
             onChange={handleChange}
             required
-            className="input"
           />
         </div>
 
-        <label className="auth-label">Mobile Number</label>
-        <div className="input-group">
+        <label className='form-label required'>Mobile Number</label>
+        <div>
           <Phone className="icon" />
           <input
+            className="input"
             type="tel"
             name="mobile"
             placeholder="Mobile Number"
@@ -106,38 +111,37 @@ function Signup() {
             onChange={handleChange}
             pattern="04\d{8}" // Australian format: starts with 04 + 8 digits
             required
-            className="input"
           />
         </div>
 
-        <label className="auth-label">Email</label>
-        <div className="input-group">
+        <label className='form-label required'>Email</label>
+        <div>
           <User className="icon" />
           <input
+            className="input"
             type="email"
             name="email"
             placeholder="Email"
             value={form.email}
             onChange={handleChange}
             required
-            className="input"
           />
         </div>
 
-        <label className="auth-label">Password</label>
-        <div className="input-group">
+        <label className='form-label required'>Password</label>
+        <div>
           <KeyRound className="icon" />
           <input
+            className="input"
             type={showPassword ? 'text' : 'password'}
             name="password"
             placeholder="Password"
             value={form.password}
             onChange={handleChange}
             required
-            className="input"
           />
           <span
-            className="icon-right"
+            className="icon"
             onClick={() => setShowPassword(!showPassword)}
             style={{ cursor: 'pointer' }}
           >
@@ -145,13 +149,17 @@ function Signup() {
           </span>
         </div>
 
-        <button type="submit" className="auth-button">
+        <div className="spacer">  </div>
+
+        <button 
+          className="btn btn-primary"
+          type="submit" 
+        >
           CREATE ACCOUNT
         </button>
 
         <button
-          type="button"
-          className="auth-button"
+          className="btn btn-cancel"
           onClick={() => navigate('/')}
         >
           BACK TO SIGN IN

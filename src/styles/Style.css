@@ -4,10 +4,6 @@ body {
   font-family: "Arial Black", sans-serif;
 }
 
-.logo-image {
-  width: 300px;
-  height: 300px;
-}
 
 .auth-container {
   min-height: 100vh;
@@ -47,13 +43,13 @@ body {
 
 .auth-form {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column;
   width: 90%;
   max-width: 350px;
   gap: 1rem;
   padding: 1.5rem 2rem;
   margin-bottom: 20px;
-  position: relative;
+  position: relative; */
 }
 
 .label {
@@ -77,9 +73,6 @@ body {
   font-size: 1rem;
 }
 
-.icon {
-  margin-right: 0.5rem;
-}
 
 .icon-right {
   margin-left: auto;
@@ -147,7 +140,7 @@ body {
 }
 
 /* Background */
-.background {
+/* .background {
   position: fixed;
   top: 0;
   left: 0;
@@ -155,7 +148,7 @@ body {
   height: 100%;
   z-index: -1;
   overflow: hidden;
-}
+} */
 
 .background::before {
   content: "";
@@ -178,7 +171,7 @@ body {
   flex-direction: column;
   align-items: center;
 }
-.dashboard-container {
+/* .dashboard-container {
   position: relative;
   margin: 120px auto 0;
   max-width: 80vw;
@@ -191,7 +184,7 @@ body {
   padding: 2rem;
   align-items: stretch;
   justify-content: space-between;
-}
+} */
 
 /* Map Popup Styles */
 .leaflet-popup-content {

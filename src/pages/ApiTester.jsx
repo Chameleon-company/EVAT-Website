@@ -1,13 +1,16 @@
 // src/pages/ApiTester.jsx
 import { useState, useEffect } from 'react';
 import NavBar from "../components/NavBar";
-import Background from "../components/Background";
-import ChatBubble from "../components/ChatBubble";
 import ApiTesterHistory from "../components/api-tester/ApiTesterHistory";
 import ApiTesterSidebar from "../components/api-tester/ApiTesterSidebar";
 import ApiTesterResponse from "../components/api-tester/ApiTesterResponse";
 import ApiTesterForm from "../components/api-tester/ApiTesterForm";
+
 import "../styles/ApiTester.css";
+import '../styles/Buttons.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/Elements.css';
 
 const ApiTester = () => {
   // set the state
@@ -143,13 +146,11 @@ const ApiTester = () => {
   // if not in development mode and not forceing to show with ?devtools=1
   if (!isDev && !forceShow) {
     return (
-      <div className="dashboard-page">
+      <div>
         <NavBar />
-        <Background>
-          <div>
-            <h2>Nothing to see here</h2>
-          </div>
-        </Background>
+        {/* background */}
+        <div className="background-image" />
+        <h1 className='h1 text-center full-width'>My Dashboard</h1>
         <ChatBubble />
       </div>
     );
@@ -157,9 +158,11 @@ const ApiTester = () => {
 
   // return tester UI
   return (
-    <div className="dashboard-page">
+    <div>
       <NavBar />
-      <Background>
+      {/* background */}
+      <div className="background-image" />
+      <div className="container full-width">
         <div className="api-tester-content">
           {/* left panel */}
           <div className="api-tester-container">
@@ -191,9 +194,9 @@ const ApiTester = () => {
           {/* quick endpoints */}
           <ApiTesterSidebar onEndpointClick={handleEndpointClick} />
         </div>
-      </Background>
       <ChatBubble />
     </div>
+  </div>
   );
 };
 

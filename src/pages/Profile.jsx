@@ -7,11 +7,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import NavBar from '../components/NavBar';
-import Background from "../components/Background";
 import profileImage from '../assets/profileImage.png';
-import '../styles/Profile.css';
 import ChatBubble from "../components/ChatBubble";
 import BookingHistoryTable from "../components/BookingHistoryTable";
+
+import '../styles/Buttons.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/Elements.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -314,66 +317,61 @@ function Profile() {
   if (!user) return null;
 
   return (
-    <div className="dashboard-page">
+    <div>
       <NavBar />
-      <Background>
-        <div className="dashboard-left">
-          <h1>My Dashboard</h1>
-          <div className="dashboard-profile-image">
+      {/* background */}
+      <div className="background-image" />
+      {/* title */}
+      <h1 className='h1 text-center full-width'>My Dashboard</h1>
+      <div className="container full-width">
+        {/* left container - profile image*/}
+        <div className="container-left">
+          <div className="profile-image">
             <img src={profileImage} alt="Profile" />
           </div>
         </div>
-
-        <div className="dashboard-center">
+        {/* center container - options and details*/}
+        <div className="container-center">
           {activeTab === "dashboard" && (
             <>
-              <button className="dashboard-btn" onClick={() => setActiveTab("about")}>About Me</button>
-              <button className="dashboard-btn" onClick={() => setActiveTab("car")}>My Car</button>
-              <button className="dashboard-btn" onClick={() => setActiveTab("payment")}>Payment</button>
-              <button className="dashboard-btn" onClick={() => setActiveTab("history")}>Booking History</button>
+              <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("about")}>About Me</button>
+              <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("car")}>My Car</button>
+              <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("payment")}>Payment</button>
+              <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("history")}>Booking History</button>
             </>
           )}
 
           {activeTab === "about" && (
             <div>
-              <h3 className="section-title">About Me</h3>
-              <div className="section-body">
-                <p>
-                  First Name:{" "}
+              <h3>About Me</h3>
+              <div>
+                <p>First Name:{" "}
                   {editingAbout ? (
                     <input
                       type="text"
                       value={user.firstName || ""}
                       onChange={(e) => setUser({ ...user, firstName: e.target.value })}
                     />
-                  ) : (
-                    user.firstName
-                  )}
+                  ) : (user.firstName)}
                 </p>
-                <p>
-                  Last Name:{" "}
+                <p>Last Name:{" "}
                   {editingAbout ? (
                     <input
                       type="text"
                       value={user.lastName || ""}
                       onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                     />
-                  ) : (
-                    user.lastName
-                  )}
+                  ) : (user.lastName)}
                 </p>
                 <p>Email: {user.email || "N/A"}</p>
-                <p>
-                  Phone:{" "}
+                <p>Phone:{" "}
                   {editingAbout ? (
                     <input
                       type="text"
                       value={user.mobile || ""}
                       onChange={(e) => setUser({ ...user, mobile: e.target.value })}
                     />
-                  ) : (
-                    user.mobile || "N/A"
-                  )}
+                  ) : (user.mobile || "N/A")}
                 </p>
               </div>
             </div>
@@ -381,10 +379,9 @@ function Profile() {
 
           {activeTab === "car" && (
             <div>
-              <h3 className="section-title">My Car</h3>
-              <div className="section-body">
-                <p>
-                  Car Make:{" "}
+              <h3>My Car</h3>
+              <div>
+                <p>Car Make:{" "}
                   {editingCar ? (
                     <select
                       value={user.car?.make || "Select"}
@@ -398,13 +395,9 @@ function Profile() {
                         </option>
                       ))}
                     </select>
-                  ) : (
-                    user.car?.make || "N/A"
-                  )}
+                  ) : (user.car?.make || "N/A")}
                 </p>
-
-                <p>
-                  Car Model:{" "}
+                <p>Car Model:{" "}
                   {editingCar ? (
                     <select
                       value={user.car?.model || "Select"}
@@ -418,13 +411,9 @@ function Profile() {
                         </option>
                       ))}
                     </select>
-                  ) : (
-                    user.car?.model || "N/A"
-                  )}
+                  ) : (user.car?.model || "N/A")}
                 </p>
-
-                <p>
-                  Model Year:{" "}
+                <p>Model Year:{" "}
                   {editingCar ? (
                     <select
                       value={String(user.car?.year) || "Select"}
@@ -438,9 +427,7 @@ function Profile() {
                         </option>
                       ))}
                     </select>
-                  ) : (
-                    user.car?.year || "N/A"
-                  )}
+                  ) : (user.car?.year || "N/A")}
                 </p>
               </div>
             </div>
@@ -448,10 +435,9 @@ function Profile() {
 
           {activeTab === "payment" && (
             <div>
-              <h3 className="section-title">Payment Information</h3>
-              <div className="section-body">
-                <p>
-                  Card:{" "}
+              <h3>Payment Information</h3>
+              <div>
+                <p>Card:{" "}
                   {editingPayment ? (
                     <input
                       type="text"
@@ -465,15 +451,12 @@ function Profile() {
                       }}
                       placeholder="1234 5678 9012 3456"
                     />
-                  ) : (
-                    user.cardNumber
+                  ) : (user.cardNumber
                       ? "**** **** **** " + user.cardNumber.replace(/\s/g, '').slice(-4)
                       : "**** **** **** 1234"
                   )}
                 </p>
-
-                <p>
-                  Expiry Date:{" "}
+                <p>Expiry Date:{" "}
                   {editingPayment ? (
                     <input
                       type="text"
@@ -485,13 +468,9 @@ function Profile() {
                       }}
                       placeholder="MM/YY"
                     />
-                  ) : (
-                    user.expiryDate || "MM/YY"
-                  )}
+                  ) : (user.expiryDate || "MM/YY")}
                 </p>
-
-                <p>
-                  CVV:{" "}
+                <p>CVV:{" "}
                   {editingPayment ? (
                     <input
                       type="text"
@@ -502,13 +481,9 @@ function Profile() {
                       }}
                       placeholder="123"
                     />
-                  ) : (
-                    "***"
-                  )}
+                  ) : ("***")}
                 </p>
-
-                <p>
-                  Billing Address:{" "}
+                <p>Billing Address:{" "}
                   {editingPayment ? (
                     <input
                       type="text"
@@ -516,28 +491,25 @@ function Profile() {
                       onChange={(e) => setUser({ ...user, billingAddress: e.target.value })}
                       placeholder="N/A"
                     />
-                  ) : (
-                    user.billingAddress || "N/A"
-                  )}
+                  ) : (user.billingAddress || "N/A")}
                 </p>
               </div>
             </div>
           )}
 
           {activeTab === "history" && (
-            <div className="history-container">
-              <h3 className="section-title">Booking History</h3>
-              <div className="section-body">
+            <div>
+              <h3>Booking History</h3>
+              <div>
                 <BookingHistoryTable />
               </div>
             </div>
           )}
         </div>
-
-        {/* RIGHT SECTION */}
-        <div className="dashboard-right">
+        {/* right container - buttons */}
+        <div className="container-right">
           {activeTab === "dashboard" && (
-            <button className="button" onClick={handleSignOut}>
+            <button className="btn btn-signout two-hundred-width uppercase" onClick={handleSignOut}>
               SIGN OUT
             </button>
           )}
@@ -545,7 +517,7 @@ function Profile() {
           {activeTab === "about" && (
             <>
               <button
-                className="button"
+                className="btn btn-primary two-hundred-width uppercase"
                 onClick={() => {
                   if (editingAbout) {
                     handleSaveAbout();
@@ -557,11 +529,11 @@ function Profile() {
                 {editingAbout ? "SAVE" : "EDIT"}
               </button>
               {editingAbout && (
-                <button className="button cancel-button" onClick={() => setEditingAbout(false)}>
+                <button className="btn btn-cancel two-hundred-width uppercase" onClick={() => setEditingAbout(false)}>
                   CANCEL
                 </button>
               )}
-              <button className="back-button" onClick={() => setActiveTab("dashboard")}>
+              <button className="btn btn-back two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
                 BACK
               </button>
             </>
@@ -570,7 +542,7 @@ function Profile() {
           {activeTab === "car" && (
             <>
               <button
-                className="button"
+                className="btn btn-primary two-hundred-width uppercase"
                 onClick={() => {
                   if (editingCar) {
                     handleSaveCar();
@@ -579,9 +551,9 @@ function Profile() {
                   }
                 }}
               >
-                {editingCar ? "SAVE" : "EDIT"}
+                {editingCar ? "save" : "edit"}
               </button>
-              <button className="back-button" onClick={() => setActiveTab("dashboard")}>
+              <button className="btn btn-back two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
                 BACK
               </button>
             </>
@@ -590,7 +562,7 @@ function Profile() {
           {activeTab === "payment" && (
             <>
               <button
-                className="button"
+                className="btn btn-primary two-hundred-width uppercase"
                 onClick={() => {
                   if (editingPayment) {
                     handleSavePayment();
@@ -601,19 +573,19 @@ function Profile() {
               >
                 {editingPayment ? "SAVE" : "EDIT"}
               </button>
-              <button className="back-button" onClick={() => setActiveTab("dashboard")}>
+              <button className="btn btn-back two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
                 BACK
               </button>
             </>
           )}
 
           {activeTab === "history" && (
-            <button className="back-button" onClick={() => setActiveTab("dashboard")}>
+            <button className="btn btn-back two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
               BACK
             </button>
           )}
-        </div>
-      </Background>
+        </div> 
+      </div>
       <ChatBubble />
     </div>
   );
