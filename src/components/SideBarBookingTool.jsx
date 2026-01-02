@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "../styles/SideBarBookingTool.css";
 import { toast } from "react-toastify";
+
+import "../styles/SideBarBookingTool.css";
 
 const API_URL = import.meta.env.VITE_API_URL
 const BOOKING_ENDPOINT = `${API_URL}/bookings`;
@@ -178,66 +179,73 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
   };
 
   return (
-    <div className="sidebar-booking">
-      {/* date picker */}
-      <label>Date</label>
-      <DatePicker
-        selected={selectedDate}
-        onChange={(d) => setSelectedDate(d)}
-        dateFormat="yyyy-MM-dd"
-        minDate={new Date()}
-        placeholderText="Pick a date"
-        className="booking-datepicker"
-      />
-
-      {/* time picker */}
-      <label>Time</label>
-      <DatePicker
-        selected={selectedTime}
-        onChange={(t) => setSelectedTime(t)}
-        showTimeSelect
-        showTimeSelectOnly
-        timeIntervals={15}
-        timeCaption="Time"
-        dateFormat="h:mm aa"
-        placeholderText="Pick a time"
-        className="booking-datepicker"
-      />
-      
-      {/* warning if selected date and time is in the past */}
-      {selectedDate && selectedTime && isPastDateTime() && (
-        <div className="error-message">
-          Selected time is in the past
-        </div>
-      )}
-
-      {/* notes text area - does not accept characters past the limit */}
-      <label>
-        Notes (optional) – {notesRemaining} characters remaining
-      </label>
-      <textarea 
-        value={notes} 
-        onChange={(e) => setNotes(e.target.value.slice(0, NOTES_MAX_LENGTH))} // cut the string at the max length
-        placeholder="Any notes..." 
-        rows={3}
-      />
-
-      {/* recent booking warning */}
-      {recentBookingWarning && (
-        <div className="error-message">
-            Please wait a few seconds before booking again.
-        </div>
-      )}
+    <div>
+      <div className="input-and-label-same-line">
+        {/* date picker */}
+        <label>Date</label>
+        <DatePicker
+          className="date-picker"
+          popperPlacement="right"
+          selected={selectedDate}
+          onChange={(d) => setSelectedDate(d)}
+          dateFormat="yyyy-MM-dd"
+          minDate={new Date()}
+          placeholderText="YYYY-MM-DD"
+        />
+      </div>
+      <div className="input-and-label-same-line">
+        {/* time picker */}
+        <label>Time</label>
+        <DatePicker
+          popperPlacement="right"
+          selected={selectedTime}
+          onChange={(t) => setSelectedTime(t)}
+          showTimeSelect
+          showTimeSelectOnly
+          timeIntervals={15}
+          timeCaption="Time"
+          dateFormat="hh:mm aa"
+          placeholderText="hh:mm"
+        />
+      </div>
+      <div>
+        {/* warning if selected date and time is in the past */}
+        {selectedDate && selectedTime && isPastDateTime() && (
+          <div className="validation-error">
+            Selected time is in the past
+          </div>
+        )}
+      </div>
+      <div>
+        {/* notes text area - does not accept characters past the limit */}
+        <label>
+          Notes (optional) - <span className="text-tiny">{notesRemaining} characters remaining</span>
+        </label>
+        <textarea 
+          className="full-width"
+          value={notes} 
+          onChange={(e) => setNotes(e.target.value.slice(0, NOTES_MAX_LENGTH))} // cut the string at the max length
+          placeholder="Any notes..." 
+          rows={3}
+        />
+      </div>
 
       {/* agree to booking terms checkbox */}
       <label className="checkbox">
         <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
-        <span>I agree to booking terms</span>
+        <span className="text-small font-italic">I agree to booking terms</span>
       </label>
+
+      {/* recent booking warning */}
+      {recentBookingWarning && (
+        <div className="validation-error">
+            Please wait a few seconds before booking again.
+        </div>
+      )}
 
       {/* confirm booking button */}
       <button
-        className="book-button"
+        className="btn btn-primary uppercase btn-full btn-small"
         onClick={handleConfirm}
         disabled={!selectedDate || !selectedTime || !agree || submitting || isPastDateTime()}
       >

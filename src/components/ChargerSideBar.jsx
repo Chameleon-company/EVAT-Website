@@ -375,7 +375,7 @@ export default function ChargerSideBar({ station, onClose }) {
         
         {/* Booking Tool */}
         <div className="sidebar-linebreak" />
-        <h6>Book this Charger</h6>
+        <h6>Book A Charging Session</h6>
         <SideBarBookingTool stationName={station?.operator || "Unknown"} />
         
         {/* EV Cost Estimator */}

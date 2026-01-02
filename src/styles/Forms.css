@@ -204,3 +204,23 @@ input.form-full-width {
   display: flex;
   justify-content: space-between;
 }
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  display: inline-block !important;
+  width: 100%;   
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+  text-align: right;
+  box-sizing: border-box;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  /* font-size: 0.85rem; */
+}
