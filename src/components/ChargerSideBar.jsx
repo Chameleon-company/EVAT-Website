@@ -1,10 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Star, Heart, MessageCircle, X, ChevronDown, ChevronUp } from 'lucide-react';
-import '../styles/ChargerSideBar.css';
 import { FavouritesContext } from '../context/FavouritesContext';
 import SideBarBookingTool from '../components/SideBarBookingTool';
 import { UserContext } from '../context/user';
 import { submitChargerReview, getChargerReviews, getChargerReviewStats, checkUserReviewStatus, updateChargerReview } from '../services/chargerReviewService';
+
+import '../styles/Buttons.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/Elements.css';
+import '../styles/Sidebar.css';
+import '../styles/Validation.css';
 
 export default function ChargerSideBar({ station, onClose }) {
   const [kWh, setKWh] = useState('');
@@ -176,138 +182,72 @@ export default function ChargerSideBar({ station, onClose }) {
   if (!station) return null;
 
   return (
-    <div className="sidebar-container">
-      <div className="sidebar-header">
-        <button className="close-btn" onClick={onClose}>
+    <div className="sidebar">
+      <div>
+        <button className="btn btn-danger sidebar-btn-close" onClick={onClose}>
           <X size={20} />
         </button>
       </div>
 
       <div className="sidebar-content">
         {/* Station Header */}
-        <div className="station-header">
-          <h2 className="station-name">{station.operator || 'Charging Station'}</h2>
-          <div className="station-rating">
-            <div className="rating-display">
-              <span className="rating-number">{reviewStats.averageRating.toFixed(1)}</span>
-              <div className="stars-display">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    size={16}
-                    fill={star <= Math.round(reviewStats.averageRating) ? '#fbbf24' : '#d1d5db'}
-                    color={star <= Math.round(reviewStats.averageRating) ? '#fbbf24' : '#d1d5db'}
-                  />
-                ))}
-              </div>
-              <span
-                className="review-count clickable-text"
-                onClick={() => setShowReviews(!showReviews)}
-              >
-                ({reviewStats.totalReviews} reviews)
-              </span>
+        <div>
+          <h4 className='h4 text-center'>{station.operator || 'Charging Station'}</h4>
+          <div className="rating-display">
+            <span>{reviewStats.averageRating.toFixed(1)}</span>
+            <div>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Star
+                  key={star}
+                  className='middle'
+                  size={16}
+                  fill={star <= Math.round(reviewStats.averageRating) ? '#fbbf24' : '#d1d5db'}
+                  color={star <= Math.round(reviewStats.averageRating) ? '#fbbf24' : '#d1d5db'}
+                />
+              ))}
             </div>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="sidebar-section">
-          <div className="action-buttons">
-            <button
-              onClick={async () => {
-                if (!user?.token) {
-                  alert('Please sign in to save favorites.');
-                  return;
-                }
-                try {
-                  await toggleFavourite(station);
-                  setIsFav((prev) => !prev);
-                  console.log('Favorite toggled successfully');
-
-                  // Show success message
-                  if (!isFav) {
-                    alert('Station saved to favorites!');
-                  } else {
-                    alert('Station removed from favorites!');
-                  }
-                } catch (error) {
-                  console.error('Error toggling favorite:', error);
-                  alert('Failed to save favorite. Please try again.');
-                }
-              }}
-              className={`action-btn ${isFav ? 'favourite-active' : 'favourite-btn'}`}
+            <span
+              className="clickable-text middle"
+              onClick={() => setShowReviews(!showReviews)}
             >
-              <Heart size={18} fill={isFav ? '#ef4444' : 'none'} color={isFav ? '#ef4444' : '#374151'} />
-              <span>{isFav ? 'Saved' : 'Save'}</span>
-            </button>
-
-            <button
-              onClick={() => {
-                if (!user?.token) {
-                  alert('Please sign in to review this charger.');
-                  return;
-                }
-                // If user has reviewed, populate form with existing review data
-                if (userHasReviewed && existingUserReview) {
-                  setUserReview({
-                    rating: existingUserReview.rating,
-                    comment: existingUserReview.comment
-                  });
-                } else {
-                  // Reset form for new review
-                  setUserReview({ rating: 0, comment: '' });
-                }
-                setShowReviewForm(!showReviewForm);
-              }}
-              className={`action-btn review-btn ${userHasReviewed ? 'reviewed' : ''}`}
-            >
-              <Star size={18} fill={userHasReviewed ? '#fbbf24' : 'none'} color={userHasReviewed ? '#fbbf24' : '#374151'} />
-              <span>{userHasReviewed ? 'Update Review' : 'Review'}</span>
-            </button>
+              ({reviewStats.totalReviews} reviews)
+            </span>
           </div>
         </div>
 
-        {/* Station Details */}
-        <div className="sidebar-section">
-          <div className="detail-item">
-            <span className="detail-label">Type:</span>
-            <span className="detail-value">{station.connection_type || 'N/A'}</span>
-          </div>
-          <div className="detail-item">
-            <span className="detail-label">Power:</span>
-            <span className="detail-value">{station.power_output || 'N/A'} kW</span>
-          </div>
-          <div className="detail-item">
-            <span className="detail-label">Cost:</span>
-            <span className="detail-value">{station.cost || 'N/A'}</span>
-          </div>
-          <div className="detail-item">
-            <span className="detail-label">Access:</span>
-            <span className="detail-value">{station.access_key_required === 'true' ? 'Restricted' : 'Open'}</span>
-          </div>
-        </div>
+        {/* save favourite button */}
+        <div className="sidebar-linebreak" />
+        <div className="action-buttons">
+          <button
+            onClick={async () => {
+              if (!user?.token) {
+                alert('Please sign in to save favorites.');
+                return;
+              }
+              try {
+                await toggleFavourite(station);
+                setIsFav((prev) => !prev);
+                console.log('Favorite toggled successfully');
 
-        {/* <div className="sidebar-section"> */}
-        {/* Rating Stars */}
-        {/* <h4 style={{ marginBottom: '6px' }}>⭐ Rate this charger</h4>
-          <div style={{ marginBottom: '12px' }}>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <span
-                key={star}
-                style={{
-                  cursor: 'pointer',
-                  fontSize: '1.5rem',
-                  color: (hoverRating || rating) >= star ? '#f39c12' : '#ccc'
-                }}
-                onClick={() => setRating(star)}
-                onMouseEnter={() => setHoverRating(star)}
-                onMouseLeave={() => setHoverRating(0)}
-              >★</span>
-            ))}
-          </div> */}
-
-        {/* Full Review Button */}
-        {/* <button
+                // Show success message
+                // if (!isFav) {
+                //   alert('Station saved to favorites!');
+                // } else {
+                //   alert('Station removed from favorites!');
+                // }
+              } catch (error) {
+                console.error('Error toggling favorite:', error);
+                //alert('Failed to save favorite. Please try again.');
+              }
+            }}
+            className={`btn sidebar-btn btn-small ${isFav ? 'favourite' : ''}`}
+          >
+            <Heart className={`heart-${isFav ? 'full' : 'empty'}`} size={18} />
+            <span>{isFav ? 'Saved' : 'Save'}</span>
+          </button>
+          
+          {/* review button */}
+          <button
             onClick={() => {
               if (!user?.token) {
                 alert('Please sign in to review this charger.');
@@ -325,74 +265,91 @@ export default function ChargerSideBar({ station, onClose }) {
               }
               setShowReviewForm(!showReviewForm);
             }}
-            className={`action-btn review-btn ${userHasReviewed ? 'reviewed' : ''}`}
+            className={`btn sidebar-btn btn-small ${userHasReviewed ? 'reviewed' : ''}`}
           >
-            <Star size={18} fill={userHasReviewed ? '#fbbf24' : 'none'} color={userHasReviewed ? '#fbbf24' : '#374151'} />
-            <span>{userHasReviewed ? 'Update Review' : 'Review'}</span>
+            <Star className={`star-${userHasReviewed ? 'full' : 'empty'}`} size={18} />
+            <span>{userHasReviewed ? 'Edit Review' : 'Review'}</span>
           </button>
-        </div> */}
+        </div>
+
+        {/* Station Details */}
+        <div className="sidebar-linebreak" />
+        <div className="sidebar-detail-row">
+          <span className="sidebar-detail-label">Type:</span>
+          <span className="sidebar-detail-value">{station.connection_type || 'N/A'}</span>
+        </div>
+        <div className="sidebar-detail-row">
+          <span className="sidebar-detail-label">Power:</span>
+          <span className="sidebar-detail-value">{station.power_output || 'N/A'} kW</span>
+        </div>
+        <div className="sidebar-detail-row">
+          <span className="sidebar-detail-label">Cost:</span>
+          <span className="sidebar-detail-value">{station.cost || 'N/A'}</span>
+        </div>
+        <div className="sidebar-detail-row">
+          <span className="sidebar-detail-label">Access:</span>
+          <span className="sidebar-detail-value">{station.access_key_required === 'true' ? 'Restricted' : 'Open'}</span>
+        </div>
 
         {/* Review Form */}
         {showReviewForm && (
-          <div className="sidebar-section">
-            <div className="review-form">
-              <h4>{userHasReviewed ? 'Update your review' : 'Rate this charger'}</h4>
-              <div className="rating-input">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Star
-                    key={star}
-                    size={24}
-                    className="rating-star"
-                    fill={star <= userReview.rating ? '#fbbf24' : '#d1d5db'}
-                    color={star <= userReview.rating ? '#fbbf24' : '#d1d5db'}
-                    onClick={() => setUserReview(prev => ({ ...prev, rating: star }))}
-                  />
-                ))}
-              </div>
-              <textarea
-                placeholder={userHasReviewed ? "Update your review..." : "Write your review..."}
-                value={userReview.comment}
-                onChange={(e) => setUserReview(prev => ({ ...prev, comment: e.target.value }))}
-                className="review-textarea"
-              />
-              <button
-                onClick={handleSubmitReview}
-                disabled={isSubmittingReview || !userReview.rating}
-                className="submit-review-btn"
-              >
-                {isSubmittingReview
-                  ? (userHasReviewed ? 'Updating...' : 'Submitting...')
-                  : (userHasReviewed ? 'Update Review' : 'Submit Review')
-                }
-              </button>
+          <div>
+            <div className="sidebar-linebreak" />
+            <h6>{userHasReviewed ? 'Update your review' : 'Rate this charger'}</h6>
+            <div className="rating-input">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Star
+                  key={star}
+                  size={24}
+                  className="rating-star"
+                  fill={star <= userReview.rating ? '#fbbf24' : '#d1d5db'}
+                  color={star <= userReview.rating ? '#fbbf24' : '#d1d5db'}
+                  onClick={() => setUserReview(prev => ({ ...prev, rating: star }))}
+                />
+              ))}
             </div>
+            <textarea
+              className="full-width"
+              placeholder={userHasReviewed ? "Update your review..." : "Write your review..."}
+              value={userReview.comment}
+              onChange={(e) => setUserReview(prev => ({ ...prev, comment: e.target.value }))}
+            />
+            <button
+              className="btn btn-primary btn-small full-width uppercase"
+              onClick={handleSubmitReview}
+              disabled={isSubmittingReview || !userReview.rating}
+            >
+              {isSubmittingReview
+                ? (userHasReviewed ? 'Updating...' : 'Submitting...')
+                : (userHasReviewed ? 'Update Review' : 'Submit Review')
+              }
+            </button>
           </div>
         )}
 
         {/* Reviews Section */}
-        {/* <div className="reviews-header" onClick={() => setShowReviews(!showReviews)}>
-            <h4>Reviews</h4>
-            <span className="review-count-badge">{reviews.length}</span>
-            {showReviews ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-          </div> */}
         {showReviews && (
-          <div className="sidebar-section">
-            <div className="section-header">See all reviews</div>
-            <div className="reviews-list">
+          <div>
+            <div className="sidebar-linebreak" />
+            <h6>Reviews</h6>
+            <div>
               {isLoading ? (
-                <div className="loading-reviews">Loading reviews...</div>
+                // loading reviews
+                <div className="font-italic text-small">Loading reviews...</div>
               ) : reviews.length === 0 ? (
-                <div className="no-reviews">No reviews yet. Be the first to review this charger!</div>
+                // no reviews
+                <div className="font-italic text-small">No reviews yet. Be the first to review this charger!</div>
               ) : (
+                // show reviews
                 reviews.map((review) => (
                   <div key={review.id} className="review-item">
-                    <div className="review-header">
-                      <div className="reviewer-info">
-                        <div className="reviewer-avatar">
-                          {review.userAvatar || review.userName?.charAt(0) || 'U'}
-                        </div>
-                        <div className="reviewer-details">
-                          <span className="reviewer-name">{review.userName || 'Anonymous'}</span>
+                    <div className="reviewer">
+                      <div className="reviewer-avatar uppercase">
+                        {review.userAvatar || review.userName?.charAt(0) || 'U'}
+                      </div>
+                      <div className="reviewer-details">
+                        <div className='reviewer-name'>
+                          <span className="text-small">{review.userName || 'Anonymous'}</span>
                           <div className="review-rating">
                             {[1, 2, 3, 4, 5].map((star) => (
                               <Star
@@ -404,10 +361,10 @@ export default function ChargerSideBar({ station, onClose }) {
                             ))}
                           </div>
                         </div>
+                        <div className="review-time text-tiny">{formatDate(review.timeAgo || review.createdAt)}</div>
                       </div>
-                      <span className="review-date">{formatDate(review.timeAgo || review.createdAt)}</span>
                     </div>
-                    <p className="review-comment">{review.comment}</p>
+                    <p className="review-comment text-small font-italic">{review.comment}</p>
                   </div>
                 ))
               )}
@@ -417,52 +374,61 @@ export default function ChargerSideBar({ station, onClose }) {
 
         
         {/* Booking Tool */}
-        <div className="sidebar-section">
-          <div className="section-header">Book this Charger</div>
-          <SideBarBookingTool stationName={station?.operator || "Unknown"} />
-          
-          {/* EV Cost Estimator */}
-          <div className="sidebar-section">
-            <div className="section-header">EV Cost Calculator</div>
-            <div className="estimator-inputs">
-              <input
-                type="number"
-                className="estimator-input"
-                placeholder="Avg. kms you want to drive"
-                value={kms}
-                onChange={e => setKms(e.target.value)}
-                min="1"
-              />
-              <input
-                type="number"
-                className="estimator-input"
-                placeholder="Car Efficiency (km/kWh)"
-                value={carEfficiency}
-                onChange={e => setCarEfficiency(e.target.value)}
-                min="0.1"
-                step="0.1"
-              />
-              <input
-                type="number"
-                className="estimator-input"
-                placeholder="Electricity Cost ($ per kWh)"
-                value={evPricePerKWh}
-                onChange={e => setEvPricePerKWh(e.target.value)}
-                min="0.01"
-                step="0.01"
-              />
-            </div>
-            {kms && carEfficiency && evPricePerKWh && (
-              <div className="estimated-cost">
-                Estimated Electric Cost for the usage: <strong>
-                  ${((parseFloat(kms) / parseFloat(carEfficiency)) * parseFloat(evPricePerKWh)).toFixed(2)}
-                </strong>
-              </div>
-            )}
+        <div className="sidebar-linebreak" />
+        <h6>Book this Charger</h6>
+        <SideBarBookingTool stationName={station?.operator || "Unknown"} />
+        
+        {/* EV Cost Estimator */}
+        <div className="sidebar-linebreak" />
+        <h6>EV Cost Calculator</h6>
+        <div>
+          <div className='input-and-label-same-line'>
+            <label>Avg. km</label>
+            <input
+              className="input"
+              type="number"
+              placeholder="km to drive"
+              value={kms}
+              onChange={e => setKms(e.target.value)}
+              min="1"
+            />
           </div>
-  
-
+          <div className='input-and-label-same-line'>
+            <label>Car Efficiency</label>
+            <input
+              className="input"
+              type="number"
+              placeholder="km/kWh"
+              value={carEfficiency}
+              onChange={e => setCarEfficiency(e.target.value)}
+              min="0.1"
+              step="0.1"
+            />
+          </div>
+          <div className='input-and-label-same-line'>
+            <label>Electricity Cost</label>
+            <input
+              className="input"
+              type="number"
+              placeholder="$ per kWh"
+              value={evPricePerKWh}
+              onChange={e => setEvPricePerKWh(e.target.value)}
+              min="0.01"
+              step="0.01"
+            />
+          </div>
         </div>
+        {/* cost form result */}
+        {kms && carEfficiency && evPricePerKWh ? (
+          <div className="estimated-display font-bold" placeholder='Fill out the form to get a result'>
+            Estimated Electric Cost for the usage: 
+            ${((parseFloat(kms) / parseFloat(carEfficiency)) * parseFloat(evPricePerKWh)).toFixed(2)}
+          </div>
+        ) : (
+          <div className="estimated-display font-italic">
+            Fill out the form to get a result
+          </div>
+        )}
       </div>
     </div>
   );

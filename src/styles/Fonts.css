@@ -25,6 +25,8 @@
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
+
+  --link-color: #2dff7a;
 }
 
 /* Base document typography */
@@ -91,6 +93,7 @@ small, .text-small {
 .font-semibold   { font-weight: var(--weight-semibold); }
 .font-medium     { font-weight: var(--weight-medium); }
 .font-regular    { font-weight: var(--weight-regular); }
+.font-italic          { font-style: italic;}
 
 /* Alignment */
 .text-center     { text-align: center; }
@@ -100,3 +103,12 @@ small, .text-small {
 /* Case */
 .uppercase       { text-transform: uppercase; letter-spacing: 0.06em; }
 .capitalize      { text-transform: capitalize; }
+
+.clickable-text {
+  cursor: pointer;
+  font-weight: var(--weight-semibold);
+  color: var(--link-color);
+}
+.review-count.clickable-text:hover {
+  text-decoration: underline;
+}

@@ -278,7 +278,7 @@ export default function Map() {
   return (
     <div className={`map-page ${isDark ? "dark" : ""}`}>
       <NavBar />
-      <div style={{ position: 'relative', height: '100vh', width: '100%' }}>
+      <div style={{ position: 'relative', height: '90vh', width: '100vw', overflowX: 'hidden' }}>
         <button
           className="filter-toggle-button"
           onClick={() => setIsFilterOpen(true)}

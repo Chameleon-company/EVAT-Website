@@ -31,7 +31,6 @@ function NavBar() {
                         className={`btn btn-navbar ${isActive('/map') ? 'active' : ''}`} 
                         onClick={() => navigate('/map')}
                     >Map</button>
-
                     <button 
                         className={`btn btn-navbar ${isActive('/favourites') ? 'active' : ''}`} 
                         onClick={() => navigate('/favourites')}
@@ -40,6 +39,14 @@ function NavBar() {
                         className={`btn btn-navbar ${isActive('/game') ? 'active' : ''}`} 
                         onClick={() => navigate('/game')}
                     >Rewards</button>
+                    <button 
+                        className={`btn btn-navbar ${isActive('/cost') ? 'active' : ''}`} 
+                        onClick={() => navigate('/cost')}
+                    >Vehicle Analysis</button>
+                    <button 
+                        className={`btn btn-navbar ${isActive('/feedback') ? 'active' : ''}`} 
+                        onClick={() => navigate('/feedback')}
+                    >Feedback</button>
                     <button 
                         className={`btn btn-navbar ${isActive('/support') ? 'active' : ''}`} 
                         onClick={() => navigate('/support')}
