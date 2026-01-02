@@ -262,3 +262,34 @@
 .btn-chat-bubble:hover {
   transform: scale(1.1);
 }
+
+.btn-filter {
+  position: fixed;
+  top: 80px; 
+  right: 12px;
+  z-index: 1000;
+}
+
+.btn-dark-mode {
+  position: fixed;
+  top: 12.5rem; 
+  right: 0.5rem;
+  z-index: 900;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-location {
+  position: fixed;
+  top: 8.5rem;
+  right: 0.5rem;
+  z-index: 900;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+}

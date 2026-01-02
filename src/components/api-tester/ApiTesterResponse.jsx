@@ -9,7 +9,7 @@ const ApiTesterResponse = ({ response, error }) => {
   const isSuccess = response.status >= 200 && response.status < 300;
 
   return (
-    <div className="container auto-width force-height">
+    <div className="container-split auto-width force-height">
       {/* response status */}
       <h4 className={`response-status ${isSuccess ? 'success' : 'error'}`}>
         Response: {response.status} {response.statusText}

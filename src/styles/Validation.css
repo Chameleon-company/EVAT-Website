@@ -10,6 +10,10 @@
   --success-bg: #d4edda;
   --success-border: 1px solid #155724;
 
+  --message-text: #000000;
+  --message-bg: #ffffff;
+  --message-border: 1px solid #000000;
+
   /* Spacing & sizing */
   --validation-radius: 8px;
   --validation-padding: 8px;
@@ -43,5 +47,19 @@
   margin-top: var(--validation-margin);
   padding: var(--validation-padding);
   gap:var(--validation-gap);
+}
+
+.validation-message {
+  background-color: var(--message-bg);
+  color: var(--message-text);
+  border: var(--message-border);
+  border-radius: var(--validation-radius);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--validation-margin);
+  margin-top:var(--validation-margin);
+  padding: var(--validation-padding);
+  gap: var(--validation-gap);
 }
 

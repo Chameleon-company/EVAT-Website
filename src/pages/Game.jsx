@@ -198,7 +198,7 @@ function Game() {
           ) : error ? (
             <p className="error-message">{error}</p>
           ) : gameProfile ? (
-            <div className="container">
+            <div className="container-split">
               <p>🎯 <strong>Points:</strong> {gameProfile.gamification_profile?.points_balance}</p>
               <p>🔥 <strong>Streak:</strong> {gameProfile.engagement_metrics?.current_app_login_streak} day(s)</p>
               <p>🏆 <strong>Longest Streak:</strong> {gameProfile.engagement_metrics?.longest_app_login_streak} day(s)</p>

@@ -18,8 +18,8 @@ export default function ContactSupport() {
       {/* background */}
       <div className="background-image" />
       {/* title */}
-      <h1 className='h1 text-center auto-width'>Contact Support</h1>
-      <div className="container center">
+      {/* <h1 className='h1 text-center auto-width'>Contact Support</h1> */}
+      <div className="container-hidden center">
         {/* cards */}
         <div className="center">
           <div className="card-grid">

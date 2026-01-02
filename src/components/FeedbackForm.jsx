@@ -47,7 +47,7 @@ function FeedbackForm() {
   };
 
   return (
-    <div className="container center">
+    <div className="container-split center">
       <h2 className="center">Send Feedback</h2>
       <div>
         <form className="form-section" onSubmit={handleSubmit}>

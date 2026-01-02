@@ -33,7 +33,7 @@ const ApiTesterForm = ({
   };
 
   return (
-    <>
+    <div>
       <div>
         {/* HTTP method selector (dropdown box) */}
         <div>
@@ -113,7 +113,6 @@ const ApiTesterForm = ({
           />
         </div>
       )}
-
       {/* send request button */}
       <button
         className="btn btn-primary btn-full"
@@ -121,7 +120,7 @@ const ApiTesterForm = ({
       >
         {loading ? 'Sending...' : 'Send Request'}
       </button>
-    </>
+    </div>
   );
 };
 

@@ -6,6 +6,7 @@ import ApiTesterSidebar from "../components/api-tester/ApiTesterSidebar";
 import ApiTesterResponse from "../components/api-tester/ApiTesterResponse";
 import ApiTesterForm from "../components/api-tester/ApiTesterForm";
 
+import '../styles/API.css';
 import '../styles/Buttons.css';
 import '../styles/Elements.css';
 import '../styles/Fonts.css';
@@ -153,7 +154,7 @@ const ApiTester = () => {
         <NavBar />
         {/* background */}
         <div className="background-image" />
-        <h1 className='h1 text-center auto-width'>Nothing to see here!</h1>
+        <h4 className='h4 text-center auto-width'>Nothing to see here!</h4>
       </div>
     );
   }
@@ -162,11 +163,11 @@ const ApiTester = () => {
   return (
     <div>
       <NavBar />
-      <h1 className='h1 text-center auto-width'>Internal API Tester</h1>
-      <div className="container auto-width">
+      <h3 className='h3 text-center auto-width'>Internal API Tester</h3>
+      <div className="container-split auto-width">
         <div className="grid-content">
           {/* left panel */}
-          <div>
+          <div >
             {/* request history */}
             <ApiTesterHistory history={history} onLoad={loadFromHistory} onClear={clearHistory} />
 

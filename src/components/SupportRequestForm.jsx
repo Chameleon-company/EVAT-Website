@@ -105,9 +105,8 @@ export default function SupportRequestForm() {
   };
 
   return (
-    <div className="container center auto-width">
+    <div className="container-split center auto-width">
       <h2 className="center">Submit a Request</h2>
-
       <form onSubmit={handleSubmit} className="form-section">
         <label className='form-label required'>Name</label>
         <input
@@ -154,7 +153,7 @@ export default function SupportRequestForm() {
           onChange={handleChange}
           required
         />
-
+        <div className="spacer" />
         <button 
           className="btn btn-primary"
           type="submit" 
