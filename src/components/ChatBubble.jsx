@@ -6,11 +6,6 @@
 import React from "react";
 import { MessageCircle } from "lucide-react";
 
-import '../styles/Buttons.css';
-import '../styles/Fonts.css';
-import '../styles/Forms.css';
-import '../styles/Elements.css';
-
 function ChatBubble({ url = "https://example.com" }) {
   const handleClick = () => {
     window.open(url, "_blank"); // open in new tab

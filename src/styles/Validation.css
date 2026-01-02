@@ -1,11 +1,47 @@
 /* validation.css */
 
-.validation-error {
-  margin-top: 5px;
-  padding: 5px;
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-  border-radius: 8px;
-  text-align: center;
+:root {
+  /* Colors */
+  --error-text: #721c24;
+  --error-bg: #f8d7da;
+  --error-border: 1px solid #721c24;
+
+  --success-text: #155724;
+  --success-bg: #d4edda;
+  --success-border: 1px solid #155724;
+
+  /* Spacing & sizing */
+  --validation-radius: 8px;
+  --validation-padding: 8px;
+  --validation-margin: 8px;
+  --validation-gap: 8px;
 }
+
+.validation-error {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+  border: var(--error-border);
+  border-radius: var(--validation-radius);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--validation-margin);
+  margin-top:var(--validation-margin);
+  padding: var(--validation-padding);
+  gap: var(--validation-gap);
+}
+
+.validation-success {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border: var(--success-border);
+  border-radius: var(--validation-radius);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--validation-margin);
+  margin-top: var(--validation-margin);
+  padding: var(--validation-padding);
+  gap:var(--validation-gap);
+}
+

@@ -5,13 +5,6 @@ import SideBarBookingTool from '../components/SideBarBookingTool';
 import { UserContext } from '../context/user';
 import { submitChargerReview, getChargerReviews, getChargerReviewStats, checkUserReviewStatus, updateChargerReview } from '../services/chargerReviewService';
 
-import '../styles/Buttons.css';
-import '../styles/Fonts.css';
-import '../styles/Forms.css';
-import '../styles/Elements.css';
-import '../styles/Sidebar.css';
-import '../styles/Validation.css';
-
 export default function ChargerSideBar({ station, onClose }) {
   const [kWh, setKWh] = useState('');
   const [pricePerKWh, setPricePerKWh] = useState('');

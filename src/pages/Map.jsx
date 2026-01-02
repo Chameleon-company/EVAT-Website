@@ -18,9 +18,13 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import '../styles/SmartFilter.css';
 import '../styles/Map.css';
 import '../styles/Buttons.css';
+import '../styles/Elements.css';
 import '../styles/Fonts.css';
 import '../styles/Forms.css';
-import '../styles/Elements.css';
+import '../styles/NavBar.css';
+import '../styles/Sidebar.css';
+import '../styles/Tables.css';
+import '../styles/Validation.css';
 
 // Configure default Leaflet marker icons
 delete L.Icon.Default.prototype._getIconUrl;

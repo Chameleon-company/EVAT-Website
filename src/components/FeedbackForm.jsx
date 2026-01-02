@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
-import FormInput from './FormInput';
 import { submitFeedback } from '../services/feedbackService';
-import '../styles/FeedbackForm.css';
 
 function FeedbackForm() {
   const [formData, setFormData] = useState({
@@ -49,67 +47,63 @@ function FeedbackForm() {
   };
 
   return (
-    <div className="feedback-container">
-      <div className="feedback-overlay">
-        <form className="feedback-form" onSubmit={handleSubmit}>
-          <h2 className="feedback-title">FEEDBACK FORM</h2>
+    <div className="container center">
+      <h2 className="center">Send Feedback</h2>
+      <div>
+        <form className="form-section" onSubmit={handleSubmit}>
           
           {/* Status Messages */}
           {submitStatus === 'success' && (
-            <div className="status-message success-message">
+            <div className="validation-success">
               <CheckCircle size={20} />
               <span>Thank you for your feedback! We'll review it and get back to you if needed.</span>
             </div>
           )}
           
           {submitStatus === 'error' && (
-            <div className="status-message error-message">
+            <div className="validation-error">
               <AlertCircle size={20} />
               <span>{errorMessage}</span>
             </div>
           )}
-          
-          <div className="form-group">
-            <label htmlFor="name">Name</label>
-            <FormInput
-              name="name"
-              type="text"
-              value={formData.name}
+        
+          <label className='form-label required' htmlFor="name">Name</label>
+          <input
+            className="input form-full-width"
+            name="name"
+            type="text"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Enter your name"
+          />
+
+          <label className='form-label required' htmlFor="email">E-Mail</label>
+          <div className="email-input-container">
+            <Mail className="email-icon" size={16} />
+            <input
+              className="input form-full-width"
+              name="email"
+              type="email"
+              value={formData.email}
               onChange={handleChange}
-              placeholder="Enter your name"
+              placeholder="Enter your email"
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="email">EMAIL</label>
-            <div className="email-input-container">
-              <Mail className="email-icon" size={16} />
-              <FormInput
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter your email"
-              />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="suggestion">Suggestion</label>
-            <textarea
-              name="suggestion"
-              value={formData.suggestion}
-              onChange={handleChange}
-              placeholder="Enter your suggestion or feedback"
-              className="suggestion-input"
-              rows="4"
-              required
-            />
-          </div>
-
+          <label className='form-label required' htmlFor="suggestion">Suggestion</label>
+          <textarea
+            className="input full-width"
+            name="suggestion"
+            value={formData.suggestion}
+            onChange={handleChange}
+            placeholder="Enter your suggestion or feedback"
+            rows="4"
+            required
+          />
+          <div className='spacer' />
           <button 
+            className="btn btn-primary btn-full-width"
             type="submit" 
-            className="submit-button"
             disabled={isSubmitting}
           >
             {isSubmitting ? (

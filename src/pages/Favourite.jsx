@@ -9,11 +9,14 @@ import NavBar from "../components/NavBar";
 import { FavouritesContext } from "../context/FavouritesContext";
 import ChatBubble from "../components/ChatBubble";
 
-import "../styles/Tables.css";
 import '../styles/Buttons.css';
+import '../styles/Elements.css';
 import '../styles/Fonts.css';
 import '../styles/Forms.css';
-import '../styles/Elements.css';
+import '../styles/NavBar.css';
+import '../styles/Sidebar.css';
+import '../styles/Tables.css';
+import '../styles/Validation.css';
 
 function Favourite() {
   const { favourites, toggleFavourite, loading, error } = useContext(FavouritesContext);

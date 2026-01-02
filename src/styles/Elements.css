@@ -385,3 +385,21 @@ body {
 .method-put { background: #d6aa24; }
 .method-delete { background: #dc3545; }
 .method-patch { background: #d67d08; }
+
+.email-icon {
+  position: absolute;
+  left: 12px;
+  color: #333;
+  z-index: 1;
+}
+
+.email-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+
+.email-input-container .input {
+  padding-left: 40px;
+}

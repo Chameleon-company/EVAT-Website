@@ -7,9 +7,12 @@ import ApiTesterResponse from "../components/api-tester/ApiTesterResponse";
 import ApiTesterForm from "../components/api-tester/ApiTesterForm";
 
 import '../styles/Buttons.css';
+import '../styles/Elements.css';
 import '../styles/Fonts.css';
 import '../styles/Forms.css';
-import '../styles/Elements.css';
+import '../styles/NavBar.css';
+import '../styles/Sidebar.css';
+import '../styles/Tables.css';
 import '../styles/Validation.css';
 
 const ApiTester = () => {

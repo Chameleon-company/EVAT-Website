@@ -3,8 +3,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 
-import "../styles/SideBarBookingTool.css";
-
 const API_URL = import.meta.env.VITE_API_URL
 const BOOKING_ENDPOINT = `${API_URL}/bookings`;
 const NOTES_MAX_LENGTH = 100;   // this should be changed to match the character limit of the notes string in the database

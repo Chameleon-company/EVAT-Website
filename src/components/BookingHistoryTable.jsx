@@ -6,12 +6,6 @@
 
 import React, { useEffect, useState } from "react";
 
-import "../styles/Tables.css";
-import '../styles/Buttons.css';
-import '../styles/Fonts.css';
-import '../styles/Forms.css';
-import '../styles/Elements.css';
-
 const API_URL = import.meta.env.VITE_API_URL
 
 export default function BookingHistoryTable() {

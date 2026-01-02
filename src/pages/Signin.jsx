@@ -4,9 +4,13 @@ import { Eye, EyeOff, KeyRound, User as UserIcon } from 'lucide-react';
 import { UserContext } from '../context/user';
 
 import '../styles/Buttons.css';
+import '../styles/Elements.css';
 import '../styles/Fonts.css';
 import '../styles/Forms.css';
-import '../styles/Elements.css';
+import '../styles/NavBar.css';
+import '../styles/Sidebar.css';
+import '../styles/Tables.css';
+import '../styles/Validation.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const url = `${API_URL}/auth/login`;

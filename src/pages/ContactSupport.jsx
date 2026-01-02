@@ -3,9 +3,13 @@ import ChatBubble from "../components/ChatBubble";
 import SupportRequestForm from "../components/SupportRequestForm";
 
 import '../styles/Buttons.css';
+import '../styles/Elements.css';
 import '../styles/Fonts.css';
 import '../styles/Forms.css';
-import '../styles/Elements.css';
+import '../styles/NavBar.css';
+import '../styles/Sidebar.css';
+import '../styles/Tables.css';
+import '../styles/Validation.css';
 
 export default function ContactSupport() {
   return (
