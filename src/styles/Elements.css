@@ -318,6 +318,8 @@ body {
   overflow-y: visible;
   overflow-x: visible;
 }
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+

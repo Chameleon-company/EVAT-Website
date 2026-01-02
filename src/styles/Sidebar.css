@@ -55,16 +55,6 @@
   padding: 10px;
 }
 
-.sidebar-btn-close {
-  position: absolute;
-  top: 5px;
-  right: 17px;
-  border: none;
-  cursor: pointer;
-  padding: 2px;
-  border-radius: 50%;
-}
-
 .sidebar-content {
   flex: 1;
   overflow-y: auto;
@@ -100,7 +90,18 @@
 
 .action-buttons {
   display: flex;
+  padding: 10px;
   gap: var(--sidebar-padding);
+}
+
+.sticky-bottom {
+  position: sticky;
+  bottom: 0;
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
 }
 
 .sidebar-btn {

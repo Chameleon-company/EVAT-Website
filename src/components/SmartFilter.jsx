@@ -1,4 +1,6 @@
 import { useEffect, useRef } from 'react';
+import { Star, Heart, MessageCircle, X, ChevronDown, ChevronUp } from 'lucide-react';
+
 import '../styles/SmartFilter.css';
 
 /**
@@ -160,142 +162,153 @@ const SmartFilter = ({
   if (!isOpen) return null;
 
   return (
-    <div className="smart-filter-overlay">
-      <div className="smart-filter-panel" ref={modalRef}>
-        {/* Modal Header */}
-        <div className="smart-filter-header">
-          <h2>Smart Filters</h2>
-          <button className="close-button" onClick={onClose}>
-            ✕
-          </button>
-        </div>
-
-        {/* Charger Type Filter Section */}
-        <div className="filter-section">
-          <h3>Charger Type</h3>
-          <div className="filter-options">
-            {connectorTypes.map(type => (
-              <button
-                key={type}
-                className={`filter-button ${filters.chargerType.includes(type) ? 'selected' : ''}`}
-                onClick={() => handleChargerTypeToggle(type)}
-              >
-                {type}
-              </button>
-            ))}
+    <div className="filter-overlay">
+      <div className="filter-container" ref={modalRef}>
+        <div className='sticky-top'>
+          {/* Header */}
+          <div className="filter-header">
+            <h4>Filters</h4>
+            <button className="btn btn-danger filter-btn-close" onClick={onClose}>
+              <X size={20} />
+            </button>
           </div>
         </div>
 
-        {/* Charging Speed Filter Section */}
-        <div className="filter-section">
-          <h3>Charging Speed</h3>
-          <div className="filter-options">
-            {chargingSpeeds.map(speed => (
-              <button
-                key={speed}
-                className={`filter-button ${filters.chargingSpeed.includes(speed) ? 'selected' : ''}`}
-                onClick={() => handleChargingSpeedToggle(speed)}
-              >
-                {speed}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Price Range Filter Section */}
-        <div className="filter-section">
-          <h3>Price Range (¢ per kWh)</h3>
-            <div className="price-slider-container">
-              {/* two range inputs */}
-              <input
-                type="range"
-                min={priceMin}
-                max={priceMax}
-                value={filters.priceRange[0]}
-                onChange={handleMinChange}
-                className="price-slider"
-              />
-              <input
-                type="range"
-                min={priceMin}
-                max={priceMax}
-                value={filters.priceRange[1]}
-                onChange={handleMaxChange}
-                className="price-slider"
-              />
-
-              {/* labels */}
-              <div className="price-labels">
-                <span>{priceMin}</span>
-                <span className="price-range-display">
-                  {filters.priceRange[0]} - {filters.priceRange[1]}
-                </span>
-                <span>{priceMax}</span>
-              </div>
+        <div>
+          {/* Charger Type Filter Section */}
+          <div className="filter-section">
+            <h5 className='text-center'>Charger Type</h5>
+            <div className="filter-options">
+              {connectorTypes.map(type => (
+                <button
+                  key={type}
+                  className={`btn btn-options btn-tiny ${filters.chargerType.includes(type) ? 'selected' : ''}`}
+                  onClick={() => handleChargerTypeToggle(type)}
+                >
+                  {type}
+                </button>
+              ))}
             </div>
-        </div>
+          </div>
 
-        {/* Charger Operator Filter Section */}
-        <div className="filter-section">
-          <h3>Charger Operator</h3>
-          <div className="filter-options">
-            {operatorTypes.map(type => (
-              <button
-                key={type}
-                className={`filter-button ${filters.operatorType.includes(type) ? 'selected' : ''}`}
-                onClick={() => handleOperatorToggle(type)}
-              >
-                {type}
-              </button>
-            ))}
+          <div className='sidebar-linebreak' />
+          {/* Charging Speed Filter Section */}
+          <div className="filter-section">
+            <h5 className='text-center'>Charging Speed</h5>
+            <div className="filter-options">
+              {chargingSpeeds.map(speed => (
+                <button
+                  key={speed}
+                  className={`btn btn-options btn-tiny ${filters.chargingSpeed.includes(speed) ? 'selected' : ''}`}
+                  onClick={() => handleChargingSpeedToggle(speed)}
+                >
+                  {speed}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className='sidebar-linebreak' />
+          {/* Price Range Filter Section */}
+          <div className="filter-section">
+            <h5 className='text-center'>Price Range (¢ per kWh)</h5>
+              <div className="price-slider-container">
+                {/* two range inputs */}
+                <input
+                  className="price-slider"
+                  type="range"
+                  min={priceMin}
+                  max={priceMax}
+                  value={filters.priceRange[0]}
+                  onChange={handleMinChange}
+                />
+                <input
+                  className="price-slider"
+                  type="range"
+                  min={priceMin}
+                  max={priceMax}
+                  value={filters.priceRange[1]}
+                  onChange={handleMaxChange}
+                />
+
+                {/* labels */}
+                <div className="price-slider-labels text-small">
+                  <span>{priceMin}</span>
+                  <span className="font-bold text-large">
+                    {filters.priceRange[0]} - {filters.priceRange[1]}
+                  </span>
+                  <span>{priceMax}</span>
+                </div>
+              </div>
+          </div>
+
+          <div className='sidebar-linebreak' />
+          {/* Charger Operator Filter Section */}
+          <div className="filter-section">
+            <h5 className='text-center'>Charger Operator</h5>
+            <div className="filter-options">
+              {operatorTypes.map(type => (
+                <button
+                  key={type}
+                  className={`btn btn-options btn-tiny ${filters.operatorType.includes(type) ? 'selected' : ''}`}
+                  onClick={() => handleOperatorToggle(type)}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className='sidebar-linebreak' />
+          {/* Availability Filter Section */}
+          <div className="filter-section">
+            <h5 className='text-center'>Availability</h5>
+            <div className="toggle-holder">
+              <label className='form-label '>Show only available stations?</label>
+              <label className="toggle-switch">
+                <input
+                  type="checkbox"
+                  checked={filters.showOnlyAvailable}
+                  onChange={handleAvailabilityToggle}
+                />
+                <span className="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <div className='sidebar-linebreak' />
+          {/* Reliability Overlay Toggle Section */}
+          <div className="filter-section">
+            <h5 className='text-center'>Reliability Overlay</h5>
+            <div className="toggle-holder">
+              <label className='form-label '>Show reliability layer?</label>
+              <label className="toggle-switch">
+                <input
+                  type="checkbox"
+                  checked={filters.showReliability}
+                  onChange={handleReliabilityToggle}
+                />
+                <span className="toggle-slider"></span>
+              </label>
+            </div>
           </div>
         </div>
 
-        {/* Availability Filter Section */}
-        <div className="filter-section">
-          <h3>Availability</h3>
-          <div className="toggle-container">
-            <span className="toggle-label">show only available stations</span>
-            <label className="toggle-switch">
-              <input
-                type="checkbox"
-                checked={filters.showOnlyAvailable}
-                onChange={handleAvailabilityToggle}
-              />
-              <span className="toggle-slider"></span>
-            </label>
+        <div className="sticky-bottom filter-footer">
+          <div className='sidebar-linebreak' />
+          {/* Results Counter */}
+          <h5 className='text-center'>
+            {filteredCount} Station{filteredCount !== 1 ? 's' : ''} found
+          </h5>
+          {/* Action Buttons */}
+          <div className="action-buttons">
+            <button className="btn btn-secondary btn-force-flex btn-small" onClick={handleReset}>
+              Reset
+            </button>
+            <button className="btn btn-primary btn-force-flex btn-small" onClick={handleApplyFilter}>
+              Apply Filter
+            </button>
           </div>
-        </div>
-
-        {/* Reliability Overlay Toggle Section */}
-        <div className="filter-section">
-          <h3>Reliability Overlay</h3>
-          <div className="toggle-container">
-            <span className="toggle-label">show reliability layer</span>
-            <label className="toggle-switch">
-              <input
-                type="checkbox"
-                checked={filters.showReliability}
-                onChange={handleReliabilityToggle}
-              />
-              <span className="toggle-slider"></span>
-            </label>
-          </div>
-        </div>
-
-        {/* Results Counter */}
-        <div className="station-count">
-          {filteredCount} Station{filteredCount !== 1 ? 's' : ''} found
-        </div>
-
-        {/* Action Buttons */}
-        <div className="filter-actions">
-          <button className="reset-button" onClick={handleReset}>
-            Reset
-          </button>
-          <button className="apply-button" onClick={handleApplyFilter}>
-            Apply Filter
-          </button>
         </div>
       </div>
     </div>
