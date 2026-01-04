@@ -1,78 +1,30 @@
-/* buttons.css */
+/* Buttons.css */
 
-/* Variables to use for all buttons */
-:root {
-  --btn-navbar-text: white;
-  --btn-navbar-size: 1rem;
-  --btn-navbar-hover-text: #6fbf8c;
-  --btn-navbar-active-text: #4c8f6c;
-  --btn-navbar-disable-text: #505050;
+/*
+This CSS has the style settings for all buttons
 
-  --btn-primary: linear-gradient(90deg, #6fbf8c, #6fbf8c, #4c8f6c);
-  --btn-primary-active: linear-gradient(90deg, #4c8f6c, #4c8f6c);
-  --btn-primary-text: white;
-
-  --btn-secondary: linear-gradient(90deg, #ffffff96, #ffffff96, #d3d3d342);
-  --btn-secondary-active: linear-gradient(90deg, #d3d3d342, #d3d3d342);
-  --btn-secondary-border: 1px solid;
-  --btn-secondary-border-color: black;
-  --btn-secondary-text: black;
-
-  --btn-danger: linear-gradient(90deg, #c23636, #c23636, #992d2d);
-  --btn-danger-active: linear-gradient(90deg, #992d2d, #992d2d);
-  --btn-danger-text: white;
-
-  --btn-disabled: linear-gradient(90deg, #505050, #3a3a3a);
-  --btn-disabled-text: #ffffffd2;
-
-  --btn-signout: linear-gradient(90deg, #8f9dcc, #8f9dcc, #575f79);
-  --btn-signout-active: linear-gradient(90deg, #575f79, #575f79);
-  --btn-signout-text: white;
-  
-  --btn-back: linear-gradient(90deg, #ac973c, #ac973c, #7a6c2e);
-  --btn-back-active: linear-gradient(90deg, #7a6c2e, #7a6c2e);
-  --btn-back-text: white;
-  
-  --btn-cancel: linear-gradient(90deg, #ffffff96, #ffffff96, #d3d3d342);
-  --btn-cancel-active: linear-gradient(90deg, #d3d3d342, #d3d3d342);
-  --btn-cancel-border: 1px solid;
-  --btn-cancel-border-color: black;
-  --btn-cancel-text: black;
-
-  --btn-options: linear-gradient(90deg, #ffffff, #ffffff);
-  --btn-options-active: linear-gradient(90deg, #bdbdbd, #bdbdbd);
-  --btn-options-text: black;
-  --btn-options-selected: linear-gradient(90deg, #6fbf8c, #4c8f6c);
-  --btn-options-selected-text: black;
-
-  --btn-radius: 8px;
-  --btn-padding: 0.75rem 1rem;
-  --btn-margin: 0.1rem;
-  --btn-font-size: 1rem;
-  --btn-font-weight: 600;
-  --btn-transition: all 0.2s ease;
-  --btn-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --btn-shadow-hover: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
-}
+It is set up to use multiple layers for a button.
+The btn is the default, it includes the main design and a standard hover animation.
+From there, we can layer other button styles on top. The button styles (primary, secondary, 
+and transparent) include the colour differences. 
+*/
 
 /* Base button styles */
 /* default state */
 .btn {
+  padding: var(--button-padding);
+  margin: var(--button-margin);
+  font-size: var(--button-font);
+  font-weight: var(--weight-semibold);
+  border-radius: var(--button-radius);
+  transition: var(--button-transition);
+  box-shadow: var(--button-shadow);
   display: inline-flex;
   justify-content: center;
-  gap: 0.5rem;
-  padding: var(--btn-padding);
-  margin: var(--btn-margin);
-  font-size: var(--btn-font-size);
-  font-weight: var(--btn-font-weight);
   line-height: 1.5;
-  border-radius: var(--btn-radius);
-  border: none;
   cursor: pointer;
-  transition: var(--btn-transition);
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  box-shadow: var(--btn-shadow);
   width: auto;
 }
 
@@ -84,7 +36,7 @@
 
 /* hover state - move vertically, add shadow, move background */
 .btn:hover:not(:disabled):not(.btn-navbar) {
-  box-shadow: var(--btn-shadow-hover);
+  box-shadow: var(--button-shadow-hover);
   transform: translateY(-1px);
   background-position: 0% 0%;
 }
@@ -94,66 +46,57 @@
   transform: translateY(0);
 }
 
-/* Navigation Bar button */
-/* default state - set colour and background position */
-.btn-navbar {
-  background: transparent;
-  box-shadow: none;
-  color: var(--btn-navbar-text);
-  font-size: var(--btn-navbar-size);
-}
-
-/* hover state - set colour */
-.btn-navbar:hover:not(:disabled) {
-  color: var(--btn-navbar-hover-text);
-}
-
-/* active state - set colour */
-.btn-navbar:active:not(:disabled) {
-  color: var(--btn-navbar-active-text);
-}
-
-/* disable state - set colour */
-.btn-navbar:disabled {
-  color: var(--btn-navbar-disable-text);
-}
-
 /* Primary button */
 /* default state - set colour and background position */
 .btn-primary {
-  background: var(--btn-primary);
-  color: var(--btn-primary-text);
+  background: var(--button-primary-background);
+  color: var(--button-primary-text);
+  border: var(--button-primary-border);
 }
 
 /* active state - set colour */
 .btn-primary:active:not(:disabled) {
-  background: var(--btn-primary-active);
+  background: var(--button-primary-background-active);
 }
 
 /* Secondary / Outline button */
 /* default state - set colour and background position */
 .btn-secondary {
-  border: var(--btn-secondary-border);
-  border-color: var(--btn-secondary-border-color);
-  background: var(--btn-secondary);
-  color: var(--btn-secondary-text);
+  background: var(--button-secondary-background);
+  color: var(--button-secondary-text);
+  border: var(--button-secondary-border);
 }
 
 /* active state - set colour */
 .btn-secondary:active:not(:disabled) {
-  background: var(--btn-secondary-active);
+  background: var(--button-secondary-background-active);
 }
+
+/* Tertiary button */
+/* default state - set colour and background position */
+.btn-tertiary {
+  background: var(--button-tertiary-background);
+  color: var(--button-tertiary-text);
+  border: var(--button-tertiary-border);
+}
+
+/* active state - set colour */
+.btn-tertiary:active:not(:disabled) {
+  background: var(--button-tertiary-background-active);
+}
+
 
 /* Danger / Delete button */
 /* default state - set colour and background position */
 .btn-danger {
-  background: var(--btn-danger);
-  color: var(--btn-danger-text);
+  background: var(--button-danger-background);
+  color: var(--button-danger-text);
+  border: var(--button-danger-border);
 }
 
 /* active state - set colour */
 .btn-danger:active:not(:disabled) {
-  background: var(--btn-danger-active);
+  background: var(--button-danger-background-active);
 }
 
 /* Disabled state (applies to all variants, except navbar) */
@@ -166,64 +109,67 @@
 }
 
 .btn:disabled {
-  background: var(--btn-disabled);
-  color: var(--btn-disabled-text);
+  background: var(--button-disabled-background);
+  color: var(--button-disabled-text);
+  border: var(--button-disabled-border);
 }
 
-/* Sign Out button */
+/* Outline button */
 /* default state - set colour and background position */
-.btn-signout {
-  background: var(--btn-signout);
-  color: var(--btn-signout-text);
-}
-
-/* active state - set colour */
-.btn-signout:active:not(:disabled) {
-  background: var(--btn-signout-active);
-}
-
-/* Back button */
-/* default state - set colour and background position */
-.btn-back {
-  background: var(--btn-back);
-  color: var(--btn-back-text);
-}
-
-/* active state - set colour */
-.btn-back:active:not(:disabled) {
-  background: var(--btn-back-active);
-}
-
-/* Cancel / Outline button */
-/* default state - set colour and background position */
-.btn-cancel {
-  border: var(--btn-cancel-border);
-  border-color: var(--btn-cancel-border-color);
-  background: var(--btn-cancel);
-  color: var(--btn-cancel-text);
+.btn-transparent {
+  border: var(--button-transparent-border);
+  background: var(--button-transparent-background);
+  color: var(--button-transparent-text);
 }
 
 /* active state - set colour */
 .btn-cancel:active:not(:disabled) {
-  background: var(--btn-cancel-active);
+  background: var(--button-transparent-background-active);
 }
 
 /* White button */
 /* default state - set colour and background position */
 .btn-options {
-  background: var(--btn-options);
-  color: var(--btn-options-text);
+  background: var(--button-options-background);
+  color: var(--button-options-text);
+  border: var(--button-options-border);
 }
 
 /* active state - set colour */
 .btn-options:active:not(:disabled) {
-  background: var(--btn-options-active);
+  background: var(--button-options-background-active);
 }
 
 /* active state - set colour */
 .btn-options.selected:not(:disabled) {
-  background: var(--btn-options-selected);
-  color: var(--btn-options-selected-text);
+  background: var(--button-options-selected-background);
+  border: var(--button-options-selected-border);
+  color: var(--button-options-selected-text);
+}
+
+/* Navigation Bar button */
+/* default state - set colour and background position */
+.btn-navbar {
+  background:  var(--navbar-button-background);
+  box-shadow: var(--navbar-button-box-shadow);
+  border: var(--navbar-button-border);
+  color: var(--navbar-button-text);
+  font-size: var(--navbar-font-size);
+}
+
+/* hover state - set colour */
+.btn-navbar:hover:not(:disabled) {
+  color: var(--navbar-button-hover-text);
+}
+
+/* active state - set colour */
+.btn-navbar:active:not(:disabled) {
+  color: var(--navbar-button-active-text);
+}
+
+/* disable state - set colour */
+.btn-navbar:disabled {
+  color: var(--navbar-button-disable-text);
 }
 
 /* Loading state (optional - add .is-loading class) */
@@ -250,41 +196,42 @@
 }
 
 /* Utility modifiers */
+/* Tiny */
+.btn-tiny {
+  padding: var(--button-padding-tiny);
+  font-size:  var(--button-font-tiny);
+}
+
 /* Small */
 .btn-small {
-  --btn-padding: 0.375rem 0.875rem;
-  --btn-font-size: 0.875rem;
+  padding: var(--button-padding-small);
+  font-size: var(--button-font-small);
 }
 
 /* Large */
 .btn-large {
-  --btn-padding: 0.875rem 1.75rem;
-  --btn-font-size: 1.125rem;
+  padding: var(--button-padding-large);
+  font-size: var(--button-font-large);
 }
 
-.btn-tiny {
-  --btn-padding: 0.1rem 0.5rem;
-  --btn-font-size: 0.8rem;
+.btn-force-flex {
+  flex: 1;
 }
 
 /* Main Chat Bubble Button */
 .btn-chat-bubble {
-  background: var(--btn-primary);
-  color: var(--btn-primary-text);
-  transition: var(--btn-transition);
-  box-shadow: var(--btn-shadow);
   position: fixed;
   bottom: 20px;
   right: 20px;
   border: none;
-  border-radius: 50%;
-  width: 70px;
-  height: 70px;
+  border-radius: var(--button-chat-bubble-radius);
+  width: var(--button-chat-bubble-size);
+  height: var(--button-chat-bubble-size);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-size: 30px;
+  font-size: var(--button-chat-bubble-font-size);
   z-index: 1000;
 }
 
@@ -304,9 +251,9 @@
   top: 12.5rem; 
   right: 0.5rem;
   z-index: 900;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  width: var(--button-map-icons-size);
+  height: var(--button-map-icons-size);
+  border-radius: var(--button-map-icons-radius);
   align-items: center;
   justify-content: center;
 }
@@ -316,34 +263,34 @@
   top: 8.5rem;
   right: 0.5rem;
   z-index: 900;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  width: var(--button-map-icons-size);
+  height: var(--button-map-icons-size);
+  border-radius: var(--button-map-icons-radius);
   align-items: center;
   justify-content: center;
 }
 
-.btn-force-flex {
-  flex: 1;
-}
-
+/* X close buttons */
 .sidebar-btn-close {
   position: absolute;
   top: 5px;
   right: 17px;
-  border: none;
   cursor: pointer;
-  padding: 2px;
-  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  padding: var(--button-X-padding);
+  border-radius:  var(--button-X-radius);
+  width: var(--button-X-size);
+  height: var(--button-X-size);
 }
 
 .filter-btn-close {
-  width: 30px;
-  height: 30px;
+  width: var(--button-X-size);
+  height: var(--button-X-size);
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  padding: 2px;
-  border-radius: 50%;
+  padding: var(--button-X-padding);
+  border-radius:  var(--button-X-radius);
   margin-bottom: 20px;
 }

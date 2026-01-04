@@ -1,50 +1,27 @@
 /* API.css */
 
-:root {
-  /* Colors */
-  --endpoint-bg-get: linear-gradient(90deg, #185f29, #28a745, #185f29);
-  --endpoint-bg-post: linear-gradient(90deg, #24558a, #007bff, #24558a);
-  --endpoint-bg-put: linear-gradient(90deg, #af8a1c, #d6aa24, #af8a1c);
-  --endpoint-bg-delete: linear-gradient(90deg, #8f202b, #dc3545, #8f202b);
-  --endpoint-bg-patch: linear-gradient(90deg, #9e5c06, #d67d08, #9e5c06);
-  
-  --history-padding: 3px;
-  --history-text: black;
-  
-  --header-background: #ffffff7e;
-  --header-border: 1px solid black;
-  --header-text: black;
-
-  --background-size: 200% 100%;
-  --background-position-start: 100% 0%;
-  --background-position-end: 0% 0%;
-
-  --error-colour: #f37676;
-
-  --get-colour: #28a745;
-  --post-colour: #007bff;
-  --put-colour: #d6aa24;
-  --delete-colour: #dc3545;
-  --patch-colour: #d67d08;
-}
+/*
+This CSS has the style settings for the API Tester Page
+*/
 
 .history-container {
-  margin-bottom: 2px;
-  max-height: 170px;
+  margin-bottom: var(--history-container-bottom-margin);
+  max-height: var(--history-container-max-height);
   overflow-y: auto;
 }
 
 .history-details {
-  padding: var(--history-padding);
-  color: var(--history-text);
+  padding: var(--api-padding);
+  color: var(--history-text-color);
   border: none;
-  border-radius: var(--container-radius);
+  border-radius: var(--api-radius);
   cursor: 'pointer';
-  margin-bottom: 2px;
+  margin-bottom: var(--history-bottom-margin);
+  height: var(--history-item-height);
 }
 
-.history-details.success {background-color: #b9f7c9;}
-.history-details.error {background-color: #f7b0b0;}
+.history-details.success {background-color: var(--success-background-color);}
+.history-details.error {background-color: var(--error-background-color);;}
 
 .history-recent {
   display: flex;
@@ -53,14 +30,14 @@
   cursor: 'pointer';
 }
 
-.response-status.success { color: #28a745; }
-.response-status.error   { color: var(--error-colour); }
+.response-status.success { color: var(--success-color-base); }
+.response-status.error   { color: var(--error-color-base); }
 
 .response-preview {
-  color: var(--header-text);
-  background-color: var(--header-background);
-  border: var(--header-border);
-  border-radius: var(--container-radius);
+  color: var(--response-text-color);
+  background-color: var(--response-background-color);
+  border: var(--response-border);
+  border-radius: var(--api-radius);
   overflow-x: auto;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -73,56 +50,55 @@
   max-height: 70vh;
   height: fit-content;
   box-sizing: border-box;
-  padding-right: 5px;
+  padding-right:  var(--api-padding);
 }
 
 .endpoint-group-title.admin-only {
-  color: var(--error-colour);
+  color: var(--endpoint-admin-only-text-color);
 }
 
 .endpoint-item {
-  padding: 5px;
-  background: white;
-  border: none;
-  border-radius: var(--container-radius);
-  margin-bottom: 5px;
+  padding: var(--api-padding);
+  margin-bottom: var(--api-margin);
+  transition: var(--api-transition);
   cursor: pointer;
-  transition: all 0.2s;
+  border: none;
+  border-radius: var(--api-radius);
 }
 
 .endpoint-item-get {
-  background: var(--endpoint-bg-get); 
-  background-size: var(--background-size);
-  background-position: var(--background-position-start);
+  background: var(--get-background); 
+  background-size: var(--api-item-background-size);
+  background-position: var(--api-item-background-position-start);
 }
 .endpoint-item-post { 
-  background: var(--endpoint-bg-post); 
-  background-size: var(--background-size);
-  background-position: var(--background-position-start);
+  background: var(--post-background); 
+  background-size: var(--api-item-background-size);
+  background-position: var(--api-item-background-position-start);
 }
 
 .endpoint-item-put { 
-  background: var(--endpoint-bg-put); 
-  background-size: var(--background-size);
-  background-position: var(--background-position-start);
+  background: var(--put-background); 
+  background-size: var(--api-item-background-size);
+  background-position: var(--api-item-background-position-start);
 }
 
 .endpoint-item-delete { 
-  background: var(--endpoint-bg-delete); 
-  background-size: var(--background-size);
-  background-position: var(--background-position-start);
+  background: var(--delete-background); 
+  background-size: var(--api-item-background-size);
+  background-position: var(--api-item-background-position-start);
 }
 
 .endpoint-item-patch { 
-  background: var(--endpoint-bg-patch); 
-  background-size: var(--background-size);
-  background-position: var(--background-position-start);
+  background: var(--patch-background); 
+  background-size: var(--api-item-background-size);
+  background-position: var(--api-item-background-position-start);
 }
 
 .endpoint-item:hover {
-  box-shadow: var(--btn-shadow-hover);
+  box-shadow: var(--api-item-shadow-hover);
   transform: translateY(-1px);
-  background-position: var(--background-position-end);
+  background-position: var(--api-item-background-position-end);
 }
 
 .endpoint-item:active {
@@ -136,13 +112,12 @@
 }
 
 .endpoint-path {
-  /* background: #55a8fc; */
-  color: black;
+  color: var(--endpoint-text-color);
 }
 
 .endpoint-description {
-  color: black;
-  margin-left: 5px;
+  color: var(--endpoint-text-color);
+  margin-left: var(--api-margin);
 }
 
 .method-badge {
@@ -150,14 +125,14 @@
   width: fit-content;
   min-width: 50px;
   text-align: center;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-radius: var(--container-radius);
-  margin-right: 5px;
+  padding-left: var(--api-padding);
+  padding-right: var(--api-padding);
+  border-radius: var(--api-radius);
+  margin-right: var(--api-margin);
 }
 
-.method-get { background: var(--get-colour); }
-.method-post { background: var(--post-colour); }
-.method-put { background: var(--put-colour); }
-.method-delete { background: var(--delete-colour); }
-.method-patch { background: var(--patch-colour); }
+.method-get { background: var(--get-colour-base); }
+.method-post { background: var(--post-colour-base); }
+.method-put { background: var(--put-colour-base); }
+.method-delete { background: var(--delete-colour-base); }
+.method-patch { background: var(--patch-colour-base); }

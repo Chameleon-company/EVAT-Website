@@ -1,76 +1,57 @@
-/* elements.css */
+/* Elements.css */
 
+/*
+This CSS has the style settings for Elements.
+This includes:
+Body
+Cards
+Containers
+Images
+Icons
+Utility Controls
+*/
+
+/* Body */
 body {
   margin: 0;
-  color: #d8d8d8;
-  background-color: #172235;
-}
-
-:root {
-  /* 1rem = 18px */
-  /* Colors */
-  --container-bg: #ffffff2a;
-  --container-border: 1px solid #6fbf8c;
-  --container-padding: 1rem;
-  --container-margin-top: 1rem;
-  --container-margin: .5rem;
-  --container-text: white;
-  --container-radius: 8px;
-
-  --card-bg: #6fbf8c;
-  --card-text: black;
-  --card-padding: .75rem;
-  --card-margin: 1rem;
-  --card-width-min: 250px;
-
-  --element-bg: #c4c4c4;
-  --element-border: 2px solid #fafafa;
-  --element-border-focus: #6fbf8c;
-  --element-text: black;
-  --element-placeholder: #303030;
+  color: var(--text-color-light);
+  background-color: var(--secondary-color-dark);
 }
 
 /* Card */
 .card {
-  /* appearance */
-  background: var(--card-bg);
-  color: var(--card-text);
-  border: none;
-  border-radius: var(--container-radius);
-  /* layout */
+  background: var(--card-background-color);
+  color: var(--card-text-color);
+  border: var(--card-border);
+  border-radius: var(--element-radius);
+  width: var(--card-minimum-width);
+  padding: var(--element-padding);
   flex: 1;
-  width: var(--card-width-min);
   margin: auto;
-  padding: var(--card-padding);
   align-items: center;
   text-align: center;
 }
 
 .card-grid {
+  margin: var(--card-margin);
+  gap: var(--card-gap);
   flex: 1;
   min-height: fit-content;
   display: flex;
-  gap: 1rem;
-  margin-top: 0;
-  margin-bottom: 1rem;
 }
 
 /* Containers */
 .container {
-  /* appearance */
-  background: var(--container-bg);
-  color: var(--container-text);
+  background: var(--container-background-color);
+  color: var(--container-text-color);
   border: var(--container-border);
-  border-radius: var(--container-radius);
-  /* layout */
+  border-radius: var(--element-radius);
+  padding: var(--element-padding);
   display: flex;
   width: fit-content;
   align-items: stretch;
   justify-content: space-between;
   margin: auto;
-  margin-bottom: var(--container-margin);
-  margin-top: var(--container-margin-top);
-  padding: var(--container-padding);
 }
 
 .container.horizontal {
@@ -94,7 +75,6 @@ body {
 
 .container.auto-width {
   width: auto;
-  margin: 20px;
   margin-top: var(--container-margin-top);
 }
 
@@ -122,14 +102,6 @@ body {
   text-align: center;
 }
 
-.wrap-center {
-  display: flex;
-  width: auto;            /* fills the parent container */
-  margin: auto;           /* fills the parent container */
-  flex-wrap: wrap;        /* wraps contents */
-  justify-content: space-around;
-}
-
 .inner-right {
   display: flex;
   flex-direction: column;
@@ -137,6 +109,14 @@ body {
   min-width: 210px;
   width: fit-content;
   margin-top: auto;       /* pushes content to bottom */
+}
+
+.wrap-center {
+  display: flex;
+  width: auto;            /* fills the parent container */
+  margin: auto;           /* fills the parent container */
+  flex-wrap: wrap;        /* wraps contents */
+  justify-content: space-around;
 }
 
 /* Background */
@@ -174,37 +154,9 @@ body {
   gap: 12px;
   flex: 1;
   min-height: 0;                    /* crucial for flex children to shrink */
-  padding: 1rem;
+  padding: var(--element-padding);
   overflow: hidden;                 /* prevent double scrollbars */
   box-sizing: border-box;
-}
-
-.container-left {
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  max-width: 10vw;
-}
-
-.container-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.25rem;
-}
-
-.container-right {
-  display: flex;
-  flex-direction: column;
-  align-items: right;
-  vertical-align: bottom;
-  max-width: 10vw;
-}
-
-.center {
-  margin: auto;
-  /* margin-top: var(--container-margin);
-  margin-bottom: var(--container-margin); */
 }
 
 /* Images */
@@ -216,7 +168,7 @@ body {
   height: auto;
 }
 
-/* dashboard image */
+/* dashboard profile image */
 .profile-image {
   width: 100px;
   height: auto;
@@ -240,28 +192,28 @@ body {
 
 .cost-image {
   width: 180px;
-  border-radius: var(--container-radius);
-  margin-bottom: 8px;
+  border-radius: var(--element-radius);
+  margin-bottom: 0.5rem;
 }
 
-/* Icon */
+/* Icons */
 .icon {
-  margin: 0.1rem;
-  padding: 0.1rem;
+  margin: var(--icon-margin);
+  padding: var(--icon-padding);
   vertical-align: middle;
 }
 
 .input-icon {
   position: absolute;
   left: 5px;
-  color: black;
+  color: var(--input-icon-color);
   z-index: 1;
 }
 
 .input-icon-end {
   position: absolute;
   right: 5px;
-  color: black;
+  color: var(--input-icon-color);
   z-index: 1;
 }
 
@@ -277,14 +229,16 @@ body {
 }
 
 /* Utility */
+.center {
+  margin: auto;
+}
+
 .spacer {
-  margin: 0.1rem;
-  padding: 1rem;
+  padding: var(--element-padding);
 }
 
 .spacer-small {
-  margin: 0.1rem;
-  padding: 0.3rem;
+  padding: var(--element-padding-small);
 }
 
 .full-width,
@@ -321,12 +275,10 @@ body {
 
 .auto-width {
   width: auto;
-  margin: 20px;
 }
 
 .auto-height {
   height: auto;
-  margin: 20px;
 }
 
 .force-height {

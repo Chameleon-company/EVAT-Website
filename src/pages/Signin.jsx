@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Mail, Eye, EyeOff, KeyRound, User as UserIcon } from 'lucide-react';
 import { UserContext } from '../context/user';
 
+import '../styles/Root.css';
 import '../styles/Buttons.css';
 import '../styles/Elements.css';
 import '../styles/Fonts.css';

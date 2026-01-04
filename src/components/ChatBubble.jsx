@@ -12,7 +12,7 @@ function ChatBubble({ url = "https://example.com" }) {
   };
 
   return (
-    <button className="btn btn-chat-bubble" onClick={handleClick}>
+    <button className="btn btn-primary btn-chat-bubble" onClick={handleClick}>
       <MessageCircle size={28} />
     </button>
   );

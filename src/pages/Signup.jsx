@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {  Mail, Eye, EyeOff, KeyRound, User, Phone } from 'lucide-react';
 
+import '../styles/Root.css';
 import '../styles/Buttons.css';
 import '../styles/Elements.css';
 import '../styles/Fonts.css';
@@ -163,7 +164,7 @@ function Signup() {
         </button>
 
         <button
-          className="btn btn-cancel"
+          className="btn btn-transparent"
           onClick={() => navigate('/')}
         >
           BACK TO SIGN IN

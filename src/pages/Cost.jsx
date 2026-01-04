@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "../components/NavBar";
 import CostCalculation from "../components/CostCalculation";
 
+import '../styles/Root.css';
 import '../styles/Buttons.css';
 import '../styles/Elements.css';
 import '../styles/Fonts.css';

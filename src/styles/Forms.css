@@ -1,31 +1,11 @@
 
-/* forms.css  */
+/* Forms.css  */
 
-:root {
-  /* Colors */
-  --form-bg: #c4c4c4;
-  --form-border: 2px solid #fafafa;
-  --form-border-focus: #6fbf8c;
-  --form-text: white;
-  --form-placeholder: #303030;
-  --form-input-text: black;
-  --form-font-size: clamp(.9rem, 0.96vw + 0.8rem, 0.7rem);
+/*
+This CSS has the style settings for forms and inputs
 
-  --slider-fill-color: #6fbf8c;
-  --slider-bg: #fafafa;
-
-  --form-disabled-bg: #f3f4f6;
-  --form-disabled-text: #6b7280;
-  --form-error: #ef4444;           /* red-500 */
-  --form-success: #10b981;         /* emerald-500 */
-
-  /* Spacing & sizing */
-  --form-radius: 8px;
-  --form-padding: 5px;
-  --form-margin: 8px;
-  --form-gap: 8px;
-  --form-input-height: 1rem;
-}
+WARNING: the sliders are very hard to get right.
+*/
 
 .form-section {
   display: flex;
@@ -33,21 +13,19 @@
   min-width: fit-content;
   margin: var(--form-margin);
   padding: var(--form-padding);
-  color: var(--form-text);
 }
 
 /* Labels */
 .form-label,
 label {
   display: block;
-  margin: 0.5rem;
-  font-weight: 500;
-  color: var(--form-text);
+  margin: var(--form-margin);
+  font-weight: var(--weight-medium);
 }
 
 .required::after {
   content: " *";
-  color: var(--form-error);
+  color: var(--input-required-color);
 }
 
 /* Input & Textarea */
@@ -64,22 +42,18 @@ input[type="search"],
 textarea,
 select {
   width: auto;
-  /* margin: auto; */
   height: fit-content;
   padding: var(--form-padding);
-  font-size: var(--form-font-size);
-  line-height: 1.5;
-  color: var(--form-input-text);
-  background: var(--form-bg);
-  border:  var(--form-border);
-  border-radius: var(--form-radius);
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
-  transition: all 0.15s ease;
+  color: var(--input-text-color);
+  background: var(--input-background-color);
+  border: var(--input-border);
+  border-radius: var(--input-radius);
+  transition: var(--input-transition);
 }
 
 textarea {
   height: auto;
-  min-height: 6.5rem;
+  min-height: var(--textarea-height);
   resize: vertical;
 }
 
@@ -88,16 +62,15 @@ input:focus,
 textarea:focus,
 select:focus {
   outline: none;
-  border-color: var(--form-border-focus);
-  box-shadow: var(--form-shadow-focus);
-  background: white;
+  border: var(--input-focus-border);
+  background: var(--input-focus-background-color);
 }
 
 /* Hover state (subtle) */
 input:not(:focus):hover,
 textarea:not(:focus):hover,
 select:not(:focus):hover {
-  border-color: var(--form-border-focus);
+  border: var(--input-focus-border);
 }
 
 /* Disabled & readonly */
@@ -106,15 +79,15 @@ input[readonly],
 textarea:disabled,
 textarea[readonly],
 select:disabled {
-  background: var(--form-disabled-bg);
-  color: var(--form-disabled-text);
+  background: var(--input-disabled-background-color);
+  color: var(--input-disabled-text-color);
+  border: var(--input-disabled-border);
   cursor: not-allowed;
-  border-color: #d1d5db;
 }
 
 /* Placeholder */
 ::placeholder {
-  color: var(--form-placeholder);
+  color: var(--input-placeholder-color);
   opacity: 1;
 }
 
@@ -127,9 +100,9 @@ select {
 input[type="range"] {
   width: 100%;
   min-width: 120px;
-  height: .5px;
+  height: var(--slider-height);
   padding: 0;
-  background: transparent;
+  background: var(--slider-background-color);
   -webkit-appearance: none;
   outline: none;
 }
@@ -137,22 +110,22 @@ input[type="range"] {
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
-  background: var(--form-border-focus);
-  border: 1px solid var(--navbar-bg);
-  border-radius: 50%;
+  width: var(--slider-ball-size);
+  height: var(--slider-ball-size);
+  background: var(--slider-ball-color);
+  border-radius: var(--slider-radius);
+  border: var(--slider-border);
   cursor: pointer;
   pointer-events: all;
-  transition: all 0.15s ease;
+  transition: var(--slider-transition);
   position: relative;
   z-index: 10;
 }
 
 input[type="range"]::-webkit-slider-runnable-track {
-  background: var(--slider-bg);
-  height: 0.5rem;
-  border-radius: 999px;
+  background: var(--slider-track-color);
+  height: var(--slider-track-height);
+  border-radius: var(--slider-track-radius);
 }
 
 input.form-full-width {
@@ -160,31 +133,11 @@ input.form-full-width {
   box-sizing: border-box;
 }
 
-/* Error and Success states */
-.has-error input,
-.has-error textarea,
-.has-error select {
-  border-color: var(--form-error);
-}
-
-.has-error .form-message {
-  color: var(--form-error);
-  font-size: 0.8125rem;
-  margin-top: 0.35rem;
-}
-
-.has-success input,
-.has-success textarea,
-.has-success select {
-  border-color: var(--form-success);
-}
-
-/* Help text */
-.form-help,
-.form-message {
-  font-size: 0.8125rem;
-  color: #999999;
-  margin-top: 0.35rem;
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .input-and-label-same-line {
@@ -192,6 +145,7 @@ input.form-full-width {
   justify-content: space-between;
 }
 
+/* React Stuff */
 .react-datepicker-wrapper,
 .react-datepicker__input-container {
   display: inline-block !important;
@@ -204,9 +158,28 @@ input.form-full-width {
   box-sizing: border-box;
 }
 
-.checkbox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+/* Error and Success states */
+.has-error input,
+.has-error textarea,
+.has-error select {
+  border-color: var(--input-required-color);
 }
+
+.has-error .form-message {
+  color: var(--input-required-color);
+  font-size: 0.8125rem;
+  margin-top: 0.35rem;
+}
+
+.has-success input,
+.has-success textarea,
+.has-success select {
+  border-color: var(--input-success-color);
+}
+
+/* Help text */
+.form-help,
+.form-message {
+  margin-top: 0.35rem;
+}
+

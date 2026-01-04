@@ -302,7 +302,7 @@ const SmartFilter = ({
           </h5>
           {/* Action Buttons */}
           <div className="action-buttons">
-            <button className="btn btn-secondary btn-force-flex btn-small" onClick={handleReset}>
+            <button className="btn btn-transparent btn-force-flex btn-small" onClick={handleReset}>
               Reset
             </button>
             <button className="btn btn-primary btn-force-flex btn-small" onClick={handleApplyFilter}>

@@ -15,6 +15,7 @@ import ChargerSideBar from '../components/ChargerSideBar';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import '../styles/Root.css';
 import '../styles/SmartFilter.css';
 import '../styles/Map.css';
 import '../styles/Buttons.css';

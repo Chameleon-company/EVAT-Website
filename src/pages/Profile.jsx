@@ -11,6 +11,7 @@ import profileImage from '../assets/profileImage.png';
 import ChatBubble from "../components/ChatBubble";
 import BookingHistoryTable from "../components/BookingHistoryTable";
 
+import '../styles/Root.css';
 import '../styles/Buttons.css';
 import '../styles/Elements.css';
 import '../styles/Fonts.css';
@@ -513,7 +514,7 @@ function Profile() {
         {/* right container - buttons */}
         <div className="inner-right">
           {activeTab === "dashboard" && (
-            <button className="btn btn-signout two-hundred-width uppercase" onClick={handleSignOut}>
+            <button className="btn btn-secondary two-hundred-width uppercase" onClick={handleSignOut}>
               SIGN OUT
             </button>
           )}
@@ -533,11 +534,11 @@ function Profile() {
                 {editingAbout ? "SAVE" : "EDIT"}
               </button>
               {editingAbout && (
-                <button className="btn btn-cancel two-hundred-width uppercase" onClick={() => setEditingAbout(false)}>
+                <button className="btn btn-transparent two-hundred-width uppercase" onClick={() => setEditingAbout(false)}>
                   CANCEL
                 </button>
               )}
-              <button className="btn btn-back two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
+              <button className="btn btn-tertiary two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
                 BACK
               </button>
             </>
@@ -557,7 +558,7 @@ function Profile() {
               >
                 {editingCar ? "save" : "edit"}
               </button>
-              <button className="btn btn-back two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
+              <button className="btn btn-tertiary two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
                 BACK
               </button>
             </>
@@ -577,14 +578,14 @@ function Profile() {
               >
                 {editingPayment ? "SAVE" : "EDIT"}
               </button>
-              <button className="btn btn-back two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
+              <button className="btn btn-tertiary two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
                 BACK
               </button>
             </>
           )}
 
           {activeTab === "history" && (
-            <button className="btn btn-back two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
+            <button className="btn btn-tertiary two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
               BACK
             </button>
           )}

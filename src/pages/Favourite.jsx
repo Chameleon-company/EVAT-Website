@@ -9,6 +9,7 @@ import NavBar from "../components/NavBar";
 import { FavouritesContext } from "../context/FavouritesContext";
 import ChatBubble from "../components/ChatBubble";
 
+import '../styles/Root.css';
 import '../styles/Buttons.css';
 import '../styles/Elements.css';
 import '../styles/Fonts.css';

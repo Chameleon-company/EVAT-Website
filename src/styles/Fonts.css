@@ -1,5 +1,10 @@
 /* fonts.css */
 
+/* 
+This file is the main location for setting the font of the website
+DO NOT add hard values for items not related to font style, size, or weight
+*/
+
 :root {
   /* Modern system font stack */
   --font-body: system-ui, -apple-system, BlinkMacSystemFont, 
@@ -12,6 +17,14 @@
   
   /* Fluid typography base (min ~16px → max ~18px on large screens) */
   --font-size-root: clamp(1rem, 0.96vw + 0.8rem, 1.125rem);
+  --font-size-input: clamp(0.7rem, 0.96vw + 0.6rem, 0.9rem);
+
+  /* Button fonts */
+  --button-font: clamp(0.9rem, 0.96vw + 0.8rem, 1rem);
+  --button-font-tiny: clamp(0.7rem, 0.96vw + 0.5rem, 0.8rem);
+  --button-font-small: clamp(0.8rem, 0.96vw + 0.7rem, 0.9rem);
+  --button-font-large: clamp(1rem, 0.96vw + 0.8rem, 1.125rem);
+  --navbar-font-size: clamp(1rem, 0.96vw + 0.8rem, 1.125rem);
 
   /* Modular scale ratio */
   --scale-ratio: 1.25;
@@ -25,8 +38,6 @@
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
-
-  --link-color: #2dff7a;
 }
 
 /* Base document typography */
@@ -65,6 +76,7 @@ p, li, .text-body .table td {
 /* Form elements */ 
 input, textarea, select {
   font-family: var(--font-body);
+  font-size: var(--font-size-input);
 }
 
 /* Tiny text */
@@ -104,6 +116,7 @@ small, .text-small {
 .uppercase       { text-transform: uppercase; letter-spacing: 0.06em; }
 .capitalize      { text-transform: capitalize; }
 
+/* Other */
 .clickable-text {
   cursor: pointer;
   font-weight: var(--weight-semibold);
@@ -115,7 +128,7 @@ small, .text-small {
 }
 
 .history-time-font {
-  color: #383838;
+  color: var(--api-history-time-color);
   font-size: 0.85rem;
   margin-left: 0.5rem;
 }

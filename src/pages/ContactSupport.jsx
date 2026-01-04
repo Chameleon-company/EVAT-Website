@@ -2,6 +2,7 @@ import NavBar from "../components/NavBar";
 import ChatBubble from "../components/ChatBubble";
 import SupportRequestForm from "../components/SupportRequestForm";
 
+import '../styles/Root.css';
 import '../styles/Buttons.css';
 import '../styles/Elements.css';
 import '../styles/Fonts.css';

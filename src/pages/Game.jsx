@@ -4,6 +4,7 @@ import NavBar from '../components/NavBar';
 import profileImage from '../assets/game-car.png';
 import ChatBubble from "../components/ChatBubble";
 
+import '../styles/Root.css';
 import '../styles/Buttons.css';
 import '../styles/Elements.css';
 import '../styles/Fonts.css';
@@ -211,7 +212,7 @@ function Game() {
         </div>
 
         <div className="inner-right">
-          <button className="btn btn-signout two-hundred-width uppercase" onClick={handleSignOut}>
+          <button className="btn btn-secondary two-hundred-width uppercase" onClick={handleSignOut}>
             SIGN OUT
           </button>
         </div>
