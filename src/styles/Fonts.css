@@ -93,7 +93,7 @@ small, .text-small {
 .font-semibold   { font-weight: var(--weight-semibold); }
 .font-medium     { font-weight: var(--weight-medium); }
 .font-regular    { font-weight: var(--weight-regular); }
-.font-italic          { font-style: italic;}
+.font-italic     { font-style: italic;}
 
 /* Alignment */
 .text-center     { text-align: center; }
@@ -109,6 +109,13 @@ small, .text-small {
   font-weight: var(--weight-semibold);
   color: var(--link-color);
 }
+
 .review-count.clickable-text:hover {
   text-decoration: underline;
+}
+
+.history-time-font {
+  color: #383838;
+  font-size: 0.85rem;
+  margin-left: 0.5rem;
 }

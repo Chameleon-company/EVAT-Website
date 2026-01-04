@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import { Mail, User, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
 import { submitFeedback } from '../services/feedbackService';
 
 function FeedbackForm() {
@@ -47,7 +47,7 @@ function FeedbackForm() {
   };
 
   return (
-    <div className="container-split center">
+    <div className="container vertical center">
       <h2 className="center">Send Feedback</h2>
       <div>
         <form className="form-section" onSubmit={handleSubmit}>
@@ -68,20 +68,23 @@ function FeedbackForm() {
           )}
         
           <label className='form-label required' htmlFor="name">Name</label>
-          <input
-            className="input form-full-width"
-            name="name"
-            type="text"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Enter your name"
-          />
+          <div className='icon-inside-input'>
+            <User className="input-icon" />
+            <input
+              className="input"
+              name="name"
+              type="text"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter your name"
+            />
+          </div>
 
           <label className='form-label required' htmlFor="email">E-Mail</label>
-          <div className="email-input-container">
-            <Mail className="email-icon" size={16} />
+          <div className='icon-inside-input'>
+            <Mail className="input-icon" />
             <input
-              className="input form-full-width"
+              className="input"
               name="email"
               type="email"
               value={formData.email}
@@ -92,7 +95,7 @@ function FeedbackForm() {
 
           <label className='form-label required' htmlFor="suggestion">Suggestion</label>
           <textarea
-            className="input full-width"
+            className="input"
             name="suggestion"
             value={formData.suggestion}
             onChange={handleChange}
@@ -100,9 +103,9 @@ function FeedbackForm() {
             rows="4"
             required
           />
-          <div className='spacer' />
+          <div className='spacer-small' />
           <button 
-            className="btn btn-primary btn-full-width"
+            className="btn btn-primary"
             type="submit" 
             disabled={isSubmitting}
           >

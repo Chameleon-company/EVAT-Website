@@ -29,9 +29,9 @@ function Favourite() {
       <div className="background-image" />
       {/* title */}
       <h1 className='h1 text-center auto-width'>My Favourite Stations</h1>
-      <div className="container center auto-width">
+      <div className="container horizontal auto-width">
 
-        {error && <p className="error-msg">Error loading favourites: {error}</p>}
+        {error && <p className="validation-error">Error loading favourites: {error}</p>}
         {loading && !error && <p>Loading favourite stations...</p>}
         {!loading && !error && favourites.length === 0 && (
           <p>No favourites yet. Go to the map and ❤️ a station to save it here.</p>

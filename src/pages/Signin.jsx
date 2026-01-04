@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, KeyRound, User as UserIcon } from 'lucide-react';
+import { Mail, Eye, EyeOff, KeyRound, User as UserIcon } from 'lucide-react';
 import { UserContext } from '../context/user';
 
 import '../styles/Buttons.css';
@@ -115,13 +115,13 @@ function Signin() {
   
   //UI Rendering
   return (
-    <div className="container center">
+    <div className="container vertical center">
       <img src="../src/assets/logo.png" alt="EV Adoption Tool" className="logo-image" />
 
       <form onSubmit={handleSubmit} className="form-section">
         <label className='form-label required'>Email</label>
-        <div>
-          <UserIcon className="icon" />
+        <div className='icon-inside-input'>
+          <Mail className="input-icon" />
           <input
             className="input"
             type="text"
@@ -134,8 +134,8 @@ function Signin() {
         </div>
 
         <label className='form-label required'>Password</label>
-        <div>
-          <KeyRound className="icon" />
+        <div className='icon-inside-input'>
+          <KeyRound className="input-icon" />
           <input
             className="input"
             type={showPassword ? 'text' : 'password'}
@@ -146,7 +146,7 @@ function Signin() {
             required
           />
           <span
-            className="icon"
+            className="input-icon-end"
             onClick={() => setShowPassword(!showPassword)}
             role="button"
           >
@@ -154,7 +154,7 @@ function Signin() {
           </span>
         </div>
 
-        <div className="spacer">  </div>
+        <div className="spacer-small">  </div>
 
         <button 
           className="btn btn-primary" 
@@ -171,8 +171,8 @@ function Signin() {
         </button>
       </form>
 
-      {error && <p className="error-message">{error}</p>}
-      {submitted && <p className="success-message">Sign in submitted</p>}
+      {error && <p className="validation-error">{error}</p>}
+      {submitted && <p className="validation-success">Sign in submitted</p>}
     </div>
   );
 }

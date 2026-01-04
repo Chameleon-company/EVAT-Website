@@ -156,8 +156,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 }
 
 input.form-full-width {
-  width: 100%;
-  margin: 5px 0;
+  width: stretch;
   box-sizing: border-box;
 }
 

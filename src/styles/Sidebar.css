@@ -39,7 +39,8 @@
   left: 0;
   top: 0;
   width: 22vw;
-  max-width: 50vw;
+  min-width: 360px;
+  max-width: 420px;
   height: 90vh;
   background: var(--sidebar-bg);
   color: var(--sidebar-text);

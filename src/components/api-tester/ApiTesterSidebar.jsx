@@ -91,6 +91,7 @@ const ApiTesterSidebar = ({ onEndpointClick }) => {
         )}
       </div>
 
+      <div className='spacer-small' />
       <div className="endpoint-sidebar">
         {filteredGroups.length === 0 ? (
           // if no endpoints in filtered group
@@ -110,6 +111,7 @@ const ApiTesterSidebar = ({ onEndpointClick }) => {
               {group.endpoints.map((item, idx) => (
                 <EndpointItem key={idx} item={item} onEndpointClick={onEndpointClick} />
               ))}
+              <div className='spacer' />
             </details>
           ))
         )}

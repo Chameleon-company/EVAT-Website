@@ -44,12 +44,13 @@ export default function CostCalculation() {
   const handleEdit = () => setShowResult(false);
 
   return (
-    <div className="container center">
-      <div className="container container-left half-height">
+    <div className="container horizontal center">
+      {/* <div className="container horizontal container-left half-height"> */}
+      <div className="container vertical inner-left half-height ">
         <img src={carDemo} alt="Car" className="cost-image" />
         <label className='form-label required'>Brand</label>
         <select 
-          className="input form-full-width"
+          className="input full-width"
           value={brand} 
           onChange={handleBrandChange}
         >
@@ -60,7 +61,7 @@ export default function CostCalculation() {
         </select>
         <label className='form-label required'>Model</label>
         <select 
-          className="input form-full-width"
+          className="input full-width"
           value={model} 
           onChange={handleModelChange} 
           disabled={!brand}
@@ -72,14 +73,14 @@ export default function CostCalculation() {
         </select>
       </div>
       
-      <div className="container-hidden container-center">
+      <div className="container vertical hidden inner-center">
         {!showResult && (
           <form onSubmit={handleCalculate} className="form-section">
             <h2 className="h2 center auto-width">Cost Calculator</h2>
             <p>Estimate your total EV cost based on your usage</p>
             <label className='form-label required'>Enter Avg. kms/day</label>
             <input
-              className="input form-full-width"
+              className="input full-width"
               type="number"
               value={kmsPerDay}
               onChange={e => setKmsPerDay(e.target.value)}
@@ -88,7 +89,7 @@ export default function CostCalculation() {
             />
             <label className='form-label required'>Enter Electricity Cost ($ per kWh)</label>
             <input
-              className="input form-full-width"
+              className="input full-width"
               type="number"
               value={electricityCost}
               onChange={e => setElectricityCost(e.target.value)}
@@ -96,7 +97,7 @@ export default function CostCalculation() {
               min="0"
               step="0.01"
             />
-            <div className="spacer" />
+            <div className="spacer-small" />
             <button 
               className="btn btn-primary btn-full-width"
               type="submit" 
@@ -106,7 +107,7 @@ export default function CostCalculation() {
           </form>
         )}
         {showResult && (
-          <div className="container-hidden container-center">
+          <div className="container vertical hidden inner-center">
             <h2>Cost</h2>
             <h1>${cost}</h1>
             <div>
@@ -114,6 +115,7 @@ export default function CostCalculation() {
               <div>Avg. kms/day:  <span className="font-bold">{kmsPerDay}</span></div>
               <div>Electricity Cost ($ per kWh):  <span className="font-bold">{electricityCost}</span></div>
             </div>
+            <div className="spacer" />
             <button 
               onClick={handleEdit} 
               className="btn btn-primary btn-full-width"

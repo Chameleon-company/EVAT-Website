@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, KeyRound, User, Phone } from 'lucide-react';
+import {  Mail, Eye, EyeOff, KeyRound, User, Phone } from 'lucide-react';
 
 import '../styles/Buttons.css';
 import '../styles/Elements.css';
@@ -71,13 +71,13 @@ function Signup() {
   };
 
   return (
-    <div className="container center">
+    <div className="container vertical center">
       <img src="../src/assets/logo.png" alt="EV Adoption Tool" className="logo-image" />
 
       <form onSubmit={handleSubmit} className="form-section">
         <label className='form-label required'>First Name</label>
-        <div>
-          <User className="icon" />
+        <div className='icon-inside-input'>
+          <User className="input-icon" />
           <input
             className="input"
             type="text"
@@ -90,8 +90,8 @@ function Signup() {
         </div>
 
         <label className='form-label required'>Last Name</label>
-        <div>
-          <User className="icon" />
+        <div className='icon-inside-input'>
+          <User className="input-icon" />
           <input
             className="input"
             type="text"
@@ -104,8 +104,8 @@ function Signup() {
         </div>
 
         <label className='form-label required'>Mobile Number</label>
-        <div>
-          <Phone className="icon" />
+        <div className='icon-inside-input'>
+          <Phone className="input-icon" />
           <input
             className="input"
             type="tel"
@@ -119,12 +119,12 @@ function Signup() {
         </div>
 
         <label className='form-label required'>Email</label>
-        <div>
-          <User className="icon" />
+        <div className='icon-inside-input'>
+          <Mail className="input-icon"/>
           <input
             className="input"
-            type="email"
             name="email"
+            type="email"
             placeholder="Email"
             value={form.email}
             onChange={handleChange}
@@ -133,8 +133,8 @@ function Signup() {
         </div>
 
         <label className='form-label required'>Password</label>
-        <div>
-          <KeyRound className="icon" />
+        <div className='icon-inside-input'>
+          <KeyRound className="input-icon" />
           <input
             className="input"
             type={showPassword ? 'text' : 'password'}
@@ -145,7 +145,7 @@ function Signup() {
             required
           />
           <span
-            className="icon"
+            className="input-icon-end"
             onClick={() => setShowPassword(!showPassword)}
             style={{ cursor: 'pointer' }}
           >
@@ -153,7 +153,7 @@ function Signup() {
           </span>
         </div>
 
-        <div className="spacer">  </div>
+        <div className="spacer-small">  </div>
 
         <button 
           className="btn btn-primary"

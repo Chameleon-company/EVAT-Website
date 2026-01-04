@@ -49,7 +49,7 @@
   gap:var(--validation-gap);
 }
 
-.validation-message {
+.message {
   background-color: var(--message-bg);
   color: var(--message-text);
   border: var(--message-border);

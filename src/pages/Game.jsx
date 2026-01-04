@@ -148,24 +148,24 @@ function Game() {
       <div className="background-image" />
       {/* title */}
       <h1 className='h1 text-center auto-width'>Rewards</h1>
-      <div className="container auto-width">
-        <div className="container-left">
+      <div className="container horizontal auto-width">
+        <div className="inner-left">
           <h5>Character</h5>
           <div>
             <img src={profileImage} className="character-image" alt="Character Image"  />
           </div>
         </div>
-
-        <div className="container-center">
+        <div className="inner-center">
           <div>
             <button className="btn btn-primary uppercase" onClick={handleAppLogin}>
               App Login Check-In
             </button>
           </div>
 
+          <div className='spacer' />
           <div>
             <h5>Try Action-Based Rewards:</h5>
-            <div>
+            <div className='wrap-center'>
               <button 
                 className='btn btn-primary btn-small'
                 onClick={() => triggerGamificationAction("check_in")}
@@ -194,23 +194,23 @@ function Game() {
           </div>
 
           {loading ? (
-            <div className="loader">Loading game profile...</div>
+            <div className="message">Loading game profile...</div>
           ) : error ? (
-            <p className="error-message">{error}</p>
+            <p className="validation-error">{error}</p>
           ) : gameProfile ? (
-            <div className="container-split">
+            <div className="container vertical">
               <p>🎯 <strong>Points:</strong> {gameProfile.gamification_profile?.points_balance}</p>
               <p>🔥 <strong>Streak:</strong> {gameProfile.engagement_metrics?.current_app_login_streak} day(s)</p>
               <p>🏆 <strong>Longest Streak:</strong> {gameProfile.engagement_metrics?.longest_app_login_streak} day(s)</p>
               <p>📅 <strong>Last Login:</strong> {new Date(gameProfile.engagement_metrics?.last_login_date).toLocaleDateString()}</p>
-              {loginMessage && <p className="success-message">{loginMessage}</p>}
+              {loginMessage && <p className="validation-success">{loginMessage}</p>}
             </div>
           ) : (
             <p>No game profile data.</p>
           )}
         </div>
 
-        <div className="container-right">
+        <div className="inner-right">
           <button className="btn btn-signout two-hundred-width uppercase" onClick={handleSignOut}>
             SIGN OUT
           </button>

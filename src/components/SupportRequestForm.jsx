@@ -7,6 +7,7 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { Mail, User } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL
 const SUPPORT_ENDPOINT = `${API_URL}/support-requests`;
@@ -105,30 +106,36 @@ export default function SupportRequestForm() {
   };
 
   return (
-    <div className="container-split center auto-width">
+    <div className="container vertical inner">
       <h2 className="center">Submit a Request</h2>
       <form onSubmit={handleSubmit} className="form-section">
         <label className='form-label required'>Name</label>
-        <input
-          className="input"
-          type="text"
-          name="name"
-          placeholder="Your Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
+        <div className='icon-inside-input'>
+          <User className="input-icon" />
+          <input
+            className="input"
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
         <label className='form-label required'>Email</label>
-        <input
-          className="input"
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+        <div className='icon-inside-input'>
+          <Mail className="input-icon" />
+          <input
+            className="input"
+            type="email"
+            name="email"
+            placeholder="Your Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
         <label className='form-label required'>Issue Type</label>
         <select
@@ -153,7 +160,7 @@ export default function SupportRequestForm() {
           onChange={handleChange}
           required
         />
-        <div className="spacer" />
+        <div className="spacer-small" />
         <button 
           className="btn btn-primary"
           type="submit" 

@@ -1,6 +1,41 @@
 :root {
     --btn-zoom-hover: linear-gradient(90deg, #6fbf8c, #6fbf8c);
 }
+
+.container-map {
+  position: relative;
+  height: 90vh;
+  width: 100vw;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.map-visible-area {
+  width: 100%;
+  height: 100%;
+}
+
+.map-message {
+  position: absolute;
+  width: fit-content;
+  top: 12;
+  left: 12;
+  z-index: 1000;
+  padding: 1px;
+}
+
+.hide-scrollbar {
+  /* IE and Edge */
+  -ms-overflow-style: none;
+  /* Firefox */
+  scrollbar-width: none;
+  /* Chrome, Safari, and Opera */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Dark Mode Styles */
 .map-page.dark {
     background-color: #1a1a1a;

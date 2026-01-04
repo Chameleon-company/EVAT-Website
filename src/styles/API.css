@@ -37,7 +37,7 @@
 .history-details {
   padding: var(--history-padding);
   color: var(--history-text);
-  border: 1px solid #969696;
+  border: none;
   border-radius: var(--container-radius);
   cursor: 'pointer';
   margin-bottom: 2px;

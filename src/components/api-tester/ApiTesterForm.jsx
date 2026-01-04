@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from 'react';
+import {  Mail, Eye, EyeOff, KeyRound, User, Phone } from 'lucide-react';
+
 // src/components/api-tester/ApiTesterForm.jsx
 const ApiTesterForm = ({
   method,       setMethod,
@@ -80,6 +83,7 @@ const ApiTesterForm = ({
             />
           </div>
 
+        <div className="spacer-small" />
           {/* show / hide token button */}
           <div>
             <button
@@ -94,7 +98,7 @@ const ApiTesterForm = ({
               className="btn btn-primary two-hundred-width btn-small"
               type="button"
               onClick={autoFillToken}
-            >Auto-Fill Current Token
+            >Auto-Fill Token
             </button>
           </div>
         </div>
@@ -113,6 +117,7 @@ const ApiTesterForm = ({
           />
         </div>
       )}
+      <div className="spacer-small" />
       {/* send request button */}
       <button
         className="btn btn-primary btn-full"

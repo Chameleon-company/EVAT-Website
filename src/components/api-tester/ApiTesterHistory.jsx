@@ -23,9 +23,17 @@ const ApiTesterHistory = ({ history, onLoad, onClear }) => {
             onClick={() => onLoad(item)}
           >
             {/* history item formating */}
-            <strong>{item.method}</strong> {item.endpoint}
-            <span style={{ color: '#666', fontSize: '0.85rem', marginLeft: '8px' }}>
-              — {item.timestamp} ({item.status})
+            <span className="font-bold">
+              {item.method}
+            </span>
+            <span className="font-semibold font-italic">
+              {item.endpoint}
+            </span>
+            <span className="history-time-font">
+              — {item.timestamp}
+            </span>
+            <span className="history-time-font font-semibold font-italic">
+              ({item.status})
             </span>
           </div>
         ))}

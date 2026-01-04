@@ -19,7 +19,7 @@ export default function ContactSupport() {
       <div className="background-image" />
       {/* title */}
       {/* <h1 className='h1 text-center auto-width'>Contact Support</h1> */}
-      <div className="container-hidden center">
+      <div className="container vertical hidden">
         {/* cards */}
         <div className="center">
           <div className="card-grid">

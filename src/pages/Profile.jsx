@@ -327,15 +327,15 @@ function Profile() {
       <div className="background-image" />
       {/* title */}
       <h1 className='h1 text-center auto-width'>My Dashboard</h1>
-      <div className="container auto-width">
+      <div className="container horizontal auto-width">
         {/* left container - profile image*/}
-        <div className="container-left">
+        <div className="inner-left">
           <div className="profile-image">
             <img src={profileImage} alt="Profile" />
           </div>
         </div>
         {/* center container - options and details*/}
-        <div className="container-center">
+        <div className="inner-center">
           {activeTab === "dashboard" && (
             <>
               <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("about")}>About Me</button>
@@ -511,7 +511,7 @@ function Profile() {
           )}
         </div>
         {/* right container - buttons */}
-        <div className="container-right">
+        <div className="inner-right">
           {activeTab === "dashboard" && (
             <button className="btn btn-signout two-hundred-width uppercase" onClick={handleSignOut}>
               SIGN OUT

@@ -1,5 +1,6 @@
 // src/pages/ApiTester.jsx
 import { useState, useEffect } from 'react';
+
 import NavBar from "../components/NavBar";
 import ApiTesterHistory from "../components/api-tester/ApiTesterHistory";
 import ApiTesterSidebar from "../components/api-tester/ApiTesterSidebar";
@@ -164,7 +165,7 @@ const ApiTester = () => {
     <div>
       <NavBar />
       <h3 className='h3 text-center auto-width'>Internal API Tester</h3>
-      <div className="container-split auto-width">
+      <div className="container vertical auto-width">
         <div className="grid-content">
           {/* left panel */}
           <div >
@@ -186,7 +187,7 @@ const ApiTester = () => {
               loading={loading}
               onSend={sendRequest}
             />
-
+            <div className='spacer-small' />
             {/* response */}
             <ApiTesterResponse response={response} error={error} />
           </div>

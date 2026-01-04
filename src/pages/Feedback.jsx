@@ -13,7 +13,7 @@ import '../styles/Validation.css';
 
 function Feedback() {
   return (
-    <div className="feedback-page">
+    <div>
       <NavBar />
       {/* background */}
       <div className="background-image" />

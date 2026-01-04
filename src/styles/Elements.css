@@ -7,10 +7,12 @@ body {
 }
 
 :root {
+  /* 1rem = 18px */
   /* Colors */
   --container-bg: #ffffff2a;
   --container-border: 1px solid #6fbf8c;
   --container-padding: 1rem;
+  --container-margin-top: 1rem;
   --container-margin: .5rem;
   --container-text: white;
   --container-radius: 8px;
@@ -30,11 +32,13 @@ body {
 
 /* Card */
 .card {
-  flex: 1;
+  /* appearance */
   background: var(--card-bg);
+  color: var(--card-text);
   border: none;
   border-radius: var(--container-radius);
-  color: var(--card-text);
+  /* layout */
+  flex: 1;
   width: var(--card-width-min);
   margin: auto;
   padding: var(--card-padding);
@@ -53,47 +57,92 @@ body {
 
 /* Containers */
 .container {
-  display: flex;
+  /* appearance */
   background: var(--container-bg);
+  color: var(--container-text);
   border: var(--container-border);
   border-radius: var(--container-radius);
+  /* layout */
+  display: flex;
   width: fit-content;
-  padding: var(--container-padding);
   align-items: stretch;
   justify-content: space-between;
-  color: var(--container-text);
-}
-
-.container-split {
-  display: flex;
-  flex-direction: column;
-  background: var(--container-bg);
-  border: var(--container-border);
-  border-radius: var(--container-radius);
-  width: fit-content;
+  margin: auto;
+  margin-bottom: var(--container-margin);
+  margin-top: var(--container-margin-top);
   padding: var(--container-padding);
-  align-items: stretch;
-  justify-content: space-between;
-  color: var(--container-text);
 }
 
-.container-hidden {
-  display: flex;
+.container.horizontal {
+  flex-direction: row;
+}
+
+.container.vertical {
   flex-direction: column;
+}
+
+.container.hidden {
   background: none;
   border: none;
-  border-radius:none;
-  width: fit-content;
-  padding: var(--container-padding);
-  align-items: center;
-  color: var(--container-text);
+  border-radius: none;
 }
 
+.container.center {
+  margin: auto;
+  margin-top: var(--container-margin-top);
+}
+
+.container.auto-width {
+  width: auto;
+  margin: 20px;
+  margin-top: var(--container-margin-top);
+}
+
+.container.inner {
+  width: auto;
+  margin: auto;
+}
+
+/* three-way inner container */
+.inner-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;  /* aligns content to left */
+  min-width: 210px;
+  width: fit-content;
+}
+
+.inner-center {
+  display: flex;
+  flex-direction: column;
+  width: stretch;         /* fills the parent container */
+  margin: auto;           /* fills the parent container */
+  align-items: center;
+  justify-items: space-around;
+  text-align: center;
+}
+
+.wrap-center {
+  display: flex;
+  width: auto;            /* fills the parent container */
+  margin: auto;           /* fills the parent container */
+  flex-wrap: wrap;        /* wraps contents */
+  justify-content: space-around;
+}
+
+.inner-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;  /* aligns content to right */
+  min-width: 210px;
+  width: fit-content;
+  margin-top: auto;       /* pushes content to bottom */
+}
 
 /* Background */
 .background-image {
-  position: fixed;
-  top: 76px;
+  position: fixed;        /* doesnt move */
+  top: 76px;              /* starts below the navbar */
   left: 0;
   width: 100%;
   height: 100%;
@@ -116,28 +165,6 @@ body {
   background-size: cover;
   opacity: 0.5;
   z-index: -1;
-}
-
-.dashboard-container {
-  position: relative;
-  margin: 0 auto 120px;
-  max-width: 90vw;
-  min-height: 30vh;
-  max-height: 60vh;
-  background: var(--container-bg);
-  border: var(--container-border);
-  border-radius: var(--container-radius);
-  display: flex;
-  gap: 2rem;
-  padding: 2rem;
-  align-items: stretch;
-  justify-content: space-between;
-}
-
-.center {
-  margin: auto;
-  margin-top: var(--container-margin);
-  margin-bottom: var(--container-margin);
 }
 
 /* Make the entire page content scrollable */
@@ -174,6 +201,13 @@ body {
   max-width: 10vw;
 }
 
+.center {
+  margin: auto;
+  /* margin-top: var(--container-margin);
+  margin-bottom: var(--container-margin); */
+}
+
+/* Images */
 /* evat logo */
 .logo-image {
   margin: auto;
@@ -182,6 +216,7 @@ body {
   height: auto;
 }
 
+/* dashboard image */
 .profile-image {
   width: 100px;
   height: auto;
@@ -192,12 +227,7 @@ body {
   margin: 0 auto;
 }
 
-.icon {
-  margin: 0.1rem;
-  padding: 0.1rem;
-  vertical-align: middle;
-}
-
+/* game reward image */
 .character-image {
   width: 200px;
   height: 200px;
@@ -208,12 +238,55 @@ body {
   margin: auto;
 }
 
+.cost-image {
+  width: 180px;
+  border-radius: var(--container-radius);
+  margin-bottom: 8px;
+}
+
+/* Icon */
+.icon {
+  margin: 0.1rem;
+  padding: 0.1rem;
+  vertical-align: middle;
+}
+
+.input-icon {
+  position: absolute;
+  left: 5px;
+  color: black;
+  z-index: 1;
+}
+
+.input-icon-end {
+  position: absolute;
+  right: 5px;
+  color: black;
+  z-index: 1;
+}
+
+.icon-inside-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon-inside-input .input {
+  padding-left: 35px;
+  width: 100%;
+}
+
+/* Utility */
 .spacer {
   margin: 0.1rem;
   padding: 1rem;
 }
 
-/* Full Width */
+.spacer-small {
+  margin: 0.1rem;
+  padding: 0.3rem;
+}
+
 .full-width,
 .btn-full {
   width: 100%;
@@ -222,13 +295,11 @@ body {
 }
 
 .two-hundred-width {
-  width: auto;
-  min-width: 200px;
+  width: 200px;
 }
 
 .one-hundred-width {
-  width: auto;
-  min-width: 100px;
+  width: 100px;
 }
 
 .half-width {
@@ -250,12 +321,12 @@ body {
 
 .auto-width {
   width: auto;
-  margin: 8px;
+  margin: 20px;
 }
 
 .auto-height {
   height: auto;
-  margin: 8px;
+  margin: 20px;
 }
 
 .force-height {
@@ -263,63 +334,6 @@ body {
   overflow-x: scroll;
 }
 
-.email-icon {
-  position: absolute;
-  left: 12px;
-  color: #333;
-  z-index: 1;
-}
 
-.email-input-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
 
-.email-input-container .input {
-  padding-left: 40px;
-  width: 100%;
-}
-
-.cost-image {
-  width: 180px;
-  border-radius: var(--container-radius);
-  margin-bottom: 8px;
-}
-
-.container-map {
-  position: relative;
-  height: 90vh;
-  width: 100vw;
-  overflow-y: auto;
-  overflow-x: auto;
-}
-
-.map-visible-area {
-  height: 100%;
-  width: 100%;
-}
-
-.map-message {
-  position: absolute;
-  width: fit-content;
-  top: 12;
-  left: 12;
-  z-index: 1000;
-  padding: 1px;
-}
-
-.hide-scrollbar {
-  /* IE and Edge */
-  -ms-overflow-style: none;
-  /* Firefox */
-  scrollbar-width: none;
-  /* Chrome, Safari, and Opera */
-  overflow-y: visible;
-  overflow-x: visible;
-}
-
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
 
