@@ -1,18 +1,24 @@
-:root {
-    --btn-zoom-hover: linear-gradient(90deg, #6fbf8c, #6fbf8c);
-}
+/* Map.css */
+
+/*
+This CSS has the style settings for the map
+
+There has been some work done to add a dark mode, however, dark 
+mode has not been expanded to the rest of the site.
+
+*/
 
 .container-map {
   position: relative;
-  height: 90vh;
-  width: 100vw;
+  width: var(--map-container-width); 
+  height: var(--map-container-height); 
   overflow-y: auto;
   overflow-x: auto;
 }
 
 .map-visible-area {
-  width: 100%;
-  height: 100%;
+  width: var(--map-visible-width);
+  height: var(--map-visible-height);
 }
 
 .map-message {
@@ -21,7 +27,6 @@
   top: 12;
   left: 12;
   z-index: 1000;
-  padding: 1px;
 }
 
 .hide-scrollbar {
@@ -94,24 +99,24 @@
 }
 
 .leaflet-control-zoom a {
-    width: 60px;
-    height: 60px;
+    width: var(--button-zoom-size);
+    height: var(--button-zoom-size);
     line-height: 60px;
-    background: var(--btn-primary);
-    color: var(--btn-primary-text);
-    border-color: black;
+    background: var(--button-zoom-background);
+    color: var(--button-zoom-text-color);
+    border-color: var(--button-zoom-border-color);
+    border: var(--button-zoom-border);
     align-items: center;
     justify-content: center;
-    /* font-size: 20px; */
 }
 
 .leaflet-control-zoom a:hover {
-    box-shadow: var(--btn-shadow-hover);
-    background:  var(--btn-zoom-hover);
+    box-shadow: var(--button-shadow-hover);
+    background: var(--button-zoom-hover-background);
     background-position: 0% 0%;
 }
 .leaflet-control-zoom a:active {
-    background:  var(--btn-primary-active);
+    background:  var(--button-zoom-background-active);
 }
 
 @media (max-width: 768px) {
@@ -122,4 +127,6 @@
         top: 240px; /* push below locate user button */
     }
 }
+
+/* var(); */
   

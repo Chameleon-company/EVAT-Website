@@ -31,6 +31,10 @@ function Signin() {
     setError(null);
     setSubmitted(true); //to indicate the form is now submitting
 
+    // check that an email and password have been provided
+
+
+    // submit the login
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -119,12 +123,12 @@ function Signin() {
     <div className="container vertical center">
       <img src="../src/assets/logo.png" alt="EV Adoption Tool" className="logo-image" />
 
-      <form onSubmit={handleSubmit} className="form-section">
+      <form onSubmit={handleSubmit} className="form-section signin-width">
         <label className='form-label required'>Email</label>
         <div className='icon-inside-input'>
           <Mail className="input-icon" />
           <input
-            className="input"
+            className={`input ${submitted && !email ? 'input-invalid' : ''}`}
             type="text"
             name="email"
             placeholder="Enter your email"
@@ -138,7 +142,7 @@ function Signin() {
         <div className='icon-inside-input'>
           <KeyRound className="input-icon" />
           <input
-            className="input"
+            className={`input ${submitted && !password ? 'has-error' : ''}`}
             type={showPassword ? 'text' : 'password'}
             name="password"
             placeholder="Enter your password"
@@ -170,10 +174,12 @@ function Signin() {
         >
           CREATE NEW ACCOUNT
         </button>
+
+        <div className="spacer-small">  </div>
+        {error && <p className="validation error">{error}</p>}
+        {submitted && <p className="validation success">Sign in submitted</p>}
       </form>
 
-      {error && <p className="validation-error">{error}</p>}
-      {submitted && <p className="validation-success">Sign in submitted</p>}
     </div>
   );
 }

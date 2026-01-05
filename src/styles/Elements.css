@@ -248,6 +248,10 @@ body {
   box-sizing: border-box;
 }
 
+.signin-width {
+  width: 300px;
+}
+
 .two-hundred-width {
   width: 200px;
 }

@@ -137,7 +137,7 @@ input.form-full-width {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: var(--toggle-gap);
 }
 
 .input-and-label-same-line {
@@ -162,7 +162,7 @@ input.form-full-width {
 .has-error input,
 .has-error textarea,
 .has-error select {
-  border-color: var(--input-required-color);
+  border-color: var(--input-required-color) !important;
 }
 
 .has-error .form-message {

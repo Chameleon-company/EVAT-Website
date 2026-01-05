@@ -209,7 +209,7 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
       <div>
         {/* warning if selected date and time is in the past */}
         {selectedDate && selectedTime && isPastDateTime() && (
-          <div className="validation-error">
+          <div className="validation error">
             Selected time is in the past
           </div>
         )}
@@ -236,7 +236,7 @@ export default function SidebarBookingTool({ stationName = "Unknown Station" }) 
 
       {/* recent booking warning */}
       {recentBookingWarning && (
-        <div className="validation-error">
+        <div className="validation error">
             Please wait a few seconds before booking again.
         </div>
       )}

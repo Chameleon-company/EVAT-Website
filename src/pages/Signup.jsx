@@ -75,7 +75,7 @@ function Signup() {
     <div className="container vertical center">
       <img src="../src/assets/logo.png" alt="EV Adoption Tool" className="logo-image" />
 
-      <form onSubmit={handleSubmit} className="form-section">
+      <form onSubmit={handleSubmit} className="form-section signin-width">
         <label className='form-label required'>First Name</label>
         <div className='icon-inside-input'>
           <User className="input-icon" />
@@ -170,8 +170,9 @@ function Signup() {
           BACK TO SIGN IN
         </button>
 
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        {submitted && <p className="success-message">Signup successful!</p>}
+        <div className="spacer-small">  </div>
+        {errorMessage && <p className="validation error">{errorMessage}</p>}
+        {submitted && <p className="validation success">Signup successful!</p>}
       </form>
     </div>
   );

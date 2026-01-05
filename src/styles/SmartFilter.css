@@ -1,3 +1,10 @@
+/* SmartFilter.css */
+
+/*
+This CSS has the style settings for the Smart Filter (access via map page)
+
+The smart filter can be very delicate (especially the slider)
+*/
 
 /* Filter Overlay */
 .filter-overlay {
@@ -15,48 +22,46 @@
 
 /* Smart Filter Panel */
 .filter-container {
-  background: var(--sidebar-bg);
-  border-radius: var(--container-radius);
-  max-height: 80vh;
+  background: var(--filter-container-background);
+  border-radius: var(--filter-radius);
+  max-height: var(--filter-max-height);
+  max-width: var(--filter-max-width);
   overflow-y: auto;
-  max-width: 30vw;
   z-index: 1;
 }
 
 /* Header */
 .filter-header {
-  background-color: var(--navbar-bg);
-  padding: 8px;
+  background-color: var(--filter-header-background-color);
+  padding: var(--filter-header-padding);
+  max-height: var(--filter-header-max-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-left: 20px;
-  padding-top: 30px;
-  max-height: 40px;
 }
 
 /* Footer */
 .filter-footer {
-  background-color: var(--navbar-bg);
+  background-color: var(--filter-footer-background-color);
 }
 
 /* Filter Sections */
 .filter-section {
-  padding: 20px;
+  padding: var(--filter-section-padding);
 }
 
 /* Filter Options */
 .filter-options {
-  padding-top: 8px;
+  padding: var(--filter-options-padding);
+  gap: var(--filter-options-gap);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.5rem;
 }
 
 /* Price Range Slider */
 .price-slider-container {
-  margin-top: 1rem;
+  margin-top: var(--filter-slider-container-margin-top);
   position: relative;
 }
 
@@ -68,7 +73,7 @@
 .price-slider-labels {
   display: flex;
   justify-content: space-between;
-  padding-top: 1rem;
+  padding-top: var(--filter-slider-price-labels-padding-top);
 }
 
 /* Toggle Switch */
@@ -81,8 +86,8 @@
 .toggle-switch {
   position: relative;
   display: inline-block;
-  width: 50px;
-  height: 24px;
+  width: var(--toggle-switch-width);
+  height: var(--toggle-switch-height);
 }
 
 .toggle-switch input {
@@ -99,27 +104,27 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
-  transition: 0.3s;
-  border-radius: 24px;
+  background-color: var(--toggle-switch-background-color);
+  transition: var(--toggle-ball-transition);
+  border-radius: var(--toggle-switch-border-radius);
 }
 
 /* toggle ball */
 .toggle-slider:before {
   position: absolute;
   content: "";
-  height: 18px;
-  width: 18px;
+  height: var(--toggle-ball-size);
+  width: var(--toggle-ball-size);
   left: 3px;
   bottom: 3px;
-  background-color: white;
-  transition: 0.3s;
-  border-radius: 50%;
+  background-color: var(--toggle-ball-background-color);
+  transition: var(--toggle-ball-transition);
+  border-radius: var(--toggle-ball-border-radius);
 }
 
 /* toggle background while on */
 input:checked + .toggle-slider {
-  background-color: var(--element-border-focus);
+  background-color: var(--toggle-switch-checked-background-color);
 }
 
 /* toggle ball position while on */

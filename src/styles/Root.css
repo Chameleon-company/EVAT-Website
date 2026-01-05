@@ -13,7 +13,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
 */
 
 :root {
-    /* === Website Standards === */
+    /* ====================================================== Website Standards ====================================================== */
     --website-radius: 8px;
     --website-padding: 8px;
     --website-margin: 8px;
@@ -21,7 +21,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --website-transition: all 0.2s ease;
     
     /* Shadows */
-    --website-shadow-color: #00000080;
+    --website-shadow-color: #000000;
     --website-shadow-box: 0 1px 2px 0 var(--website-shadow-color);
     --website-shadow-hover: 0 4px 6px -1px var(--website-shadow-color), 0 2px 4px -2px var(--website-shadow-color);
 
@@ -50,7 +50,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --success-background-color: var(--success-color-light);
     --success-border: 1px solid var(--success-color-dark);
 
-    /* === Main Colours === */
+    /* ====================================================== Main Colours ====================================================== */
     /* Shades */
     --white: #ffffff;
     --grey-light: #d8d8d8;
@@ -86,15 +86,25 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --transparent-color-light: #ffffff96;
     --transparent-color-base: #d3d3d342;
     --transparent-color-dark: #47474742;
+    
+    /* Reviewed */
+    --reviewed-color-light: #dbc979;
+    --reviewed-color-base: #c2a93a;
+    --reviewed-color-dark: #81722f;
 
-    /* === Text === */
+    /* Farvourite */
+    --favourite-color-light: #d88d8d;
+    --favourite-color-base: #c23636;
+    --favourite-color-dark: #812525;
+
+    /* ====================================================== Text ====================================================== */
     --text-color-white: #ffffff;
     --text-color-light: #d8d8d8;
     --text-color-dark: #3f3f3f;
     --text-color-black: #000000;
     --text-color-link: #2dff7a;
 
-    /* === API Tester Page === */
+    /* ====================================================== API Tester Page ====================================================== */
     --api-radius: var(--website-radius);
     --api-padding: var(--website-padding);
     --api-margin: var(--website-margin);
@@ -105,12 +115,15 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --api-item-background-position-end: 0% 0%;
     --api-item-shadow-hover: var(--website-shadow-hover);
     
+    /* Endpoints */
+    --endpoint-text-color: var(--text-color-black);
+    --endpoint-admin-only-text-color: var(--danger-color-base);
+    
+    /* Response */
     --response-background-color: var(--grey-light);
     --response-border-color: var(--black);
     --response-border: 1px solid var(--response-border-color);
     --response-text-color: var(--text-color-black);
-    --endpoint-text-color: var(--text-color-black);
-    --endpoint-admin-only-text-color: var(--danger-color-base);
 
     /* History */
     --history-text-color: var(--text-color-black);
@@ -149,7 +162,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --patch-colour-dark: #9e5c06;
     --patch-background: linear-gradient(90deg, var(--patch-colour-light), var(--patch-colour-base), var(--patch-colour-dark));
 
-    /* === Tables === */
+    /* ====================================================== Tables ====================================================== */
     --table-border-color: #0000007c;
     --table-hover-color: #6fbf8c;
     --table-even-color: #2424247e;
@@ -162,7 +175,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --table-cell-padding: var(--website-padding);           /* cell padding */
     --table-small-cell-width: 5.5rem;                       /* width for a small cell */
 
-    /* === Elements === */
+    /* ====================================================== Elements ====================================================== */
     --element-radius: var(--website-radius);
     --element-padding: 1rem;
     --element-padding-small: 0.3rem;
@@ -184,7 +197,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --card-gap: 1rem;
     --card-margin: 0 0 1rem 0;
 
-    /* === Forms === */
+    /* ====================================================== Forms ====================================================== */
     --form-padding: var(--website-padding);
     --form-margin: var(--website-margin);
     --input-placeholder-color: var(--grey-dark);
@@ -229,8 +242,22 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --slider-track-radius: 999px;
     --slider-ball-size: 20px;
     --slider-ball-color: var(--primary-color-dark);
+    
+    /* Toggle */
+    /* Toggle Background/Switch */
+    --toggle-gap: var(--website-gap);
+    --toggle-switch-width: 50px;
+    --toggle-switch-height: 24px;
+    --toggle-switch-border-radius: 24px;
+    --toggle-switch-background-color: var(--grey-light);
+    --toggle-switch-checked-background-color: var(--primary-color-base);
+    /* Toggle Ball */
+    --toggle-ball-border-radius: 50%;
+    --toggle-ball-size: 18px;
+    --toggle-ball-transition: 0.3s;
+    --toggle-ball-background-color: var(--white);
 
-    /* === Buttons === */
+    /* ====================================================== Buttons ====================================================== */
     --button-radius: var(--website-radius);
     --button-margin: 0.1rem;
     --button-transition: var(--website-transition);
@@ -292,8 +319,53 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --button-options-selected-border: none;
     --button-options-selected-text: var(--text-color-black);
 
+    /* Sidebar Favourite */
+    /* Base */
+    --button-favourite-background: linear-gradient(90deg, var(--white), var(--white), var(--grey-light));
+    --button-favourite-border-color: var(--black);
+    --button-favourite-border: 1px solid var(--button-favourite-border-color);
+    --button-favourite-text-color: var(--text-color-black);
+    --button-favourite-background-active: linear-gradient(90deg, var(--grey-light), var(--grey-light));
+    --button-favourite-heart-color: var(--favourite-color-light);
+    --button-favourite-heart-border-color: var(--favourite-color-base);
+
+    /* Checked */
+    --button-favourite-checked-background: linear-gradient(90deg, var(--favourite-color-light), var(--favourite-color-base), var(--favourite-color-base));
+    --button-favourite-checked-border-color: var(--white);
+    --button-favourite-checked-border: 1px solid var(--button-favourite-checked-border-color);
+    --button-favourite-checked-text-color: var(--white);
+    --button-favourite-checked-background-active: linear-gradient(90deg, var(--favourite-color-dark), var(--favourite-color-dark));
+    --button-favourite-checked-heart-color: var(--white);
+    --button-favourite-checked-heart-border-color: var(--white);
+
+    /* Sidebar Reviewed */
+    /* Base */
+    --button-reviewed-background: linear-gradient(90deg, var(--white), var(--white), var(--grey-light));
+    --button-reviewed-border-color: var(--black);
+    --button-reviewed-border: 1px solid var(--button-reviewed-border-color);
+    --button-reviewed-text-color: var(--text-color-black);
+    --button-reviewed-background-active: linear-gradient(90deg, var(--grey-light), var(--grey-light));
+    --button-reviewed-star-color: var(--reviewed-color-light);
+    --button-reviewed-star-border-color: var(--reviewed-color-base);
+
+    /* Checked */
+    --button-reviewed-checked-background: linear-gradient(90deg, var(--reviewed-color-light), var(--reviewed-color-base), var(--reviewed-color-base));
+    --button-reviewed-checked-border-color: var(--white);
+    --button-reviewed-checked-border: 1px solid var(--button-reviewed-checked-border-color);
+    --button-reviewed-checked-text-color: var(--white);
+    --button-reviewed-checked-background-active: linear-gradient(90deg,  var(--reviewed-color-dark), var(--reviewed-color-dark));
+    --button-reviewed-checked-star-color: var(--white);
+    --button-reviewed-checked-star-border-color: var(--white);
+
     /* Map Related Buttons */
-    --button-zoom-hover-color: var(var(--button-primary-background-active));
+    --button-zoom-background: linear-gradient(90deg, var(--primary-color-base), var(--primary-color-base), var(--primary-color-dark));
+    --button-zoom-hover-background: linear-gradient(90deg, var(--primary-color-light), var(--primary-color-light));
+    --button-zoom-background-active: linear-gradient(90deg, var(--primary-color-dark), var(--primary-color-dark));
+    --button-zoom-border-color: var(--black);
+    --button-zoom-border: 1px solid var(--button-zoom-border-color);
+    --button-zoom-text-color: var(--text-color-black);
+    --button-zoom-size: 60px;
+
     --button-chat-bubble-font-size: 30px;
     --button-chat-bubble-radius: 50%;
     --button-chat-bubble-size: 70px;
@@ -303,7 +375,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --button-X-radius: 50%;
     --button-X-padding: 2px;
     
-    /* === Navigation Bar === */
+    /* ====================================================== Navigation Bar ====================================================== */
     --navbar-maring: 0;
     --narbar-padding: var(--website-padding);
     --navbar-title-padding: 0.1rem;
@@ -331,7 +403,80 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --navbar-button-active-text: var(--primary-color-dark);
     --navbar-button-disable-text: var(--grey-dark);
 
-    /* === Smart Filter === */
+    /* ====================================================== Smart Filter ====================================================== */
     --overlay-color: #000000b4;
+    --filter-radius: var(--website-radius);
+    --filter-padding: var(--website-padding);
+    --filter-margin: var(--website-margin);
+    --filter-max-height: 80vh;
+    --filter-max-width: 30vw;
+    --filter-container-background: linear-gradient(90deg, var(--secondary-color-base), var(--secondary-color-light));
 
+    /* Header and Footer */
+    --filter-header-background-color: var(--secondary-color-dark);
+    --filter-header-max-height: 40px;
+    --filter-header-padding: 30px var(--website-padding) var(--website-padding) 20px;
+    --filter-footer-background-color: var(--secondary-color-dark);
+
+    /* Section - holds each filter option */
+    --filter-section-padding: 20px;
+
+    /* Options */
+    --filter-options-padding: var(--website-padding) 0 0 0;
+    --filter-options-gap: var(--website-gap);
+
+    /* Slider - Smart Filter specific options */
+    --filter-slider-container-margin-top: 1rem;
+    --filter-slider-price-labels-padding-top: 1rem;
+
+    /* ====================================================== Side Bar ====================================================== */
+    --sidebar-width: 22vw;
+    --sidebar-min-width: 360px;
+    --sidebar-max-width: 420px;
+    --sidebar-height: 90vh;
+    --sidebar-padding: var(--website-padding);
+    --sidebar-margin: var(--website-margin);
+    --sidebar-gap: var(--website-gap);
+    --sidebar-container-background: linear-gradient(90deg, var(--secondary-color-base), var(--secondary-color-light));
+    --sidebar-border-color: var(--secondary-color-dark);
+    --sidebar-border: 2px solid var(--sidebar-border-color);
+    --sidebar-text-color: var(--text-color-white);
+    --sidebar-shadow-right: -40px 0 200px var(--website-shadow-color);
+    --sidebar-content-padding: 0 32px 16px 16px;
+
+    /* Sidebar Linebreak */
+    --linebreak-border-color: var(--white);
+    --linebreak-border-top: 1px solid var(--linebreak-border-color);
+    --linebreak-margin: var(--website-margin);
+
+    /* Star Rating in Review Section */
+    --star-rating-gap: var(--website-gap);
+    --star-rating-margin-bottom: var(--website-margin);
+    --star-rating-transition: var(--website-transition);
+
+    /* Review Item */
+    --review-item-margin: var(--website-margin) var(--website-margin) 15px var(--website-margin);
+    /* Reviewer */
+    --reviewer-gap: var(--website-gap);
+    --reviewer-margin: var(--website-margin);
+    --reviewer-profile-color: #3b82f6;
+    --reviewer-avatar-size: 32px;
+    --reviewer-avatar-radius: 50%;
+    --reviewer-name-height: 40px;
+    --reviewer-details-gap: 50px;
+
+    /* Estimator */
+    --estimator-text-color: var(--text-color-black);
+    --estimator-padding: var(--website-padding);
+    --estimator-background-color: var(--white);
+    --estimator-border-radius: var(--website-radius);
+    --esitmator-height: 80px;
+    --estimator-width: 100%;
+    
+    /* ====================================================== Map ====================================================== */
+    --map-container-width: 100vw;
+    --map-container-height: 90vh;
+
+    --map-visible-width: 100%;
+    --map-visible-height: 100%;
 }

@@ -233,7 +233,7 @@ export default function ChargerSideBar({ station, onClose }) {
                 //alert('Failed to save favorite. Please try again.');
               }
             }}
-            className={`btn sidebar-btn btn-small ${isFav ? 'favourite' : ''}`}
+            className={`btn favourite-btn btn-small ${isFav ? 'saved' : ''}`}
           >
             <Heart className={`heart-${isFav ? 'full' : 'empty'}`} size={18} />
             <span>{isFav ? 'Saved' : 'Save'}</span>
@@ -258,7 +258,7 @@ export default function ChargerSideBar({ station, onClose }) {
               }
               setShowReviewForm(!showReviewForm);
             }}
-            className={`btn sidebar-btn btn-small ${userHasReviewed ? 'reviewed' : ''}`}
+            className={`btn review-btn btn-small ${userHasReviewed ? 'reviewed' : ''}`}
           >
             <Star className={`star-${userHasReviewed ? 'full' : 'empty'}`} size={18} />
             <span>{userHasReviewed ? 'Edit Review' : 'Review'}</span>

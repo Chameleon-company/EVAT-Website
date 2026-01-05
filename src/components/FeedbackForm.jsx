@@ -54,14 +54,14 @@ function FeedbackForm() {
           
           {/* Status Messages */}
           {submitStatus === 'success' && (
-            <div className="validation-success">
+            <div className="validation success">
               <CheckCircle size={20} />
               <span>Thank you for your feedback! We'll review it and get back to you if needed.</span>
             </div>
           )}
           
           {submitStatus === 'error' && (
-            <div className="validation-error">
+            <div className="validation error">
               <AlertCircle size={20} />
               <span>{errorMessage}</span>
             </div>

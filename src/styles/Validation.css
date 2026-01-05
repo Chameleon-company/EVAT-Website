@@ -7,9 +7,10 @@ This CSS has the style settings for validation pop ups
 .validation {
   text-align: center;
   display: flex;
+  width: inherit;
+  box-sizing: border-box;
   align-items: center;
   border-radius: var(--message-radius);
-  margin: var(--message-margin);
   padding: var(--message-padding);
   gap:var(--message-gap);
 }
