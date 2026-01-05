@@ -586,7 +586,7 @@ function Profile() {
 
           {activeTab === "history" && (
             <button className="btn btn-tertiary two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
-              BACK
+              back
             </button>
           )}
         </div> 

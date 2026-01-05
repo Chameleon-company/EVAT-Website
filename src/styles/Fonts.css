@@ -38,6 +38,7 @@ DO NOT add hard values for items not related to font style, size, or weight
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
+  --weight-xbold: 800;
 }
 
 /* Base document typography */
