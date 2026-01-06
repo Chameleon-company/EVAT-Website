@@ -194,6 +194,7 @@ function Game() {
             </div>
           </div>
 
+          <div className="spacer">  </div>
           {loading ? (
             <div className="message">Loading game profile...</div>
           ) : error ? (
@@ -204,7 +205,7 @@ function Game() {
               <p>🔥 <strong>Streak:</strong> {gameProfile.engagement_metrics?.current_app_login_streak} day(s)</p>
               <p>🏆 <strong>Longest Streak:</strong> {gameProfile.engagement_metrics?.longest_app_login_streak} day(s)</p>
               <p>📅 <strong>Last Login:</strong> {new Date(gameProfile.engagement_metrics?.last_login_date).toLocaleDateString()}</p>
-              {loginMessage && <p className="validation-success">{loginMessage}</p>}
+              {loginMessage && <p className="validation success font-bold">{loginMessage}</p>}
             </div>
           ) : (
             <p>No game profile data.</p>

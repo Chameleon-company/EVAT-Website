@@ -103,7 +103,7 @@ export default function BookingHistoryTable() {
           {bookings.map((b) => (
             <tr
               key={b.id}
-              className={`table-row ${b.access_key_required === "true" ? "restricted" : "open"}`}
+              className='table-row'
             >
               <td className="table-col-left">{b.station}</td>
               <td className="table-col-center">{b.date}</td>

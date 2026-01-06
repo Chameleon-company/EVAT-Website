@@ -1,7 +1,7 @@
 /* root.css */
 
-/* 
-This file is the main location for setting the style of the CSS 
+/*
+This file is the main location for setting the style of the CSS
 
 Try to keep values in rem: 1rem = 18px
 Use clamps if the variable needs to scale with page size
@@ -19,7 +19,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --website-margin: 8px;
     --website-gap: 8px;
     --website-transition: all 0.2s ease;
-    
+
     /* Shadows */
     --website-shadow-color: #000000;
     --website-shadow-box: 0 1px 2px 0 var(--website-shadow-color);
@@ -38,7 +38,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --error-color-light: #f8d7da;
     --error-color-base: #ef4444;
     --error-color-dark: #721c24;
-    --error-text-color: var(--error-color-base);
+    --error-text-color: var(--error-color-dark);
     --error-background-color: var(--error-color-light);
     --error-border: 1px solid var(--error-color-dark);
 
@@ -46,7 +46,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --success-color-light: #b5e2bf;
     --success-color-base: #10b981;
     --success-color-dark: #155724;
-    --success-text-color: var(--success-color-base);
+    --success-text-color: var(--success-color-dark);
     --success-background-color: var(--success-color-light);
     --success-border: 1px solid var(--success-color-dark);
 
@@ -81,12 +81,12 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --disabled-color-light: #bdbdbd;
     --disabled-color-base: #858585;
     --disabled-color-dark: #585858;
-    
+
     /* Transparent */
     --transparent-color-light: #ffffff96;
     --transparent-color-base: #d3d3d342;
     --transparent-color-dark: #47474742;
-    
+
     /* Reviewed */
     --reviewed-color-light: #dbc979;
     --reviewed-color-base: #c2a93a;
@@ -114,11 +114,11 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --api-item-background-position-start: 100% 0%;
     --api-item-background-position-end: 0% 0%;
     --api-item-shadow-hover: var(--website-shadow-hover);
-    
+
     /* Endpoints */
     --endpoint-text-color: var(--text-color-black);
     --endpoint-admin-only-text-color: var(--danger-color-base);
-    
+
     /* Response */
     --response-background-color: var(--grey-light);
     --response-border-color: var(--black);
@@ -143,19 +143,19 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --post-colour-base: #007bff;
     --post-colour-dark: #24558a;
     --post-background: linear-gradient(90deg, var(--post-colour-light), var(--post-colour-base), var(--post-colour-dark));
-    
+
     /* Put */
     --put-colour-light: #ebca69;
     --put-colour-base: #d6aa24;
     --put-colour-dark: #af8a1c;
     --put-background: linear-gradient(90deg, var(--put-colour-light), var(--put-colour-base), var(--put-colour-dark));
-    
+
     /* Delete */
     --delete-colour-light: #ec828d;
     --delete-colour-base: #dc3545;
     --delete-colour-dark: #8f202b;
     --delete-background: linear-gradient(90deg, var(--delete-colour-light), var(--delete-colour-base), var(--delete-colour-dark));
-    
+
     /* Patch */
     --patch-colour-light: #ecb770;
     --patch-colour-base: #d67d08;
@@ -164,16 +164,33 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
 
     /* ====================================================== Tables ====================================================== */
     --table-border-color: #0000007c;
-    --table-hover-color: #6fbf8c;
-    --table-even-color: #2424247e;
-    --table-odd-color: #2424243d;
-
+    --table-background-color: #2424247e;
     --table-margin-top: 1rem;                               /* margin left above the table */
     --table-max-height: 80vh;                               /* maximum size of the table */
     --table-border: 1px solid var(--table-border-color);
-    --table-row-height: 3rem;                               /* row height */
+    --table-row-height: 1rem;                               /* row height */
     --table-cell-padding: var(--website-padding);           /* cell padding */
     --table-small-cell-width: 5.5rem;                       /* width for a small cell */
+
+    /* Odd and Even Rows */
+    --table-odd-background-color: #2f2f2f67;
+    --table-odd-text-color: var(--text-color-white);
+    --table-even-background-color: #84848467;
+    --table-even-text-color: var(--text-color-white);
+    --table-hover-background-color: var(--primary-color-base);
+    --table-hover-text-color: var(--text-color-black);
+
+    /* Open Rows */
+    --table-open-background-color: #62d48c68;
+    --table-open-text-color: var(--text-color-white);
+    --table-open-hover-background-color: var(--primary-color-base);
+    --table-open-hover-text-color: var(--text-color-black);
+
+    /* Restricted Rows */
+    --table-restricted-background-color: #d88d8d58;
+    --table-restricted-text-color: var(--text-color-white);
+    --table-restricted-hover-background-color: var(--danger-color-light);
+    --table-restricted-hover-text-color: var(--text-color-black);
 
     /* ====================================================== Elements ====================================================== */
     --element-radius: var(--website-radius);
@@ -242,7 +259,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --slider-track-radius: 999px;
     --slider-ball-size: 20px;
     --slider-ball-color: var(--primary-color-dark);
-    
+
     /* Toggle */
     /* Toggle Background/Switch */
     --toggle-gap: var(--website-gap);
@@ -274,14 +291,14 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --button-secondary-border-color: var(--primary-color-dark);
     --button-primary-border: none;
     --button-primary-text: var(--text-color-white);
-    
+
     /* Secondary */
     --button-secondary-background: linear-gradient(90deg,var(--secondary-color-light), var(--secondary-color-light), var(--secondary-color-base));
     --button-secondary-background-active: linear-gradient(90deg, var(--secondary-color-base), var(--secondary-color-base));
     --button-secondary-border-color: var(--secondary-color-dark);
     --button-secondary-border: none;
     --button-secondary-text: var(--text-color-white);
-    
+
     /* Tertiary */
     --button-tertiary-background: linear-gradient(90deg, var(--tertiary-color-base), var(--tertiary-color-base), var(--tertiary-color-dark));
     --button-tertiary-background-active: linear-gradient(90deg, var(--tertiary-color-dark), var(--tertiary-color-dark));
@@ -374,7 +391,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --button-X-size: 30px;
     --button-X-radius: 50%;
     --button-X-padding: 2px;
-    
+
     /* ====================================================== Navigation Bar ====================================================== */
     --navbar-maring: 0;
     --narbar-padding: var(--website-padding);
@@ -472,7 +489,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --estimator-border-radius: var(--website-radius);
     --esitmator-height: 80px;
     --estimator-width: 100%;
-    
+
     /* ====================================================== Map ====================================================== */
     --map-container-width: 100vw;
     --map-container-height: 90vh;

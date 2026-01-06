@@ -6,6 +6,7 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Mail, House, KeyRound, CalendarDays, User, CreditCard, Phone } from 'lucide-react';
 import NavBar from '../components/NavBar';
 import profileImage from '../assets/profileImage.png';
 import ChatBubble from "../components/ChatBubble";
@@ -335,6 +336,7 @@ function Profile() {
             <img src={profileImage} alt="Profile" />
           </div>
         </div>
+        
         {/* center container - options and details*/}
         <div className="inner-center">
           {activeTab === "dashboard" && (
@@ -345,106 +347,136 @@ function Profile() {
               <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("history")}>Booking History</button>
             </>
           )}
-
+          {/* About Me */}
           {activeTab === "about" && (
             <div>
               <h3>About Me</h3>
-              <div>
-                <p>First Name:{" "}
-                  {editingAbout ? (
+              <div className="input-and-label-same-line ">
+                <label className='form-label required'>First Name: </label>
+                {editingAbout ? (
+                  <div className='icon-inside-input two-hundred-width'>
+                    <User className="input-icon" />
                     <input
+                      className="input"
                       type="text"
                       value={user.firstName || ""}
                       onChange={(e) => setUser({ ...user, firstName: e.target.value })}
                     />
-                  ) : (user.firstName)}
-                </p>
-                <p>Last Name:{" "}
-                  {editingAbout ? (
+                  </div>
+                ) : (user.firstName)}
+              </div>
+
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Last Name: </label>
+                {editingAbout ? (
+                  <div className='icon-inside-input two-hundred-width'>
+                    <User className="input-icon" />
                     <input
+                      className="input"
                       type="text"
                       value={user.lastName || ""}
                       onChange={(e) => setUser({ ...user, lastName: e.target.value })}
                     />
-                  ) : (user.lastName)}
-                </p>
-                <p>Email: {user.email || "N/A"}</p>
-                <p>Phone:{" "}
-                  {editingAbout ? (
+                  </div>
+                ) : (user.lastName)}
+              </div>
+
+              <div className="input-and-label-same-line">
+                <label className='form-label'>Email:</label>
+                <span className='form-label text-right'>{user.email || "N/A"}</span>
+              </div>
+
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Phone: </label>
+                {editingAbout ? (
+                  <div className='icon-inside-input two-hundred-width'>
+                    <Phone className="input-icon" />
                     <input
+                      className="input"
                       type="text"
                       value={user.mobile || ""}
                       onChange={(e) => setUser({ ...user, mobile: e.target.value })}
                     />
-                  ) : (user.mobile || "N/A")}
-                </p>
+                  </div>
+                ) : (user.mobile || "N/A")}
               </div>
             </div>
           )}
 
+          {/* My Car */}
           {activeTab === "car" && (
             <div>
               <h3>My Car</h3>
-              <div>
-                <p>Car Make:{" "}
-                  {editingCar ? (
-                    <select
-                      value={user.car?.make || "Select"}
-                      onChange={(e) =>
-                        setUser({ ...user, car: { ...user.car, make: e.target.value, model: "", year: "" } })
-                      }
-                    >
-                      {makes.map((make, idx) => (
-                        <option key={idx} value={make}>
-                          {make}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (user.car?.make || "N/A")}
-                </p>
-                <p>Car Model:{" "}
-                  {editingCar ? (
-                    <select
-                      value={user.car?.model || "Select"}
-                      onChange={(e) =>
-                        setUser({ ...user, car: { ...user.car, model: e.target.value, year: "" } })
-                      }
-                    >
-                      {models.map((model, idx) => (
-                        <option key={idx} value={model}>
-                          {model}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (user.car?.model || "N/A")}
-                </p>
-                <p>Model Year:{" "}
-                  {editingCar ? (
-                    <select
-                      value={String(user.car?.year) || "Select"}
-                      onChange={(e) =>
-                        setUser({ ...user, car: { ...user.car, year: e.target.value } })
-                      }
-                    >
-                      {years.map((year, idx) => (
-                        <option key={idx} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (user.car?.year || "N/A")}
-                </p>
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Car Make: </label>
+                {editingCar ? (
+                  <select
+                    className="input two-hundred-width"
+                    value={user.car?.make || "Select"}
+                    onChange={(e) =>
+                      setUser({ ...user, car: { ...user.car, make: e.target.value, model: "", year: "" } })
+                    }
+                  >
+                    {makes.map((make, idx) => (
+                      <option key={idx} value={make}>
+                        {make}
+                      </option>
+                    ))}
+                  </select>
+                ) : (user.car?.make || "N/A")}
+              </div>
+
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Car Model: </label>
+                {editingCar ? (
+                  <select
+                    className="input two-hundred-width"
+                    value={user.car?.model || "Select"}
+                    onChange={(e) =>
+                      setUser({ ...user, car: { ...user.car, model: e.target.value, year: "" } })
+                    }
+                  >
+                    {models.map((model, idx) => (
+                      <option key={idx} value={model}>
+                        {model}
+                      </option>
+                    ))}
+                  </select>
+                ) : (user.car?.model || "N/A")}
+              </div>
+
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Model Year: </label>
+                {editingCar ? (
+                  <select
+                    className="input two-hundred-width"
+                    value={String(user.car?.year) || "Select"}
+                    onChange={(e) =>
+                      setUser({ ...user, car: { ...user.car, year: e.target.value } })
+                    }
+                  >
+                    {years.map((year, idx) => (
+                      <option key={idx} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </select>
+                ) : (user.car?.year || "N/A")}
               </div>
             </div>
           )}
 
+          {/* Payment */}
           {activeTab === "payment" && (
             <div>
               <h3>Payment Information</h3>
-              <div>
-                <p>Card:{" "}
-                  {editingPayment ? (
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Card: </label>
+                {editingPayment ? (
+                  <div className='icon-inside-input'>
+                    <CreditCard className="input-icon" />
                     <input
+                      className="input two-hundred-width"
                       type="text"
                       value={user.cardNumber || ""}
                       onChange={(e) => {
@@ -456,14 +488,20 @@ function Profile() {
                       }}
                       placeholder="1234 5678 9012 3456"
                     />
-                  ) : (user.cardNumber
-                      ? "**** **** **** " + user.cardNumber.replace(/\s/g, '').slice(-4)
-                      : "**** **** **** 1234"
-                  )}
-                </p>
-                <p>Expiry Date:{" "}
-                  {editingPayment ? (
+                  </div>
+                ) : (user.cardNumber
+                    ? "**** **** **** " + user.cardNumber.replace(/\s/g, '').slice(-4)
+                    : "**** **** **** 1234"
+                )}
+              </div>
+
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Expiry Date: </label>
+                {editingPayment ? (
+                  <div className='icon-inside-input'>
+                    <CalendarDays className="input-icon" />
                     <input
+                      className="input two-hundred-width"
                       type="text"
                       value={user.expiryDate || ""}
                       onChange={(e) => {
@@ -473,11 +511,17 @@ function Profile() {
                       }}
                       placeholder="MM/YY"
                     />
-                  ) : (user.expiryDate || "MM/YY")}
-                </p>
-                <p>CVV:{" "}
-                  {editingPayment ? (
+                  </div>
+                ) : (user.expiryDate || "MM/YY")}
+              </div>
+
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>CVV: </label>
+                {editingPayment ? (
+                  <div className='icon-inside-input'>
+                    <KeyRound className="input-icon" />
                     <input
+                      className="input two-hundred-width"
                       type="text"
                       value={user.cvv || ""}
                       onChange={(e) => {
@@ -486,22 +530,29 @@ function Profile() {
                       }}
                       placeholder="123"
                     />
-                  ) : ("***")}
-                </p>
-                <p>Billing Address:{" "}
-                  {editingPayment ? (
+                  </div>
+                ) : ("***")}
+              </div>
+
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Billing Address: </label>
+                {editingPayment ? (
+                  <div className='icon-inside-input'>
+                    <House className="input-icon" />
                     <input
+                      className="input two-hundred-width"
                       type="text"
                       value={user.billingAddress || ""}
                       onChange={(e) => setUser({ ...user, billingAddress: e.target.value })}
                       placeholder="N/A"
                     />
-                  ) : (user.billingAddress || "N/A")}
-                </p>
+                  </div>
+                ) : (user.billingAddress || "N/A")}
               </div>
             </div>
           )}
 
+          {/* History */}
           {activeTab === "history" && (
             <div>
               <h3>Booking History</h3>
@@ -511,6 +562,7 @@ function Profile() {
             </div>
           )}
         </div>
+
         {/* right container - buttons */}
         <div className="inner-right">
           {activeTab === "dashboard" && (
@@ -519,6 +571,7 @@ function Profile() {
             </button>
           )}
 
+          {/* About Me */}
           {activeTab === "about" && (
             <>
               <button
@@ -544,6 +597,7 @@ function Profile() {
             </>
           )}
 
+          {/* My Car */}
           {activeTab === "car" && (
             <>
               <button
@@ -558,12 +612,18 @@ function Profile() {
               >
                 {editingCar ? "save" : "edit"}
               </button>
+              {editingCar && (
+                <button className="btn btn-transparent two-hundred-width uppercase" onClick={() => setEditingCar(false)}>
+                  CANCEL
+                </button>
+              )}
               <button className="btn btn-tertiary two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
                 BACK
               </button>
             </>
           )}
 
+          {/* Payment  */}
           {activeTab === "payment" && (
             <>
               <button
@@ -578,12 +638,18 @@ function Profile() {
               >
                 {editingPayment ? "SAVE" : "EDIT"}
               </button>
+              {editingPayment && (
+                <button className="btn btn-transparent two-hundred-width uppercase" onClick={() => setEditingPayment(false)}>
+                  CANCEL
+                </button>
+              )}
               <button className="btn btn-tertiary two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
                 BACK
               </button>
             </>
           )}
 
+          {/* Booking History */}
           {activeTab === "history" && (
             <button className="btn btn-tertiary two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
               back

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 const API_URL = import.meta.env.VITE_API_URL
 const BOOKING_ENDPOINT = `${API_URL}/bookings`;
 const NOTES_MAX_LENGTH = 100;   // this should be changed to match the character limit of the notes string in the database
-const RECENT_BOOKING_THRESHOLD_SECONDS = 30;
+const RECENT_BOOKING_THRESHOLD_SECONDS = 5;
 
 export default function SidebarBookingTool({ stationName = "Unknown Station" }) {
   const [user, setUser] = useState(null);

@@ -106,7 +106,8 @@ export default function ChargerSideBar({ station, onClose }) {
   const estimatedCost =
     kWh && pricePerKWh ? (kWh * pricePerKWh).toFixed(2) : '';
 
-  const handleSubmitReview = async () => {
+  const handleSubmitReview = async (e) => {
+
     if (!userReview.rating || !station?._id || !user?.token) {
       if (!user?.token) {
         alert('Please sign in to submit a review.');
@@ -116,6 +117,7 @@ export default function ChargerSideBar({ station, onClose }) {
     }
 
     setIsSubmittingReview(true);
+
     try {
       const reviewData = {
         rating: userReview.rating,
@@ -301,6 +303,7 @@ export default function ChargerSideBar({ station, onClose }) {
                 />
               ))}
             </div>
+            <label className='form-label required'>Your Review:</label>
             <textarea
               className="full-width"
               placeholder={userHasReviewed ? "Update your review..." : "Write your review..."}
@@ -375,7 +378,7 @@ export default function ChargerSideBar({ station, onClose }) {
         <div className="sidebar-linebreak" />
         <h6>EV Cost Calculator</h6>
         <div>
-          <div className='input-and-label-same-line'>
+          <div className="input-and-label-same-line">
             <label>Avg. km</label>
             <input
               className="input"
@@ -386,7 +389,7 @@ export default function ChargerSideBar({ station, onClose }) {
               min="1"
             />
           </div>
-          <div className='input-and-label-same-line'>
+          <div className="input-and-label-same-line">
             <label>Car Efficiency</label>
             <input
               className="input"
@@ -398,7 +401,7 @@ export default function ChargerSideBar({ station, onClose }) {
               step="0.1"
             />
           </div>
-          <div className='input-and-label-same-line'>
+          <div className="input-and-label-same-line">
             <label>Electricity Cost</label>
             <input
               className="input"

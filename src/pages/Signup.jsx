@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {  Mail, Eye, EyeOff, KeyRound, User, Phone } from 'lucide-react';
+import { Mail, Eye, EyeOff, KeyRound, User, Phone } from 'lucide-react';
+import ErrorMessage from '../components/ErrorMessage'
+import SuccessMessage from '../components/SuccessMessage'
 
 import '../styles/Root.css';
 import '../styles/Buttons.css';
@@ -16,29 +18,53 @@ const API_URL = import.meta.env.VITE_API_URL;
 const url = `${API_URL}/auth/register`;
 
 function Signup() {
-  const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    mobile: '',
-    password: '',
-  });
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [isFirstNameEmpty, setIsFirstNameEmpty] = useState(false);
+  const [isLastNameEmpty, setIsLastNameEmpty] = useState(false);
+  const [isMobileEmpty, setIsMobileEmpty] = useState(false);
+  const [isEmailEmpty, setIsEmailEmpty] = useState(false);
+  const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
+
+  const handleValidation = (e) => {
+    e.preventDefault();
+
+    const isFirstNameEmpty = firstName.trim() === '';
+    const isLastNameEmpty = lastName.trim() === '';
+    const isMobileEmpty = mobile.trim() === '';
+    const isEmailEmpty = email.trim() === '';
+    const isPasswordEmpty = password.trim() === '';
+
+    setIsFirstNameEmpty(isFirstNameEmpty);
+    setIsLastNameEmpty(isLastNameEmpty);
+    setIsMobileEmpty(isMobileEmpty);
+    setIsEmailEmpty(isEmailEmpty);
+    setIsPasswordEmpty(isPasswordEmpty);
+    setError(null); // Clear previous errors
+
+    if (!isFirstNameEmpty && !isLastNameEmpty && !isMobileEmpty && !isEmailEmpty && !isPasswordEmpty) {
+      handleSubmit(e);
+    }
+  };
 
   //Update form on input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
-    setErrorMessage('');
+    setError('');
   };
 
   //Submit registration form
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');
+    setError('');
     setSubmitted(true);
 
     try {
@@ -46,26 +72,25 @@ function Signup() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          firstName: form.firstName,
-          lastName: form.lastName,
-          email: form.email,
-          password: form.password,
-          mobile: form.mobile,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password,
+          mobile: mobile,
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-
-        alert(`Sign Up successful: ${data.message}, welcome ${form.firstName}`);
+        alert(`Sign Up successful: ${data.message}, welcome ${firstName}`);
         navigate('/signin');
       } else {
-        setErrorMessage(data.message || "Sign up failed");
+        setError(data.message || "Sign up failed");
       }
     } catch (err) {
       console.error('Error signing up:', err);
-      setErrorMessage("An unexpected error occurred");
+      setError("An unexpected error occurred");
     } finally {
       setSubmitted(false);
     }
@@ -75,7 +100,13 @@ function Signup() {
     <div className="container vertical center">
       <img src="../src/assets/logo.png" alt="EV Adoption Tool" className="logo-image" />
 
-      <form onSubmit={handleSubmit} className="form-section signin-width">
+      <form onSubmit={handleValidation} className="form-section signin-width">
+        {/* Submit Error and Success Messages */}
+        {error && <ErrorMessage error={error}/>}
+        {submitted && <SuccessMessage message='Signup successful!'/>}
+        <div className="spacer-small">  </div>
+
+        {/* Enter First Name */}
         <label className='form-label required'>First Name</label>
         <div className='icon-inside-input'>
           <User className="input-icon" />
@@ -84,12 +115,15 @@ function Signup() {
             type="text"
             name="firstName"
             placeholder="First Name"
-            value={form.firstName}
-            onChange={handleChange}
-            required
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
           />
         </div>
+        <div className="spacer-small">  </div>
+        {/* First Name Error Message */}
+        {isFirstNameEmpty && <ErrorMessage error='required'/>}
 
+        {/* Enter Last Name */}
         <label className='form-label required'>Last Name</label>
         <div className='icon-inside-input'>
           <User className="input-icon" />
@@ -98,12 +132,15 @@ function Signup() {
             type="text"
             name="lastName"
             placeholder="Last Name"
-            value={form.lastName}
-            onChange={handleChange}
-            required
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
         </div>
+        <div className="spacer-small">  </div>
+        {/* Last Name Error Message */}
+        {isLastNameEmpty && <ErrorMessage error='required'/>}
 
+        {/* Enter Mobile */}
         <label className='form-label required'>Mobile Number</label>
         <div className='icon-inside-input'>
           <Phone className="input-icon" />
@@ -112,13 +149,16 @@ function Signup() {
             type="tel"
             name="mobile"
             placeholder="Mobile Number"
-            value={form.mobile}
-            onChange={handleChange}
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
             pattern="04\d{8}" // Australian format: starts with 04 + 8 digits
-            required
           />
         </div>
+        <div className="spacer-small">  </div>
+        {/* Mobile Error Message */}
+        {isMobileEmpty && <ErrorMessage error='required'/>}
 
+        {/* Enter Email */}
         <label className='form-label required'>Email</label>
         <div className='icon-inside-input'>
           <Mail className="input-icon"/>
@@ -127,12 +167,16 @@ function Signup() {
             name="email"
             type="email"
             placeholder="Email"
-            value={form.email}
-            onChange={handleChange}
-            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}"
           />
         </div>
+        <div className="spacer-small">  </div>
+        {/* Email Error Message */}
+        {isEmailEmpty && <ErrorMessage error='required'/>}
 
+        {/* Enter Password */}
         <label className='form-label required'>Password</label>
         <div className='icon-inside-input'>
           <KeyRound className="input-icon" />
@@ -141,9 +185,8 @@ function Signup() {
             type={showPassword ? 'text' : 'password'}
             name="password"
             placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            required
+            value={password}
+            onChange={e => setPassword(e.target.value)}
           />
           <span
             className="input-icon-end"
@@ -153,26 +196,24 @@ function Signup() {
             {showPassword ? <EyeOff /> : <Eye />}
           </span>
         </div>
+        <div className="spacer-small">  </div>
+        {/* Password Error Message */}
+        {isPasswordEmpty && <ErrorMessage error='required'/>}
 
         <div className="spacer-small">  </div>
-
         <button 
-          className="btn btn-primary"
           type="submit" 
+          className="btn btn-primary"
         >
           CREATE ACCOUNT
         </button>
-
         <button
+          type='button'
           className="btn btn-transparent"
           onClick={() => navigate('/')}
         >
           BACK TO SIGN IN
         </button>
-
-        <div className="spacer-small">  </div>
-        {errorMessage && <p className="validation error">{errorMessage}</p>}
-        {submitted && <p className="validation success">Signup successful!</p>}
       </form>
     </div>
   );

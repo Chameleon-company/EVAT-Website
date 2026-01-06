@@ -11,8 +11,8 @@ This CSS has the style settings for tables
 }
 
 .table-wrapper {
-  width: 100%;
-  max-height: 50vh;
+  width: stretch;
+  max-height: 60vh;
   overflow-y: auto;
 }
 
@@ -23,21 +23,8 @@ This CSS has the style settings for tables
   overflow: auto;
 }
 
-.table tr:nth-child(even)  {
-  background-color: var(--table-even-color);
-}
-
-.table tr:nth-child(odd)  {
-  background-color: var(--table-odd-color);
-}
-
-.table tr:hover {
-  background-color: var(--table-hover-color);
-  color: var(--text-color-black);
-}
-
 .table th, .th {
-  background-color: var(--table-odd-color);
+  background-color: var(--table-odd-background-color);
   border-color: var(--table-border);
 }
 
@@ -60,5 +47,40 @@ This CSS has the style settings for tables
 
 .small-cell {
   width: var(--table-small-cell-width);
-  overflow-y: auto;
+  overflow-y: hidden;
+}
+
+.table tr:nth-child(even):not(.table-row.restricted, .table-row.open)  {
+  background-color: var(--table-even-background-color);
+  color: var(--table-even-text-color);
+}
+
+.table tr:nth-child(odd):not(.table-row.restricted, .table-row.open)  {
+  background-color: var(--table-odd-background-color);
+  color: var(--table-odd-text-color);
+}
+
+.table tr:hover:not(.table-row.restricted, .table-row.open) {
+  background-color: var(--table-hover-background-color);
+  color: var(--table-hover-text-color);
+}
+
+.table-row.open {
+  background-color: var(--table-open-background-color);
+  color: var(--table-open-text-color);
+}
+
+.table-row.open:hover {
+  background-color: var(--table-open-hover-background-color);
+  color: var(--table-open-hover-text-color);
+}
+
+.table-row.restricted {
+  background-color: var(--table-restricted-background-color);
+  color: var(--table-restricted-text-color);
+}
+
+.table-row.restricted:hover {
+  background-color: var(--table-restricted-hover-background-color);
+  color: var(--table-restricted-hover-text-color);
 }

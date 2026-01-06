@@ -2,6 +2,8 @@ import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Eye, EyeOff, KeyRound, User as UserIcon } from 'lucide-react';
 import { UserContext } from '../context/user';
+import ErrorMessage from '../components/ErrorMessage'
+import SuccessMessage from '../components/SuccessMessage'
 
 import '../styles/Root.css';
 import '../styles/Buttons.css';
@@ -25,14 +27,28 @@ function Signin() {
   const [submitted, setSubmitted] = useState(false);
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const [isEmailEmpty, setIsEmailEmpty] = useState(false);
+  const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
+
+  const handleValidation = (e) => {
+    e.preventDefault();
+
+    const isEmailEmpty = email.trim() === '';
+    const isPasswordEmpty = password.trim() === '';
+
+    setIsEmailEmpty(isEmailEmpty);
+    setIsPasswordEmpty(isPasswordEmpty);
+    setError(null); // Clear previous errors
+
+    if (!isEmailEmpty && !isPasswordEmpty) {
+      handleSubmit(e);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setSubmitted(true); //to indicate the form is now submitting
-
-    // check that an email and password have been provided
-
 
     // submit the login
     try {
@@ -123,32 +139,40 @@ function Signin() {
     <div className="container vertical center">
       <img src="../src/assets/logo.png" alt="EV Adoption Tool" className="logo-image" />
 
-      <form onSubmit={handleSubmit} className="form-section signin-width">
+      <form onSubmit={handleValidation} className="form-section signin-width">
+        {/* Submit Error and Success Messages */}
+        {error && <ErrorMessage error={error}/>}
+        {submitted && <SuccessMessage message='Signup successful!'/>}
+        <div className="spacer-small">  </div>
+
+        {/* Enter Email */}
         <label className='form-label required'>Email</label>
         <div className='icon-inside-input'>
           <Mail className="input-icon" />
           <input
-            className={`input ${submitted && !email ? 'input-invalid' : ''}`}
+            className="input"
             type="text"
             name="email"
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
           />
         </div>
+        <div className="spacer-small">  </div>
+        {/* Email Error Message */}
+        {isEmailEmpty && <ErrorMessage error='required'/>}
 
+        {/* Enter Password */}
         <label className='form-label required'>Password</label>
         <div className='icon-inside-input'>
           <KeyRound className="input-icon" />
           <input
-            className={`input ${submitted && !password ? 'has-error' : ''}`}
+            className="input"
             type={showPassword ? 'text' : 'password'}
             name="password"
             placeholder="Enter your password"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            required
           />
           <span
             className="input-icon-end"
@@ -158,26 +182,27 @@ function Signin() {
             {showPassword ? <EyeOff /> : <Eye />}
           </span>
         </div>
+        <div className="spacer-small">  </div>
+        {/* Password Error Message */}
+        {isPasswordEmpty && <ErrorMessage error='required'/>}
+
 
         <div className="spacer-small">  </div>
-
         <button 
+          type='submit'
           className="btn btn-primary" 
           disabled={submitted}
         >
           {submitted ? "Signing In..." : "SIGN IN"}
         </button>
-
         <button
+          type='button'
           className="btn btn-primary"
           onClick={() => navigate('/signup')}
         >
           CREATE NEW ACCOUNT
         </button>
 
-        <div className="spacer-small">  </div>
-        {error && <p className="validation error">{error}</p>}
-        {submitted && <p className="validation success">Sign in submitted</p>}
       </form>
 
     </div>
