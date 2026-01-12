@@ -11,6 +11,8 @@ import NavBar from '../components/NavBar';
 import profileImage from '../assets/profileImage.png';
 import ChatBubble from "../components/ChatBubble";
 import BookingHistoryTable from "../components/BookingHistoryTable";
+import ErrorMessage from '../components/ErrorMessage'
+import SuccessMessage from '../components/SuccessMessage'
 
 import '../styles/Root.css';
 import '../styles/Buttons.css';
@@ -436,9 +438,12 @@ function Profile() {
       <h1 className='h1 text-center auto-width'>My Dashboard</h1>
       <div className="container horizontal auto-width">
         {/* left container - profile image*/}
-        <div className="inner-left">
+        <div className="inner-left force-height">
           <div className="profile-image">
-            {user.firstName?.charAt(0) || '?'}
+            <div className='h6 uppercase'>
+              {`${user.firstName === "true" ? "?" : user.firstName} \n `}
+              {` ${user.lastName === "true" ? "?" : user.lastName}`}
+            </div>
             <img src={profileImage} alt="Profile" />
           </div>
         </div>
@@ -447,10 +452,10 @@ function Profile() {
         <div className="inner-center">
           {activeTab === "dashboard" && (
             <>
-              <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("about")}> <CircleUserRound /> About Me</button>
-              <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("car")}> <Car /> My Car</button>
-              <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("payment")}> <CreditCard /> Payment</button>
-              <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("history")}> <BookText /> Booking History</button>
+              <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("about")}> <CircleUserRound /> About Me</button>
+              <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("car")}> <Car /> My Car</button>
+              <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("payment")}> <CreditCard /> Payment</button>
+              <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("history")}> <BookText /> Booking History</button>
             </>
           )}
 
@@ -465,7 +470,6 @@ function Profile() {
                     <User className="input-icon" />
                     <input
                       className="input"
-                      // className={isSuccess ? "input-success" : ""}
                       type="text"
                       value={user.firstName || ""}
                       onChange={(e) => {
@@ -477,11 +481,9 @@ function Profile() {
                 ) : (
                   user.firstName
                 )}
-                {errors.firstName && (
-                  // Come back here
-                  <small className="error-text">{errors.firstName}</small>
-                )}
               </div>
+              {/* First Name Error Message  */}
+              {errors.firstName && editingAbout && <ErrorMessage error={errors.firstName}/>}
 
               <div className="input-and-label-same-line">
                 <label className='form-label required'>Last Name: </label>
@@ -490,7 +492,6 @@ function Profile() {
                     <User className="input-icon" />
                     <input
                       className="input"
-                      // className={isSuccess ? "input-success" : ""}
                       type="text"
                       value={user.lastName || ""}
                       placeholder="Enter your last name"
@@ -503,11 +504,9 @@ function Profile() {
                 ) : (
                   user.lastName
                 )}
-                {errors.lastName && (
-                  // Come back here
-                  <small className="error-text">{errors.lastName}</small>
-                )}
               </div>
+              {/* Last Name Error Message  */}
+              {errors.lastName && editingAbout && <ErrorMessage error={errors.lastName}/>}
 
               <div className="input-and-label-same-line">
                 <label className='form-label'>Email:</label>
@@ -521,7 +520,6 @@ function Profile() {
                     <Phone className="input-icon" />
                     <input
                       className="input"
-                      // className={isSuccess ? "input-success" : ""}
                       type="text"
                       value={user.mobile || ""}
                       placeholder="Enter your phone"
@@ -534,10 +532,9 @@ function Profile() {
                 ) : (
                   user.mobile || "N/A"
                 )}
-                {errors.mobile && (
-                  <small className="error-text">{errors.mobile}</small>
-                )}
               </div>
+              {/* Mobile Error Message  */}
+              {errors.mobile && editingAbout && <ErrorMessage error={errors.mobile}/>}
             </div>
           )}
 
@@ -564,11 +561,9 @@ function Profile() {
                 ) : (
                   user.car?.make || "N/A"
                 )}
-                {errors.carMake && (
-                  // Come back here
-                  <small className="error-text">{errors.carMake}</small>
-                )}
               </div>
+              {/* Car Make Error Message  */}
+              {errors.carMake && editingCar && <ErrorMessage error={errors.carMake}/>}
 
               <div className="input-and-label-same-line">
                 <label className='form-label required'>Car Model: </label>
@@ -590,11 +585,9 @@ function Profile() {
                 ) : (
                   user.car?.model || "N/A"
                 )}
-                {errors.carModel && (
-                  // Come back here
-                  <small className="error-text">{errors.carModel}</small>
-                )}
               </div>
+              {/* Car Model Error Message  */}
+              {errors.carModel && editingCar && <ErrorMessage error={errors.carModel}/>}
 
               <div className="input-and-label-same-line">
                 <label className='form-label required'>Model Year: </label>
@@ -616,11 +609,9 @@ function Profile() {
                 ) : (
                   user.car?.year || "N/A"
                 )}
-                {errors.carYear && (
-                  // Come back here
-                  <small className="error-text">{errors.carYear}</small>
-                )}
               </div>
+              {/* Car Year Error Message  */}
+              {errors.carYear && editingCar && <ErrorMessage error={errors.carYear}/>}
             </div>
           )}
 
@@ -636,7 +627,6 @@ function Profile() {
                     <CreditCard className="input-icon" />
                     <input
                       className="input two-hundred-width"
-                      // className={isPaymentSuccess ? "input-success" : ""}
                       type="text"
                       value={user.cardNumber || ""}
                       placeholder="1234 5678 9012 3456"
@@ -655,11 +645,9 @@ function Profile() {
                     ? "**** **** **** " + user.cardNumber.replace(/\s/g, '').slice(-4)
                     : "**** **** **** 1234"
                 )}
-                {paymentErrors.cardNumber && (
-                  // Come back here
-                  <small className="error-text">{paymentErrors.cardNumber}</small>
-                )}
               </div>
+              {/* Card Number Error Message  */}
+              {paymentErrors.cardNumber && editingPayment && <ErrorMessage error={paymentErrors.cardNumber}/>}
 
               {/* EXPIRY DATE */}
               <div className="input-and-label-same-line">
@@ -669,7 +657,6 @@ function Profile() {
                     <CalendarDays className="input-icon" />
                     <input
                       className="input two-hundred-width"
-                      // className={isPaymentSuccess ? "input-success" : ""}
                       type="text"
                       value={user.expiryDate || ""}
                       placeholder="MM/YY"
@@ -684,11 +671,9 @@ function Profile() {
                 ) : (
                   user.expiryDate || "MM/YY"
                 )}
-                {paymentErrors.expiryDate && (
-                  // Come back here
-                  <small className="error-text">{paymentErrors.expiryDate}</small>
-                )}
               </div>
+              {/* Card Expiry Error Message  */}
+              {paymentErrors.expiryDate && editingPayment && <ErrorMessage error={paymentErrors.expiryDate}/>}
 
               {/* CVV */}
               <div className="input-and-label-same-line">
@@ -698,7 +683,6 @@ function Profile() {
                     <KeyRound className="input-icon" />
                     <input
                       className="input two-hundred-width"
-                      // className={isPaymentSuccess ? "input-success" : ""}
                       type="text"
                       value={user.cvv || ""}
                       placeholder="123"
@@ -712,11 +696,9 @@ function Profile() {
                 ) : (
                   "***"
                 )}
-                {paymentErrors.cvv && (
-                  // Come back here
-                  <small className="error-text">{paymentErrors.cvv}</small>
-                )}
               </div>
+              {/* Card CVV Error Message  */}
+              {paymentErrors.cvv && editingPayment && <ErrorMessage error={paymentErrors.cvv}/>}
 
               {/* BILLING ADDRESS */}
               <div className="input-and-label-same-line">
@@ -738,16 +720,16 @@ function Profile() {
                 ) : (
                   user.billingAddress || "N/A"
                 )}
-                {paymentErrors.billingAddress && (
-                  // Come back here
-                  <small className="error-text">{paymentErrors.billingAddress}</small>
-                )}
                 {paymentSuccessMessage && (
+                  // Come back here
                   <div className="success-text fade-in">
                     {paymentSuccessMessage}
                   </div>
                 )}
               </div>
+              {/* Billing Address Error Message  */}
+              {paymentErrors.billingAddress && editingPayment && <ErrorMessage error={paymentErrors.billingAddress}/>}
+              {paymentSuccessMessage && <SuccessMessage message={paymentSuccessMessage}/>}
             </div>
           )}
 
@@ -766,7 +748,7 @@ function Profile() {
         <div className="inner-right">
           {activeTab === "dashboard" && (
             <button 
-              className="btn btn-secondary two-hundred-width uppercase" 
+              className="btn btn-secondary two-hundred-width spread uppercase" 
               onClick={handleSignOut}
             >
               SIGN OUT
@@ -778,7 +760,7 @@ function Profile() {
             <>
               {/* Save/Edit button */}
               <button
-                className="btn btn-primary two-hundred-width uppercase"
+                className="btn btn-primary two-hundred-width spread uppercase"
                 onClick={() => {
                   if (editingAbout) {
                     handleSaveAbout();
@@ -795,7 +777,7 @@ function Profile() {
               {/* Cancel button */}
               {editingAbout && (
                 <button 
-                  className="btn btn-transparent two-hundred-width uppercase" 
+                  className="btn btn-transparent two-hundred-width spread uppercase" 
                   onClick={() => {
                     setUser(originalUser);
                     setEditingAbout(false);
@@ -815,7 +797,7 @@ function Profile() {
               {/* Back button */}
               {!editingAbout && (
                 <button 
-                  className="btn btn-tertiary two-hundred-width uppercase" 
+                  className="btn btn-tertiary two-hundred-width spread uppercase" 
                   onClick={() => setActiveTab("dashboard")}
                 >
                   <ArrowLeft /> BACK
@@ -829,7 +811,7 @@ function Profile() {
             <>
               {/* Save/Edit button */}
               <button
-                className="btn btn-primary two-hundred-width uppercase"
+                className="btn btn-primary two-hundred-width spread uppercase"
                 onClick={() => {
                   if (editingCar) {
                     handleSaveCar();
@@ -846,7 +828,7 @@ function Profile() {
               {/* Cancel button */}
               {editingCar && (
                 <button 
-                  className="btn btn-transparent two-hundred-width uppercase" 
+                  className="btn btn-transparent two-hundred-width spread uppercase" 
                   onClick={() => {
                     setUser(originalUser);
                     setEditingCar(false);
@@ -866,7 +848,7 @@ function Profile() {
               {/* Back button */}
               {!editingCar && (
                 <button 
-                  className="btn btn-tertiary two-hundred-width uppercase" 
+                  className="btn btn-tertiary two-hundred-width spread uppercase" 
                   onClick={() => setActiveTab("dashboard")}
                 >
                   <ArrowLeft /> BACK
@@ -880,7 +862,7 @@ function Profile() {
             <>
               {/* Save/Edit button */}
               <button
-                className="btn btn-primary two-hundred-width uppercase"
+                className="btn btn-primary two-hundred-width spread uppercase"
                 onClick={() => {
                   if (editingPayment) {
                     handleSavePayment();
@@ -896,7 +878,7 @@ function Profile() {
               {/* Cancel button */}
               {editingPayment && (
                 <button 
-                  className="btn btn-transparent two-hundred-width uppercase" 
+                  className="btn btn-transparent two-hundred-width spread uppercase" 
                   onClick={() => setEditingPayment(false)}
                 >
                   <X /> CANCEL
@@ -906,7 +888,7 @@ function Profile() {
               {/* Back button */}
               {!editingPayment && (
                 <button 
-                  className="btn btn-tertiary two-hundred-width uppercase" 
+                  className="btn btn-tertiary two-hundred-width spread uppercase" 
                   onClick={() => setActiveTab("dashboard")}
                 >
                   <ArrowLeft /> BACK
@@ -919,7 +901,7 @@ function Profile() {
           {activeTab === "history" && (
             // Back button
             <button 
-              className="btn btn-tertiary two-hundred-width uppercase" 
+              className="btn btn-tertiary two-hundred-width spread uppercase" 
               onClick={() => setActiveTab("dashboard")}
             >
                 <ArrowLeft /> BACK

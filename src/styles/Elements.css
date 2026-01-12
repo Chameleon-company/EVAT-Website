@@ -49,6 +49,7 @@ body {
   padding: var(--element-padding);
   display: flex;
   width: fit-content;
+  height: fit-content;
   align-items: stretch;
   justify-content: space-between;
   margin: auto;
@@ -56,10 +57,12 @@ body {
 
 .container.horizontal {
   flex-direction: row;
+  height: fit-content;
 }
 
 .container.vertical {
   flex-direction: column;
+  height: fit-content;
 }
 
 .container.hidden {
@@ -78,9 +81,15 @@ body {
   margin-top: var(--container-margin-top);
 }
 
+.force-height {
+  height: 40vh;
+  scrollbar-width: none;
+}
+
 .container.inner {
   width: auto;
   margin: auto;
+  height: fit-content;
 }
 
 /* three-way inner container */
@@ -171,8 +180,7 @@ body {
 /* dashboard profile image */
 .profile-image {
   width: 100px;
-  height: auto;
-  max-height: 150px;
+  height: fit-content;
   object-fit: cover;
   position: absolute;
   display: block;
@@ -231,6 +239,10 @@ body {
 /* Utility */
 .center {
   margin: auto;
+}
+
+.spread {
+  justify-content: space-around;
 }
 
 .spacer {
