@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Mail, House, KeyRound, CalendarDays, User, CreditCard, Phone, CircleUserRound, Car, CreditCard, BookText, LogOut, Pencil, Check, X, ArrowLeft } from 'lucide-react';
+import { Mail, House, KeyRound, CalendarDays, User, CreditCard, Phone, CircleUserRound, Car, BookText, LogOut, Pencil, Check, X, ArrowLeft } from 'lucide-react';
 import NavBar from '../components/NavBar';
 import profileImage from '../assets/profileImage.png';
 import ChatBubble from "../components/ChatBubble";

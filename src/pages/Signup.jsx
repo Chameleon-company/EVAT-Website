@@ -18,11 +18,13 @@ const API_URL = import.meta.env.VITE_API_URL;
 const url = `${API_URL}/auth/register`;
 
 function Signup() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [mobile, setMobile] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    mobile: '',
+    password: '',
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -34,32 +36,6 @@ function Signup() {
     password: '',
   });
   const navigate = useNavigate();
-  const [isFirstNameEmpty, setIsFirstNameEmpty] = useState(false);
-  const [isLastNameEmpty, setIsLastNameEmpty] = useState(false);
-  const [isMobileEmpty, setIsMobileEmpty] = useState(false);
-  const [isEmailEmpty, setIsEmailEmpty] = useState(false);
-  const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
-
-  const handleValidation = (e) => {
-    e.preventDefault();
-
-    const isFirstNameEmpty = firstName.trim() === '';
-    const isLastNameEmpty = lastName.trim() === '';
-    const isMobileEmpty = mobile.trim() === '';
-    const isEmailEmpty = email.trim() === '';
-    const isPasswordEmpty = password.trim() === '';
-
-    setIsFirstNameEmpty(isFirstNameEmpty);
-    setIsLastNameEmpty(isLastNameEmpty);
-    setIsMobileEmpty(isMobileEmpty);
-    setIsEmailEmpty(isEmailEmpty);
-    setIsPasswordEmpty(isPasswordEmpty);
-    setError(null); // Clear previous errors
-
-    if (!isFirstNameEmpty && !isLastNameEmpty && !isMobileEmpty && !isEmailEmpty && !isPasswordEmpty) {
-      handleSubmit(e);
-    }
-  };
 
   //Update form on input change
   const handleChange = (e) => {
@@ -158,144 +134,132 @@ function Signup() {
         alert(`Sign Up successful: ${data.message}, welcome ${firstName}`);
         navigate('/signin');
       } else {
-        setError(data.message || "Sign up failed");
+        setErrorMessage(data.message || "Sign up failed");
       }
     } catch (err) {
       console.error('Error signing up:', err);
-      setError("An unexpected error occurred");
+      setErrorMessage("An unexpected error occurred");
     } finally {
       setSubmitted(false);
     }
   };
 
   return (
-    <div className="auth-container">
-      <form onSubmit={handleSubmit} className="auth-form">
-        <img src="/chameleon.png" alt="Chameleon" className="logo-image" />
+    <div className="container vertical center">
+      <img src="../src/assets/logo.png" alt="EV Adoption Tool" className="logo-image" />
 
-        <div className='input-container'>
-          <label className="auth-label">First Name</label>
-          <div className="input-group">
-            <User className="icon" />
-            <input
-              type="text"
-              name="firstName"
-              placeholder="First Name"
-              value={form.firstName}
-              onChange={handleChange}
-              className="input"
-            />
-          </div>
-          {validationErrors.firstName && (
-            <div className="error-message">
-              {validationErrors.firstName}
-            </div>
-          )}
+      <form onSubmit={handleSubmit} className="form-section signin-width">
+        {/* Submit Error and Success Messages */}
+        {errorMessage && <ErrorMessage error={errorMessage}/>}
+        {submitted && <SuccessMessage message='Signup successful!'/>}
+        <div className="spacer-small">  </div>
+
+        {/* Enter First Name */}
+        <label className='form-label required'>First Name</label>
+        <div className='icon-inside-input'>
+          <User className="input-icon" />
+          <input
+            className="input"
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            value={form.firstName}
+            onChange={handleChange}
+          />
         </div>
+        <div className="spacer-small">  </div>
+        {/* First Name Error Message */}
+        {validationErrors.firstName && <ErrorMessage error={validationErrors.firstName}/>}
 
-        <div className='input-container'>
-          <label className="auth-label">Last Name</label>
-          <div className="input-group">
-            <User className="icon" />
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Last Name"
-              value={form.lastName}
-              onChange={handleChange}
-              className="input"
-            />
-          </div>
-          {validationErrors.lastName && (
-            <div className="error-message">
-              {validationErrors.lastName}
-            </div>
-          )}
+        {/* Enter Last Name */}
+        <label className='form-label required'>Last Name</label>
+        <div className='icon-inside-input'>
+          <User className="input-icon" />
+          <input
+            className="input"
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            value={form.lastName}
+            onChange={handleChange}
+          />
         </div>
+        <div className="spacer-small">  </div>
+        {/* Last Name Error Message */}
+        {validationErrors.lastName && <ErrorMessage error={validationErrors.lastName}/>}
 
-        <div className='input-container'>
-          <label className="auth-label">Mobile Number</label>
-          <div className="input-group">
-            <Phone className="icon" />
-            <input
-              type="tel"
-              name="mobile"
-              placeholder="04XXXXXXXX"
-              value={form.mobile}
-              onChange={handleChange}
-              className="input"
-            />
-          </div>
-          {validationErrors.mobile && (
-            <div className="error-message">
-              {validationErrors.mobile}
-            </div>
-          )}
+        {/* Enter Mobile */}
+        <label className='form-label required'>Mobile Number</label>
+        <div className='icon-inside-input'>
+          <Phone className="input-icon" />
+          <input
+            className="input"
+            type="tel"
+            name="mobile"
+            placeholder="04XXXXXXXX"
+            value={form.mobile}
+            onChange={handleChange}
+          />
         </div>
+        <div className="spacer-small">  </div>
+        {/* Mobile Error Message */}
+        {validationErrors.mobile && <ErrorMessage error={validationErrors.mobile}/>}
 
-        <div className='input-container'>
-          <label className="auth-label">Email</label>
-          <div className="input-group">
-            <User className="icon" />
-            <input
-              type="text"
-              name="email"
-              placeholder="Email"
-              value={form.email}
-              onChange={handleChange}
-              className="input"
-            />
-          </div>
-          {validationErrors.email && (
-            <div className="error-message">
-              {validationErrors.email}
-            </div>
-          )}
+        {/* Enter Email */}
+        <label className='form-label required'>Email</label>
+        <div className='icon-inside-input'>
+          <Mail className="input-icon"/>
+          <input
+            className="input"
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+          />
         </div>
+        <div className="spacer-small">  </div>
+        {/* Email Error Message */}
+        {validationErrors.email && <ErrorMessage error={validationErrors.email}/>}
 
-        <div className='input-container'>
-          <label className="auth-label">Password</label>
-          <div className="input-group">
-            <KeyRound className="icon" />
-            <input
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              placeholder="Minimum 8 characters"
-              value={form.password}
-              onChange={handleChange}
-              className="input"
-            />
-            <span
-              className="icon-right"
-              onClick={() => setShowPassword(!showPassword)}
-              style={{ cursor: 'pointer' }}
-            >
-              {showPassword ? <EyeOff /> : <Eye />}
-            </span>
-          </div>
-          {validationErrors.password && (
-            <div className="error-message">
-              {validationErrors.password}
-            </div>
-          )}
+        {/* Enter Password */}
+        <label className='form-label required'>Password</label>
+        <div className='icon-inside-input'>
+          <KeyRound className="input-icon" />
+          <input
+            className="input"
+            type={showPassword ? 'text' : 'password'}
+            name="password"
+            placeholder="Minimum 8 characters"
+            value={form.password}
+            onChange={handleChange}
+          />
+          <span
+            className="input-icon-end"
+            onClick={() => setShowPassword(!showPassword)}
+            style={{ cursor: 'pointer' }}
+          >
+            {showPassword ? <EyeOff /> : <Eye />}
+          </span>
         </div>
+        <div className="spacer-small">  </div>
+        {/* Password Error Message */}
+        {validationErrors.password && <ErrorMessage error={validationErrors.password}/>}
 
-        <div className="button-group">
-            <button type="submit" className="auth-button">
-              CREATE ACCOUNT
-            </button>
-
-            <button
-              type="button"
-              className="auth-button"
-              onClick={() => navigate('/')}
-            >
-              BACK TO SIGN IN
-            </button>
-        </div>
-
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        {submitted && <p className="success-message">Signup successful!</p>}
+        <div className="spacer-small">  </div>
+        <button 
+          type="submit" 
+          className="btn btn-primary"
+        >
+          CREATE ACCOUNT
+        </button>
+        <button
+          type='button'
+          className="btn btn-transparent"
+          onClick={() => navigate('/')}
+        >
+          BACK TO SIGN IN
+        </button>
       </form>
     </div>
   );
