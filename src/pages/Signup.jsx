@@ -1,19 +1,28 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, KeyRound, User, Phone } from 'lucide-react';
-import '../styles/Style.css';
+import { Mail, Eye, EyeOff, KeyRound, User, Phone } from 'lucide-react';
+import ErrorMessage from '../components/ErrorMessage'
+import SuccessMessage from '../components/SuccessMessage'
+
+import '../styles/Root.css';
+import '../styles/Buttons.css';
+import '../styles/Elements.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/NavBar.css';
+import '../styles/Sidebar.css';
+import '../styles/Tables.css';
+import '../styles/Validation.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const url = `${API_URL}/auth/register`;
 
 function Signup() {
-  const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    mobile: '',
-    password: '',
-  });
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [mobile, setMobile] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -25,6 +34,32 @@ function Signup() {
     password: '',
   });
   const navigate = useNavigate();
+  const [isFirstNameEmpty, setIsFirstNameEmpty] = useState(false);
+  const [isLastNameEmpty, setIsLastNameEmpty] = useState(false);
+  const [isMobileEmpty, setIsMobileEmpty] = useState(false);
+  const [isEmailEmpty, setIsEmailEmpty] = useState(false);
+  const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
+
+  const handleValidation = (e) => {
+    e.preventDefault();
+
+    const isFirstNameEmpty = firstName.trim() === '';
+    const isLastNameEmpty = lastName.trim() === '';
+    const isMobileEmpty = mobile.trim() === '';
+    const isEmailEmpty = email.trim() === '';
+    const isPasswordEmpty = password.trim() === '';
+
+    setIsFirstNameEmpty(isFirstNameEmpty);
+    setIsLastNameEmpty(isLastNameEmpty);
+    setIsMobileEmpty(isMobileEmpty);
+    setIsEmailEmpty(isEmailEmpty);
+    setIsPasswordEmpty(isPasswordEmpty);
+    setError(null); // Clear previous errors
+
+    if (!isFirstNameEmpty && !isLastNameEmpty && !isMobileEmpty && !isEmailEmpty && !isPasswordEmpty) {
+      handleSubmit(e);
+    }
+  };
 
   //Update form on input change
   const handleChange = (e) => {
@@ -109,26 +144,25 @@ function Signup() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          firstName: form.firstName,
-          lastName: form.lastName,
-          email: form.email,
-          password: form.password,
-          mobile: form.mobile,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password,
+          mobile: mobile,
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-
-        alert(`Sign Up successful: ${data.message}, welcome ${form.firstName}`);
+        alert(`Sign Up successful: ${data.message}, welcome ${firstName}`);
         navigate('/signin');
       } else {
-        setErrorMessage(data.message || "Sign up failed");
+        setError(data.message || "Sign up failed");
       }
     } catch (err) {
       console.error('Error signing up:', err);
-      setErrorMessage("An unexpected error occurred");
+      setError("An unexpected error occurred");
     } finally {
       setSubmitted(false);
     }

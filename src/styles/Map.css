@@ -1,26 +1,44 @@
-/* Dark mode toggle button */
-.dark-mode-floating {
-    position: fixed;
-    top: 12.5rem; 
-    right: 0.5rem;
-    z-index: 900;
-    background-color: #444;
-    color: #fff;
-    border: none;
-    border-radius: 9999px;
-    width: 44px;
-    height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.24);
-    transition: background-color 0.3s;
+/* Map.css */
+
+/*
+This CSS has the style settings for the map
+
+There has been some work done to add a dark mode, however, dark 
+mode has not been expanded to the rest of the site.
+
+*/
+
+.container-map {
+  position: relative;
+  width: var(--map-container-width); 
+  height: var(--map-container-height); 
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
-.dark-mode-floating:hover {
-    background-color: #2e5e2c; 
+.map-visible-area {
+  width: var(--map-visible-width);
+  height: var(--map-visible-height);
+}
+
+.map-message {
+  position: absolute;
+  width: fit-content;
+  top: 12;
+  left: 12;
+  z-index: 1000;
+}
+
+.hide-scrollbar {
+  /* IE and Edge */
+  -ms-overflow-style: none;
+  /* Firefox */
+  scrollbar-width: none;
+  /* Chrome, Safari, and Opera */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 /* Dark Mode Styles */
@@ -72,41 +90,6 @@
     color: #4CAF50;
 }
 
-/* Locate user button */
-.locate-button {
-    position: fixed;
-    top: 8.5rem;
-    right: 0.5rem;
-    z-index: 900;
-    background-color: #444;
-    color: #ffffff;
-    border: none;
-    border-radius: 9999px;
-    width: 44px;
-    height: 44px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.24);
-    transition: transform 0.12s ease, background-color 0.2s ease, opacity 0.2s ease;
-}
-
-.locate-button:hover {
-    background-color: #2e5e2c;
-    transform: translateY(-1px);
-}
-
-.locate-button:active {
-    transform: translateY(0);
-}
-
-.locate-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
 /* Leaflet Zoom Control */
 .leaflet-control-zoom {
     position: fixed !important;
@@ -116,18 +99,24 @@
 }
 
 .leaflet-control-zoom a {
-    width: 60px;
-    height: 60px;
+    width: var(--button-zoom-size);
+    height: var(--button-zoom-size);
     line-height: 60px;
-    background-color: #444;
-    color: #fff;
+    background: var(--button-zoom-background);
+    color: var(--button-zoom-text-color);
+    border-color: var(--button-zoom-border-color);
+    border: var(--button-zoom-border);
     align-items: center;
     justify-content: center;
-    font-size: 20px;
 }
 
 .leaflet-control-zoom a:hover {
-    background-color: #2e5e2c;
+    box-shadow: var(--button-shadow-hover);
+    background: var(--button-zoom-hover-background);
+    background-position: 0% 0%;
+}
+.leaflet-control-zoom a:active {
+    background:  var(--button-zoom-background-active);
 }
 
 @media (max-width: 768px) {
@@ -138,4 +127,6 @@
         top: 240px; /* push below locate user button */
     }
 }
+
+/* var(); */
   

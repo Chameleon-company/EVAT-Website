@@ -1,22 +1,31 @@
 import React, { useEffect, useState, useMemo, useContext } from 'react';
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import 'leaflet.markercluster/dist/MarkerCluster.css';
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import L from 'leaflet';
+import { UserContext } from '../context/user';
+import { FavouritesContext } from '../context/FavouritesContext';
+import { getChargers, getConnectorTypes, getOperatorTypes } from '../services/chargerService';
 import NavBar from '../components/NavBar';
 import LocateUser from '../components/LocateUser';
 import ClusterMarkers from '../components/ClusterMarkers';
 import SmartFilter from '../components/SmartFilter';
-import { UserContext } from '../context/user';
-import ChargerSideBar from '../components/ChargerSideBar';
-import { FavouritesContext } from '../context/FavouritesContext';
-import { getChargers, getConnectorTypes, getOperatorTypes } from '../services/chargerService';
 import ChatBubble from "../components/ChatBubble";
+import ChargerSideBar from '../components/ChargerSideBar';
 
 // styles
+import 'leaflet/dist/leaflet.css';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import '../styles/Root.css';
 import '../styles/SmartFilter.css';
 import '../styles/Map.css';
+import '../styles/Buttons.css';
+import '../styles/Elements.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/NavBar.css';
+import '../styles/Sidebar.css';
+import '../styles/Tables.css';
+import '../styles/Validation.css';
 
 // Configure default Leaflet marker icons
 delete L.Icon.Default.prototype._getIconUrl;
@@ -274,42 +283,26 @@ export default function Map() {
   return (
     <div className={`map-page ${isDark ? "dark" : ""}`}>
       <NavBar />
-      <div style={{ position: 'relative', height: '100vh', width: '100%' }}>
-        <button
-          className="filter-toggle-button"
+      <div className='container-map'>
+        <button 
+          className="btn btn-primary btn-filter btn-small"
           onClick={() => setIsFilterOpen(true)}
         >
           🔍 Smart Filters
         </button>
 
         {loading && (
-          <div style={{
-            position: 'absolute',
-            top: 12,
-            left: 12,
-            zIndex: 1000,
-            background: '#fff',
-            padding: '6px 10px',
-            borderRadius: 6
-          }}>
+          <div className='map-message validation-message'>
             Loading…
           </div>
         )}
         {err && (
-          <div style={{
-            position: 'absolute',
-            top: 44,
-            left: 12,
-            zIndex: 1000,
-            background: '#ffdddd',
-            padding: '6px 10px',
-            borderRadius: 6
-          }}>
+          <div className='map-message validation-error'>
             {err}
           </div>
         )}
 
-        <MapContainer center={[-37.8136, 144.9631]} zoom={13} style={{ height: '100%', width: '100%' }}>
+        <MapContainer className="map-visible-area hide-scrollbar " center={[-37.8136, 144.9631]} zoom={13}>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution="&copy; OpenStreetMap contributors"
@@ -320,13 +313,11 @@ export default function Map() {
             stations={filteredStations}
             onSelectStation={(st) => setSelectedStation(st)}
           />
-
-
           <LocateUser />
         </MapContainer>
 
         <button
-          className="dark-mode-floating"
+          className="btn btn-primary btn-dark-mode"
           aria-label="Toggle dark mode"
           onClick={() => setIsDark(prev => !prev)}
           title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}

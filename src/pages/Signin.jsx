@@ -1,8 +1,19 @@
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, KeyRound, User as UserIcon } from 'lucide-react';
+import { Mail, Eye, EyeOff, KeyRound, User as UserIcon } from 'lucide-react';
 import { UserContext } from '../context/user';
-import '../styles/Style.css';
+import ErrorMessage from '../components/ErrorMessage'
+import SuccessMessage from '../components/SuccessMessage'
+
+import '../styles/Root.css';
+import '../styles/Buttons.css';
+import '../styles/Elements.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/NavBar.css';
+import '../styles/Sidebar.css';
+import '../styles/Tables.css';
+import '../styles/Validation.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const url = `${API_URL}/auth/login`;
@@ -16,30 +27,30 @@ function Signin() {
   const [submitted, setSubmitted] = useState(false);
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
-  const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
   const [isEmailEmpty, setIsEmailEmpty] = useState(false);
+  const [isPasswordEmpty, setIsPasswordEmpty] = useState(false);
 
   const handleValidation = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const isEmailEmpty = email.trim() === '';
-  const isPasswordEmpty = password.trim() === '';
+    const isEmailEmpty = email.trim() === '';
+    const isPasswordEmpty = password.trim() === '';
 
-  setIsEmailEmpty(isEmailEmpty);
-  setIsPasswordEmpty(isPasswordEmpty);
-  setError(null); // Clear previous errors
+    setIsEmailEmpty(isEmailEmpty);
+    setIsPasswordEmpty(isPasswordEmpty);
+    setError(null); // Clear previous errors
 
-  if (!isEmailEmpty && !isPasswordEmpty) {
-    handleSubmit(e);
-  }
-};
-
+    if (!isEmailEmpty && !isPasswordEmpty) {
+      handleSubmit(e);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setSubmitted(true); //to indicate the form is now submitting
 
+    // submit the login
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -124,74 +135,75 @@ function Signin() {
   
   //UI Rendering
   return (
-    <div className="auth-container">
-      <img src="/chameleon.png" alt="Chameleon" className="logo-image" />
+    <div className="container vertical center">
+      <img src="../src/assets/logo.png" alt="EV Adoption Tool" className="logo-image" />
 
-      <form onSubmit={handleValidation} className="auth-form">
-        <div className='input-container'>
-          <label className="label">Email</label>
-          <div className="input-group">
-            <UserIcon className="icon" />
-            <input
-              className="input"
-              type="text"
-              name="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          {isEmailEmpty && (
-            <div className="error-message">
-              This field is required
-            </div>
-          )}
+      <form onSubmit={handleValidation} className="form-section signin-width">
+        {/* Submit Error and Success Messages */}
+        {error && <ErrorMessage error={error}/>}
+        {submitted && <SuccessMessage message='Signup successful!'/>}
+        <div className="spacer-small">  </div>
+
+        {/* Enter Email */}
+        <label className='form-label required'>Email</label>
+        <div className='icon-inside-input'>
+          <Mail className="input-icon" />
+          <input
+            className="input"
+            type="text"
+            name="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
+        <div className="spacer-small">  </div>
+        {/* Email Error Message */}
+        {isEmailEmpty && <ErrorMessage error='required'/>}
 
-        <div className='input-container'>
-          <label className="label">Password</label>
-          <div className="input-group">
-            <KeyRound className="icon" />
-            <input
-              className="input"
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-            <span
-              className="icon-right"
-              onClick={() => setShowPassword(!showPassword)}
-              role="button"
-            >
-              {showPassword ? <EyeOff /> : <Eye />}
-            </span>
-          </div>
-          {isPasswordEmpty && (
-            <div className="error-message">
-              This field is required
-            </div>
-          )}
-          {error && <p className="error-message">{error}</p>}
-          {submitted && <p className="success-message">Sign in submitted</p>}
+        {/* Enter Password */}
+        <label className='form-label required'>Password</label>
+        <div className='icon-inside-input'>
+          <KeyRound className="input-icon" />
+          <input
+            className="input"
+            type={showPassword ? 'text' : 'password'}
+            name="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+          <span
+            className="input-icon-end"
+            onClick={() => setShowPassword(!showPassword)}
+            role="button"
+          >
+            {showPassword ? <EyeOff /> : <Eye />}
+          </span>
         </div>
+        <div className="spacer-small">  </div>
+        {/* Password Error Message */}
+        {isPasswordEmpty && <ErrorMessage error='required'/>}
 
 
-      <div className="button-group">
-        <button type="submit" className="auth-button" disabled={submitted}>
+        <div className="spacer-small">  </div>
+        <button 
+          type='submit'
+          className="btn btn-primary" 
+          disabled={submitted}
+        >
           {submitted ? "Signing In..." : "SIGN IN"}
         </button>
-
         <button
-          type="button"
-          className="auth-button"
+          type='button'
+          className="btn btn-primary"
           onClick={() => navigate('/signup')}
         >
           CREATE NEW ACCOUNT
         </button>
-      </div>  
+
       </form>
+
     </div>
   );
 }

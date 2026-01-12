@@ -1,0 +1,36 @@
+/* Validation.css */
+
+/*
+This CSS has the style settings for validation pop ups
+*/
+
+.validation {
+  text-align: center;
+  display: flex;
+  width: inherit;
+  box-sizing: border-box;
+  align-items: center;
+  border-radius: var(--message-radius);
+  padding: var(--message-padding);
+  gap:var(--message-gap);
+}
+
+.validation.error {
+  background-color: var(--error-background-color);
+  color: var(--error-text-color);
+  border: var(--error-border);
+}
+
+.validation.success {
+  background-color: var(--success-background-color);
+  color: var(--success-text-color);
+  border: var(--success-border);
+}
+
+.validation.message,
+.message {
+  background-color: var(--message-background-color);
+  color: var(--message-text-color);
+  border: var(--message-border);
+}
+

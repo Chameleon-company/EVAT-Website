@@ -1,13 +1,22 @@
 // src/pages/ApiTester.jsx
 import { useState, useEffect } from 'react';
+
 import NavBar from "../components/NavBar";
-import Background from "../components/Background";
-import ChatBubble from "../components/ChatBubble";
 import ApiTesterHistory from "../components/api-tester/ApiTesterHistory";
 import ApiTesterSidebar from "../components/api-tester/ApiTesterSidebar";
 import ApiTesterResponse from "../components/api-tester/ApiTesterResponse";
 import ApiTesterForm from "../components/api-tester/ApiTesterForm";
-import "../styles/ApiTester.css";
+
+import '../styles/Root.css';
+import '../styles/API.css';
+import '../styles/Buttons.css';
+import '../styles/Elements.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/NavBar.css';
+import '../styles/Sidebar.css';
+import '../styles/Tables.css';
+import '../styles/Validation.css';
 
 const ApiTester = () => {
   // set the state
@@ -143,27 +152,24 @@ const ApiTester = () => {
   // if not in development mode and not forceing to show with ?devtools=1
   if (!isDev && !forceShow) {
     return (
-      <div className="dashboard-page">
+      <div>
         <NavBar />
-        <Background>
-          <div>
-            <h2>Nothing to see here</h2>
-          </div>
-        </Background>
-        <ChatBubble />
+        {/* background */}
+        <div className="background-image" />
+        <h4 className='h4 text-center auto-width'>Nothing to see here!</h4>
       </div>
     );
   }
 
   // return tester UI
   return (
-    <div className="dashboard-page">
+    <div>
       <NavBar />
-      <Background>
-        <div className="api-tester-content">
+      <h3 className='h3 text-center auto-width'>Internal API Tester</h3>
+      <div className="container vertical auto-width">
+        <div className="grid-content">
           {/* left panel */}
-          <div className="api-tester-container">
-            <h1>Internal API Tester</h1>
+          <div >
             {/* request history */}
             <ApiTesterHistory history={history} onLoad={loadFromHistory} onClear={clearHistory} />
 
@@ -182,7 +188,7 @@ const ApiTester = () => {
               loading={loading}
               onSend={sendRequest}
             />
-
+            <div className='spacer-small' />
             {/* response */}
             <ApiTesterResponse response={response} error={error} />
           </div>
@@ -191,8 +197,7 @@ const ApiTester = () => {
           {/* quick endpoints */}
           <ApiTesterSidebar onEndpointClick={handleEndpointClick} />
         </div>
-      </Background>
-      <ChatBubble />
+      </div>
     </div>
   );
 };

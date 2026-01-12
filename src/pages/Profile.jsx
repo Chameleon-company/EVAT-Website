@@ -4,15 +4,23 @@
 // Full backend integration can be implemented
 // in the future when actual payments need to be made.
 
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { CircleUserRound, Car, CreditCard, BookText, LogOut, Pencil, Check, X, ArrowLeft } from 'lucide-react';
-import { toast } from "react-toastify";
-import NavBar from "../components/NavBar";
-import Background from "../components/Background";
-import "../styles/Profile.css";
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Mail, House, KeyRound, CalendarDays, User, CreditCard, Phone, CircleUserRound, Car, CreditCard, BookText, LogOut, Pencil, Check, X, ArrowLeft } from 'lucide-react';
+import NavBar from '../components/NavBar';
+import profileImage from '../assets/profileImage.png';
 import ChatBubble from "../components/ChatBubble";
 import BookingHistoryTable from "../components/BookingHistoryTable";
+
+import '../styles/Root.css';
+import '../styles/Buttons.css';
+import '../styles/Elements.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/NavBar.css';
+import '../styles/Sidebar.css';
+import '../styles/Tables.css';
+import '../styles/Validation.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -420,290 +428,195 @@ function Profile() {
   if (!user) return null;
 
   return (
-    <div className="dashboard-page">
+    <div>
       <NavBar />
-      <Background>
-        <div className="dashboard-center">
+      {/* background */}
+      <div className="background-image" />
+      {/* title */}
+      <h1 className='h1 text-center auto-width'>My Dashboard</h1>
+      <div className="container horizontal auto-width">
+        {/* left container - profile image*/}
+        <div className="inner-left">
+          <div className="profile-image">
+            {user.firstName?.charAt(0) || '?'}
+            <img src={profileImage} alt="Profile" />
+          </div>
+        </div>
+        
+        {/* center container - options and details*/}
+        <div className="inner-center">
           {activeTab === "dashboard" && (
             <>
-              <h1>My Dashboard</h1>
-              <div className="dashboard-profile-image">
-                <div className="avatar">
-                  {user.firstName?.charAt(0) || '?'}
-                </div>
-              </div>
-              <div className="button-container">
-                <button
-                  className="dashboard-btn"
-                  onClick={() => setActiveTab("about")}
-                >
-                  <div className="button-contents">
-                    <CircleUserRound />
-                    <p>About Me</p>
-                  </div>
-                </button>
-                <button
-                  className="dashboard-btn"
-                  onClick={() => setActiveTab("car")}
-                >
-                  <div className="button-contents">
-                    <Car />
-                    <p>My Car</p>
-                  </div>
-                </button>
-                <button
-                  className="dashboard-btn"
-                  onClick={() => setActiveTab("payment")}
-                > <div className="button-contents">
-                    <CreditCard />
-                    <p>Payment</p>
-                  </div>
-                </button>
-                <button
-                  className="dashboard-btn"
-                  onClick={() => setActiveTab("history")}
-                >
-                  <div className="button-contents">
-                    <BookText />
-                    <p>Booking History</p>
-                  </div>
-                </button>
-              </div>
-              <button className="back-button" onClick={() => {
-                handleSignOut();
-                toast.success(
-                  <div>
-                    Signed Out Successfully! <br />
-                    Cya!
-                  </div>,
-                  { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "SignOut-success" }
-                );
-              }
-              }>
-                <div className="button-contents">
-                  <LogOut />
-                  <p>Sign Out</p>
-                </div>
-              </button>
+              <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("about")}> <CircleUserRound /> About Me</button>
+              <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("car")}> <Car /> My Car</button>
+              <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("payment")}> <CreditCard /> Payment</button>
+              <button className="btn btn-primary two-hundred-width" onClick={() => setActiveTab("history")}> <BookText /> Booking History</button>
             </>
           )}
 
-          {/* Sub-Menus */}
+          {/* About Me */}
           {activeTab === "about" && (
             <div>
-              <h3 className="section-title">About Me</h3>
-              <div className="section-body">
-                <p>
-                  First Name:{" "}
-                  {editingAbout ? (
+              <h3>About Me</h3>
+              <div className="input-and-label-same-line ">
+                <label className='form-label required'>First Name: </label>
+                {editingAbout ? (
+                  <div className='icon-inside-input two-hundred-width'>
+                    <User className="input-icon" />
                     <input
+                      className="input"
                       type="text"
                       value={user.firstName || ""}
-                      placeholder="Enter your first name"
-                      className={isSuccess ? "input-success" : ""}
                       onChange={(e) => {
                         setUser({ ...user, firstName: e.target.value });
                         setErrors({ ...errors, firstName: "" });
                       }}
                     />
-                  ) : (
-                    user.firstName
-                  )}
-                  {errors.firstName && (
-                    <small className="error-text">{errors.firstName}</small>
-                  )}
-                </p>
-                <p>
-                  Last Name:{" "}
-                  {editingAbout ? (
+                  </div>
+                ) : (
+                  user.firstName
+                )}
+                {errors.firstName && (
+                  // Come back here
+                  <small className="error-text">{errors.firstName}</small>
+                )}
+              </div>
+
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Last Name: </label>
+                {editingAbout ? (
+                  <div className='icon-inside-input two-hundred-width'>
+                    <User className="input-icon" />
                     <input
+                      className="input"
                       type="text"
                       value={user.lastName || ""}
                       placeholder="Enter your last name"
-                      className={isSuccess ? "input-success" : ""}
+                      // className={isSuccess ? "input-success" : ""}
                       onChange={(e) => {
                         setUser({ ...user, lastName: e.target.value });
                         setErrors({ ...errors, lastName: "" });
                       }}
                     />
-                  ) : (
-                    user.lastName
-                  )}
-                  {errors.lastName && (
-                    <small className="error-text">{errors.lastName}</small>
-                  )}
-                </p>
+                  </div>
+                ) : (
+                  user.lastName
+                )}
+                {errors.lastName && (
+                  // Come back here
+                  <small className="error-text">{errors.lastName}</small>
+                )}
+              </div>
 
-                <p>Email: {user.email || "N/A"}</p>
+              <div className="input-and-label-same-line">
+                <label className='form-label'>Email:</label>
+                <span className='form-label text-right'>{user.email || "N/A"}</span>
+              </div>
 
-                <p>
-                  Phone:{" "}
-                  {editingAbout ? (
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Phone: </label>
+                {editingAbout ? (
+                  <div className='icon-inside-input two-hundred-width'>
+                    <Phone className="input-icon" />
                     <input
+                      className="input"
                       type="text"
                       value={user.mobile || ""}
                       placeholder="Enter your phone"
-                      className={isSuccess ? "input-success" : ""}
+                      // className={isSuccess ? "input-success" : ""}
                       onChange={(e) => {
                         setUser({ ...user, mobile: e.target.value });
                         setErrors({ ...errors, mobile: "" });
                       }}
                     />
-                  ) : (
-                    user.mobile || "N/A"
-                  )}
-                  {errors.mobile && (
-                    <small className="error-text">{errors.mobile}</small>
-                  )}
-                </p>
-                {successMessage && (
-                  <div className="success-text fade-in">{successMessage}</div>
-                )}
-              </div>
-
-              <div className="button-container">
-                <button
-                  className="button"
-                  onClick={() => {
-                    if (editingAbout) {
-                      handleSaveAbout();
-                    } else {
-                      setOriginalUser(user); // Save the current values before editing
-                      setEditingAbout(true);
-                    }
-                  }}
-                >
-                  <div className="button-contents">
-                    {editingAbout ? <Check /> : <Pencil />}
-                    <p>{editingAbout ? "Save" : "Edit"}</p>
                   </div>
-                </button>
-
-                {editingAbout && (
-                  <button
-                    className="back-button"
-                    onClick={() => {
-                      setUser(originalUser);
-                      setEditingAbout(false);
-                      setErrors({});
-                      toast.info(
-                        <div>
-                          Changes discarded
-                        </div>,
-                        { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "user-discard-info" }
-                      );
-                    }}
-                  >
-                    <div className="button-contents">
-                      <X />
-                      <p>Cancel</p>
-                    </div>
-                  </button>
+                ) : (
+                  user.mobile || "N/A"
                 )}
-
-                {!editingAbout && (
-                  <button
-                    className="back-button"
-                    onClick={() => setActiveTab("dashboard")}
-                  >
-                    <div className="button-contents">
-                      <ArrowLeft />
-                      <p>Back</p>
-                    </div>
-                  </button>
+                {errors.mobile && (
+                  <small className="error-text">{errors.mobile}</small>
                 )}
-
+                
               </div>
             </div>
           )}
 
+          {/* My Car */}
           {activeTab === "car" && (
             <div>
-              <h3 className="section-title">My Car</h3>
-              <div className="section-body">
-                <p>
-                  Car Make:{" "}
-                  {editingCar ? (
-                    <select
-                      value={user.car?.make || "Select"}
-                      onChange={(e) => {
-                        setUser({
-                          ...user,
-                          car: {
-                            ...user.car,
-                            make: e.target.value,
-                            model: "",
-                            year: "",
-                          },
-                        });
-                      }}
-                    >
-                      {makes.map((make, idx) => (
-                        <option key={idx} value={make}>
-                          {make}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    user.car?.make || "N/A"
-                  )}
-                  {errors.carMake && (
-                    <small className="error-text">{errors.carMake}</small>
-                  )}
-                </p>
-                <p>
-                  Car Model:{" "}
-                  {editingCar ? (
-                    <select
-                      value={user.car?.model || "Select"}
-                      onChange={(e) => {
-                        setUser({
-                          ...user,
-                          car: { ...user.car, model: e.target.value, year: "" },
-                        });
-                        setErrors({ ...errors, carMake: "" });
-                      }
+              <h3>My Car</h3>
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Car Make: </label>
+                {editingCar ? (
+                  <select
+                    className="input two-hundred-width"
+                    value={user.car?.make || "Select"}
+                    onChange={(e) => {
+                      setUser({ ...user, car: { ...user.car, make: e.target.value, model: "", year: "" } });
+                    }}
+                  >
+                    {makes.map((make, idx) => (
+                      <option key={idx} value={make}>
+                        {make}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  user.car?.make || "N/A"
+                )}
+                {errors.carMake && (
+                  <small className="error-text">{errors.carMake}</small>
+                )}
+              </div>
 
-                      }
-                    >
-                      {models.map((model, idx) => (
-                        <option key={idx} value={model}>
-                          {model}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    user.car?.model || "N/A"
-                  )}
-                  {errors.carModel && (
-                    <small className="error-text">{errors.carModel}</small>
-                  )}
-                </p>
-                <p>
-                  Model Year:{" "}
-                  {editingCar ? (
-                    <select
-                      value={String(user.car?.year) || "Select"}
-                      onChange={(e) =>
-                        setUser({
-                          ...user,
-                          car: { ...user.car, year: e.target.value },
-                        })
-                      }
-                    >
-                      {years.map((year, idx) => (
-                        <option key={idx} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    user.car?.year || "N/A"
-                  )}
-                  {errors.carYear && (
-                    <small className="error-text">{errors.carYear}</small>
-                  )}
-                </p>
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Car Model: </label>
+                {editingCar ? (
+                  <select
+                    className="input two-hundred-width"
+                    value={user.car?.model || "Select"}
+                    onChange={(e) => {
+                      setUser({...user, car: { ...user.car, model: e.target.value, year: "" }});
+                      setErrors({ ...errors, carMake: "" });
+                    }}
+                  >
+                    {models.map((model, idx) => (
+                      <option key={idx} value={model}>
+                        {model}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  user.car?.model || "N/A"
+                )}
+                {errors.carModel && (
+                  <small className="error-text">{errors.carModel}</small>
+                )}
+              </div>
+
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Model Year: </label>
+                {editingCar ? (
+                  <select
+                    className="input two-hundred-width"
+                    value={String(user.car?.year) || "Select"}
+                    onChange={(e) =>
+                      setUser({ ...user, car: { ...user.car, year: e.target.value } })
+                    }
+                    
+                  >
+                    {years.map((year, idx) => (
+                      <option key={idx} value={year}>
+                        {year}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  user.car?.year || "N/A"
+                )}
+                {errors.carYear && (
+                  <small className="error-text">{errors.carYear}</small>
+                )}
               </div>
 
               <div className="button-container">
@@ -761,193 +674,177 @@ function Profile() {
             </div>
           )}
 
+          {/* Payment */}
           {activeTab === "payment" && (
             <div>
               <h3 className="section-title">Payment Information</h3>
               <div className="section-body">
-
-                {/* ✅ CARD NUMBER */}
                 <p>
-                  Card:
+                  Card:{" "}
                   {editingPayment ? (
-                    <>
-                      <input
-                        type="text"
-                        value={user.cardNumber || ""}
-                        placeholder="1234 5678 9012 3456"
-                        className={isPaymentSuccess ? "input-success" : ""}
-                        onChange={(e) => {
-                          let val = e.target.value.replace(/\D/g, "").slice(0, 16);
-                          val = val.replace(/(\d{4})(?=\d)/g, "$1 ");
-                          setUser({ ...user, cardNumber: val });
-                          setPaymentErrors({ ...paymentErrors, cardNumber: "" });
-                        }}
-                      />
-                      {paymentErrors.cardNumber && (
-                        <small className="error-text">{paymentErrors.cardNumber}</small>
-                      )}
-                    </>
+                    <input
+                      type="text"
+                      value={user.cardNumber || ""}
+                      onChange={(e) => {
+                        // Only digits, max 16
+                        let val = e.target.value.replace(/\D/g, '').slice(0, 16);
+                        // Add spaces every 4 digits for display
+                        val = val.replace(/(\d{4})(?=\d)/g, '$1 ');
+                        setUser({ ...user, cardNumber: val });
+                      }}
+                      placeholder="1234 5678 9012 3456"
+                    />
                   ) : (
                     user.cardNumber
-                      ? "**** **** **** " + user.cardNumber.replace(/\s/g, "").slice(-4)
+                      ? "**** **** **** " + user.cardNumber.replace(/\s/g, '').slice(-4)
                       : "**** **** **** 1234"
                   )}
                 </p>
 
-                {/* ✅ EXPIRY DATE */}
                 <p>
-                  Expiry Date:
+                  Expiry Date:{" "}
                   {editingPayment ? (
-                    <>
-                      <input
-                        type="text"
-                        value={user.expiryDate || ""}
-                        placeholder="MM/YY"
-                        className={isPaymentSuccess ? "input-success" : ""}
-                        onChange={(e) => {
-                          let val = e.target.value.replace(/\D/g, "").slice(0, 4);
-                          if (val.length > 2) val = val.slice(0, 2) + "/" + val.slice(2);
-                          setUser({ ...user, expiryDate: val });
-                          setPaymentErrors({ ...paymentErrors, expiryDate: "" });
-                        }}
-                      />
-                      {paymentErrors.expiryDate && (
-                        <small className="error-text">{paymentErrors.expiryDate}</small>
-                      )}
-                    </>
+                    <input
+                      type="text"
+                      value={user.expiryDate || ""}
+                      onChange={(e) => {
+                        let val = e.target.value.replace(/\D/g, '').slice(0, 4); // digits only, max 4
+                        if (val.length > 2) val = val.slice(0, 2) + '/' + val.slice(2); // insert '/'
+                        setUser({ ...user, expiryDate: val });
+                      }}
+                      placeholder="MM/YY"
+                    />
                   ) : (
                     user.expiryDate || "MM/YY"
                   )}
                 </p>
 
-                {/* ✅ CVV */}
                 <p>
-                  CVV:
+                  CVV:{" "}
                   {editingPayment ? (
-                    <>
-                      <input
-                        type="text"
-                        value={user.cvv || ""}
-                        placeholder="123"
-                        className={isPaymentSuccess ? "input-success" : ""}
-                        onChange={(e) => {
-                          const val = e.target.value.replace(/\D/g, "").slice(0, 3);
-                          setUser({ ...user, cvv: val });
-                          setPaymentErrors({ ...paymentErrors, cvv: "" });
-                        }}
-                      />
-                      {paymentErrors.cvv && (
-                        <small className="error-text">{paymentErrors.cvv}</small>
-                      )}
-                    </>
+                    <input
+                      type="text"
+                      value={user.cvv || ""}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/\D/g, '').slice(0, 3);
+                        setUser({ ...user, cvv: val });
+                      }}
+                      placeholder="123"
+                    />
                   ) : (
                     "***"
                   )}
                 </p>
 
-                {/* ✅ BILLING ADDRESS */}
                 <p>
-                  Billing Address:
+                  Billing Address:{" "}
                   {editingPayment ? (
-                    <>
-                      <input
-                        type="text"
-                        value={user.billingAddress || ""}
-                        placeholder="Enter your billing address"
-                        className={isPaymentSuccess ? "input-success" : ""}
-                        onChange={(e) => {
-                          setUser({ ...user, billingAddress: e.target.value });
-                          setPaymentErrors({ ...paymentErrors, billingAddress: "" });
-                        }}
-                      />
-                      {paymentErrors.billingAddress && (
-                        <small className="error-text">{paymentErrors.billingAddress}</small>
-                      )}
-                    </>
+                    <input
+                      type="text"
+                      value={user.billingAddress || ""}
+                      onChange={(e) => setUser({ ...user, billingAddress: e.target.value })}
+                      placeholder="N/A"
+                    />
                   ) : (
                     user.billingAddress || "N/A"
                   )}
                 </p>
-
-                {/* ✅ SUCCESS MESSAGE */}
-                {paymentSuccessMessage && (
-                  <div className="success-text fade-in">
-                    {paymentSuccessMessage}
-                  </div>
-                )}
-
-              </div>
-
-              <div className="button-contents">
-                <button
-                  className="button"
-                  onClick={() => {
-                    if (editingPayment) {
-                      handleSavePayment();
-                    } else {
-                      setEditingPayment(true);
-                    }
-                  }}
-                >
-                  <div className="button-contents">
-                    {editingPayment ? <Check /> : <Pencil />}
-                    <p>{editingPayment ? "Save" : "Edit"}</p>
-                  </div>
-                </button>
-
-                {editingPayment && (
-                  <button
-                    className="back-button"
-                    onClick={() => setEditingPayment(false)}
-                  >
-                    <div className="button-contents">
-                      <X />
-                      <p>Cancel</p>
-                    </div>
-                  </button>
-                )}
-
-                {!editingPayment && (
-                  <button
-                    className="back-button"
-                    onClick={() => setActiveTab("dashboard")}
-                  >
-                    <div className="button-contents">
-                      <ArrowLeft />
-                      <p>Back</p>
-                    </div>
-                  </button>
-                )}
-
               </div>
             </div>
           )}
 
           {activeTab === "history" && (
-
-            <div>
+            <div className="history-container">
               <h3 className="section-title">Booking History</h3>
               <div className="section-body">
-                <div className="history-container">
-                  <BookingHistoryTable />
-                </div>
-              </div>
-
-              <div className="button-container">
-                <button
-                  className="back-button"
-                  onClick={() => setActiveTab("dashboard")}
-                >
-                  <div className="button-contents">
-                    <ArrowLeft />
-                    <p>Back</p>
-                  </div>
-                </button>
+                <BookingHistoryTable />
               </div>
             </div>
           )}
         </div>
-      </Background >
+
+        {/* RIGHT SECTION */}
+        <div className="dashboard-right">
+          {activeTab === "dashboard" && (
+            <button className="button" onClick={handleSignOut}>
+              SIGN OUT
+            </button>
+          )}
+
+          {activeTab === "about" && (
+            <>
+              <button
+                className="button"
+                onClick={() => {
+                  if (editingAbout) {
+                    handleSaveAbout();
+                  } else {
+                    setEditingAbout(true);
+                  }
+                }}
+              >
+                {editingAbout ? "SAVE" : "EDIT"}
+              </button>
+              {editingAbout && (
+                <button className="button cancel-button" onClick={() => setEditingAbout(false)}>
+                  CANCEL
+                </button>
+              )}
+              <button className="back-button" onClick={() => setActiveTab("dashboard")}>
+                BACK
+              </button>
+            </>
+          )}
+
+          {activeTab === "car" && (
+            <>
+              <button
+                className="button"
+                onClick={() => {
+                  if (editingCar) {
+                    handleSaveCar();
+                  } else {
+                    setEditingCar(true);
+                  }
+                }}
+              >
+                {editingCar ? "SAVE" : "EDIT"}
+              </button>
+              <button className="back-button" onClick={() => setActiveTab("dashboard")}>
+                BACK
+              </button>
+            </>
+          )}
+
+          {activeTab === "payment" && (
+            <>
+              <button
+                className="button"
+                onClick={() => {
+                  if (editingPayment) {
+                    handleSavePayment();
+                  } else {
+                    setEditingPayment(true);
+                  }
+                }}
+              >
+                {editingPayment ? "SAVE" : "EDIT"}
+              </button>
+              <button className="back-button" onClick={() => setActiveTab("dashboard")}>
+                BACK
+              </button>
+            </>
+          )}
+
+          {/* Booking History */}
+          {activeTab === "history" && (
+            <button className="btn btn-tertiary two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
+              <ArrowLeft />
+              back
+            </button>
+          )}
+        </div> 
+      </div>
       <ChatBubble />
     </div >
   );

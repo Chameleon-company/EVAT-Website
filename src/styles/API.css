@@ -1,0 +1,138 @@
+/* API.css */
+
+/*
+This CSS has the style settings for the API Tester Page
+*/
+
+.history-container {
+  margin-bottom: var(--history-container-bottom-margin);
+  max-height: var(--history-container-max-height);
+  overflow-y: auto;
+}
+
+.history-details {
+  padding: var(--api-padding);
+  color: var(--history-text-color);
+  border: none;
+  border-radius: var(--api-radius);
+  cursor: 'pointer';
+  margin-bottom: var(--history-bottom-margin);
+  height: var(--history-item-height);
+}
+
+.history-details.success {background-color: var(--success-background-color);}
+.history-details.error {background-color: var(--error-background-color);;}
+
+.history-recent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: 'pointer';
+}
+
+.response-status.success { color: var(--success-color-base); }
+.response-status.error   { color: var(--error-color-base); }
+
+.response-preview {
+  color: var(--response-text-color);
+  background-color: var(--response-background-color);
+  border: var(--response-border);
+  border-radius: var(--api-radius);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.endpoint-sidebar {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  max-height: 70vh;
+  height: fit-content;
+  box-sizing: border-box;
+  padding-right:  var(--api-padding);
+}
+
+.endpoint-group-title.admin-only {
+  color: var(--endpoint-admin-only-text-color);
+}
+
+.endpoint-item {
+  padding: var(--api-padding);
+  margin-bottom: var(--api-margin);
+  transition: var(--api-transition);
+  cursor: pointer;
+  border: none;
+  border-radius: var(--api-radius);
+}
+
+.endpoint-item-get {
+  background: var(--get-background); 
+  background-size: var(--api-item-background-size);
+  background-position: var(--api-item-background-position-start);
+}
+.endpoint-item-post { 
+  background: var(--post-background); 
+  background-size: var(--api-item-background-size);
+  background-position: var(--api-item-background-position-start);
+}
+
+.endpoint-item-put { 
+  background: var(--put-background); 
+  background-size: var(--api-item-background-size);
+  background-position: var(--api-item-background-position-start);
+}
+
+.endpoint-item-delete { 
+  background: var(--delete-background); 
+  background-size: var(--api-item-background-size);
+  background-position: var(--api-item-background-position-start);
+}
+
+.endpoint-item-patch { 
+  background: var(--patch-background); 
+  background-size: var(--api-item-background-size);
+  background-position: var(--api-item-background-position-start);
+}
+
+.endpoint-item:hover {
+  box-shadow: var(--api-item-shadow-hover);
+  transform: translateY(-1px);
+  background-position: var(--api-item-background-position-end);
+}
+
+.endpoint-item:active {
+  transform: translateY(0);
+}
+
+.endpoint-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.endpoint-path {
+  color: var(--endpoint-text-color);
+}
+
+.endpoint-description {
+  color: var(--endpoint-text-color);
+  margin-left: var(--api-margin);
+}
+
+.method-badge {
+  display: inline-block;
+  width: fit-content;
+  min-width: 50px;
+  text-align: center;
+  padding-left: var(--api-padding);
+  padding-right: var(--api-padding);
+  border-radius: var(--api-radius);
+  margin-right: var(--api-margin);
+}
+
+.method-get { background: var(--get-colour-base); }
+.method-post { background: var(--post-colour-base); }
+.method-put { background: var(--put-colour-base); }
+.method-delete { background: var(--delete-colour-base); }
+.method-patch { background: var(--patch-colour-base); }

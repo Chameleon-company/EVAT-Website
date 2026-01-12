@@ -1,0 +1,295 @@
+/* Elements.css */
+
+/*
+This CSS has the style settings for Elements.
+This includes:
+Body
+Cards
+Containers
+Images
+Icons
+Utility Controls
+*/
+
+/* Body */
+body {
+  margin: 0;
+  color: var(--text-color-light);
+  background-color: var(--secondary-color-dark);
+}
+
+/* Card */
+.card {
+  background: var(--card-background-color);
+  color: var(--card-text-color);
+  border: var(--card-border);
+  border-radius: var(--element-radius);
+  width: var(--card-minimum-width);
+  padding: var(--element-padding);
+  flex: 1;
+  margin: auto;
+  align-items: center;
+  text-align: center;
+}
+
+.card-grid {
+  margin: var(--card-margin);
+  gap: var(--card-gap);
+  flex: 1;
+  min-height: fit-content;
+  display: flex;
+}
+
+/* Containers */
+.container {
+  background: var(--container-background-color);
+  color: var(--container-text-color);
+  border: var(--container-border);
+  border-radius: var(--element-radius);
+  padding: var(--element-padding);
+  display: flex;
+  width: fit-content;
+  align-items: stretch;
+  justify-content: space-between;
+  margin: auto;
+}
+
+.container.horizontal {
+  flex-direction: row;
+}
+
+.container.vertical {
+  flex-direction: column;
+}
+
+.container.hidden {
+  background: none;
+  border: none;
+  border-radius: none;
+}
+
+.container.center {
+  margin: auto;
+  margin-top: var(--container-margin-top);
+}
+
+.container.auto-width {
+  width: auto;
+  margin-top: var(--container-margin-top);
+}
+
+.container.inner {
+  width: auto;
+  margin: auto;
+}
+
+/* three-way inner container */
+.inner-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;  /* aligns content to left */
+  min-width: 210px;
+  width: fit-content;
+}
+
+.inner-center {
+  display: flex;
+  flex-direction: column;
+  width: stretch;         /* fills the parent container */
+  margin: auto;           /* fills the parent container */
+  align-items: center;
+  justify-items: space-around;
+  text-align: center;
+}
+
+.inner-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;  /* aligns content to right */
+  min-width: 210px;
+  width: fit-content;
+  margin-top: auto;       /* pushes content to bottom */
+}
+
+.wrap-center {
+  display: flex;
+  width: auto;            /* fills the parent container */
+  margin: auto;           /* fills the parent container */
+  flex-wrap: wrap;        /* wraps contents */
+  justify-content: space-around;
+}
+
+/* Background */
+.background-image {
+  position: fixed;        /* doesnt move */
+  top: 76px;              /* starts below the navbar */
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  align-items: center;
+  opacity: 30%;
+}
+
+.background-image::before {
+  content: "";
+  position: absolute;
+  top: -76px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  overflow: hidden;
+  background: url("../assets/background.jpg") no-repeat center center;
+  background-size: cover;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+/* Make the entire page content scrollable */
+.grid-content {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;                    /* crucial for flex children to shrink */
+  padding: var(--element-padding);
+  overflow: hidden;                 /* prevent double scrollbars */
+  box-sizing: border-box;
+}
+
+/* Images */
+/* evat logo */
+.logo-image {
+  margin: auto;
+  margin-top: 50px;
+  width: 300px;
+  height: auto;
+}
+
+/* dashboard profile image */
+.profile-image {
+  width: 100px;
+  height: auto;
+  max-height: 150px;
+  object-fit: cover;
+  position: absolute;
+  display: block;
+  margin: 0 auto;
+}
+
+/* game reward image */
+.character-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  margin: auto;
+}
+
+.cost-image {
+  width: 180px;
+  border-radius: var(--element-radius);
+  margin-bottom: 0.5rem;
+}
+
+/* Icons */
+.icon {
+  margin: var(--icon-margin);
+  padding: var(--icon-padding);
+  vertical-align: middle;
+}
+
+.input-icon {
+  position: absolute;
+  left: 5px;
+  color: var(--input-icon-color);
+  z-index: 1;
+}
+
+.input-icon-end {
+  position: absolute;
+  right: 5px;
+  color: var(--input-icon-color);
+  z-index: 1;
+}
+
+.icon-inside-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon-inside-input .input {
+  padding-left: 35px;
+  width: 100%;
+}
+
+/* Utility */
+.center {
+  margin: auto;
+}
+
+.spacer {
+  padding: var(--element-padding);
+}
+
+.spacer-small {
+  padding: var(--element-padding-small);
+}
+
+.full-width,
+.btn-full {
+  width: 100%;
+  min-width: unset;
+  box-sizing: border-box;
+}
+
+.signin-width {
+  width: 300px;
+}
+
+.two-hundred-width {
+  width: 200px;
+}
+
+.one-hundred-width {
+  width: 100px;
+}
+
+.half-width {
+  width: 50%;
+  min-width: unset;
+}
+
+.half-height {
+  height: 50%;
+  min-height: unset;
+}
+
+.fit-height {
+  height: auto;
+  overflow-y: scroll;
+  min-height: 150px;
+  max-height: 500px;
+}
+
+.auto-width {
+  width: auto;
+}
+
+.auto-height {
+  height: auto;
+}
+
+.force-height {
+  max-height: 600px;
+  overflow-x: scroll;
+}
+
+
+
+
