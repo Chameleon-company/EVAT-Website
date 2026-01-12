@@ -45,7 +45,6 @@ export default function CostCalculation() {
 
   return (
     <div className="container horizontal center">
-      {/* <div className="container horizontal container-left half-height"> */}
       <div className="container vertical inner-left half-height ">
         <img src={carDemo} alt="Car" className="cost-image" />
         <label className='form-label required'>Brand</label>

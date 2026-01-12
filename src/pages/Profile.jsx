@@ -25,6 +25,7 @@ import '../styles/Tables.css';
 import '../styles/Validation.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
+const RECENT_SUCCESS_MESSAGE_LINGER = 5000; // 5 seconds * 1000
 
 function Profile() {
   const navigate = useNavigate();
@@ -51,6 +52,9 @@ function Profile() {
   const [paymentSuccessMessage, setPaymentSuccessMessage] = useState("");
   const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
 
+    const [recentSuccess, setRecentSuccess] = useState(false);
+      const [success, setSuccess] = useState('');
+
   // Reset tab to "dashboard" if user navigates back with reset flag
   useEffect(() => {
     if (location.pathname === "/profile") {
@@ -63,6 +67,17 @@ function Profile() {
 
   const storedUser = JSON.parse(localStorage.getItem("currentUser"));
   const token = storedUser?.token;
+
+  // auto-clear the warning after 5 seconds so it doesn't linger forever
+  useEffect(() => {
+    if (isPaymentSuccess) {
+      const timer = setTimeout(() => {
+        setIsPaymentSuccess(false);
+        setPaymentSuccessMessage(false);
+      }, RECENT_SUCCESS_MESSAGE_LINGER);
+      return () => clearTimeout(timer);
+    }
+  }, [isPaymentSuccess]);
 
   // Fetch user profile on load
   useEffect(() => {
@@ -719,12 +734,6 @@ function Profile() {
                   </div>
                 ) : (
                   user.billingAddress || "N/A"
-                )}
-                {paymentSuccessMessage && (
-                  // Come back here
-                  <div className="success-text fade-in">
-                    {paymentSuccessMessage}
-                  </div>
                 )}
               </div>
               {/* Billing Address Error Message  */}
