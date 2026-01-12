@@ -465,6 +465,7 @@ function Profile() {
                     <User className="input-icon" />
                     <input
                       className="input"
+                      // className={isSuccess ? "input-success" : ""}
                       type="text"
                       value={user.firstName || ""}
                       onChange={(e) => {
@@ -489,10 +490,10 @@ function Profile() {
                     <User className="input-icon" />
                     <input
                       className="input"
+                      // className={isSuccess ? "input-success" : ""}
                       type="text"
                       value={user.lastName || ""}
                       placeholder="Enter your last name"
-                      // className={isSuccess ? "input-success" : ""}
                       onChange={(e) => {
                         setUser({ ...user, lastName: e.target.value });
                         setErrors({ ...errors, lastName: "" });
@@ -520,10 +521,10 @@ function Profile() {
                     <Phone className="input-icon" />
                     <input
                       className="input"
+                      // className={isSuccess ? "input-success" : ""}
                       type="text"
                       value={user.mobile || ""}
                       placeholder="Enter your phone"
-                      // className={isSuccess ? "input-success" : ""}
                       onChange={(e) => {
                         setUser({ ...user, mobile: e.target.value });
                         setErrors({ ...errors, mobile: "" });
@@ -536,7 +537,6 @@ function Profile() {
                 {errors.mobile && (
                   <small className="error-text">{errors.mobile}</small>
                 )}
-                
               </div>
             </div>
           )}
@@ -565,6 +565,7 @@ function Profile() {
                   user.car?.make || "N/A"
                 )}
                 {errors.carMake && (
+                  // Come back here
                   <small className="error-text">{errors.carMake}</small>
                 )}
               </div>
@@ -590,6 +591,7 @@ function Profile() {
                   user.car?.model || "N/A"
                 )}
                 {errors.carModel && (
+                  // Come back here
                   <small className="error-text">{errors.carModel}</small>
                 )}
               </div>
@@ -615,60 +617,8 @@ function Profile() {
                   user.car?.year || "N/A"
                 )}
                 {errors.carYear && (
+                  // Come back here
                   <small className="error-text">{errors.carYear}</small>
-                )}
-              </div>
-
-              <div className="button-container">
-                <button
-                  className="button"
-                  onClick={() => {
-                    if (editingCar) {
-                      handleSaveCar();
-                    } else {
-                      setOriginalUser(user); // Save the current values before editing
-                      setEditingCar(true);
-                    }
-                  }}
-                >
-                  <div className="button-contents">
-                    {editingCar ? <Check /> : <Pencil />}
-                    <p>{editingCar ? "Save" : "Edit"}</p>
-                  </div>
-                </button>
-
-                {editingCar && (
-                  <button
-                    className="back-button"
-                    onClick={() => {
-                      setUser(originalUser);
-                      setEditingCar(false);
-                      setErrors({});
-                      toast.info(
-                        <div>
-                          Changes discarded
-                        </div>,
-                        { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "vehicle-discard-info" }
-                      );
-                    }}
-                  >
-                    <div className="button-contents">
-                      <X />
-                      <p>Cancel</p>
-                    </div>
-                  </button>
-                )}
-
-                {!editingCar && (
-                  <button
-                    className="back-button"
-                    onClick={() => setActiveTab("dashboard")}
-                  >
-                    <div className="button-contents">
-                      <ArrowLeft />
-                      <p>Back</p>
-                    </div>
-                  </button>
                 )}
               </div>
             </div>
@@ -677,86 +627,135 @@ function Profile() {
           {/* Payment */}
           {activeTab === "payment" && (
             <div>
-              <h3 className="section-title">Payment Information</h3>
-              <div className="section-body">
-                <p>
-                  Card:{" "}
-                  {editingPayment ? (
+              <h3>Payment Information</h3>
+              {/* CARD NUMBER */}
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Card: </label>
+                {editingPayment ? (
+                  <div className='icon-inside-input'>
+                    <CreditCard className="input-icon" />
                     <input
+                      className="input two-hundred-width"
+                      // className={isPaymentSuccess ? "input-success" : ""}
                       type="text"
                       value={user.cardNumber || ""}
+                      placeholder="1234 5678 9012 3456"
                       onChange={(e) => {
                         // Only digits, max 16
                         let val = e.target.value.replace(/\D/g, '').slice(0, 16);
                         // Add spaces every 4 digits for display
                         val = val.replace(/(\d{4})(?=\d)/g, '$1 ');
                         setUser({ ...user, cardNumber: val });
+                        setPaymentErrors({ ...paymentErrors, cardNumber: "" });
                       }}
-                      placeholder="1234 5678 9012 3456"
                     />
-                  ) : (
-                    user.cardNumber
-                      ? "**** **** **** " + user.cardNumber.replace(/\s/g, '').slice(-4)
-                      : "**** **** **** 1234"
-                  )}
-                </p>
+                  </div>
+                ) : (
+                  user.cardNumber
+                    ? "**** **** **** " + user.cardNumber.replace(/\s/g, '').slice(-4)
+                    : "**** **** **** 1234"
+                )}
+                {paymentErrors.cardNumber && (
+                  // Come back here
+                  <small className="error-text">{paymentErrors.cardNumber}</small>
+                )}
+              </div>
 
-                <p>
-                  Expiry Date:{" "}
-                  {editingPayment ? (
+              {/* EXPIRY DATE */}
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Expiry Date: </label>
+                {editingPayment ? (
+                  <div className='icon-inside-input'>
+                    <CalendarDays className="input-icon" />
                     <input
+                      className="input two-hundred-width"
+                      // className={isPaymentSuccess ? "input-success" : ""}
                       type="text"
                       value={user.expiryDate || ""}
+                      placeholder="MM/YY"
                       onChange={(e) => {
                         let val = e.target.value.replace(/\D/g, '').slice(0, 4); // digits only, max 4
                         if (val.length > 2) val = val.slice(0, 2) + '/' + val.slice(2); // insert '/'
                         setUser({ ...user, expiryDate: val });
+                        setPaymentErrors({ ...paymentErrors, expiryDate: "" });
                       }}
-                      placeholder="MM/YY"
                     />
-                  ) : (
-                    user.expiryDate || "MM/YY"
-                  )}
-                </p>
+                  </div>
+                ) : (
+                  user.expiryDate || "MM/YY"
+                )}
+                {paymentErrors.expiryDate && (
+                  // Come back here
+                  <small className="error-text">{paymentErrors.expiryDate}</small>
+                )}
+              </div>
 
-                <p>
-                  CVV:{" "}
-                  {editingPayment ? (
+              {/* CVV */}
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>CVV: </label>
+                {editingPayment ? (
+                  <div className='icon-inside-input'>
+                    <KeyRound className="input-icon" />
                     <input
+                      className="input two-hundred-width"
+                      // className={isPaymentSuccess ? "input-success" : ""}
                       type="text"
                       value={user.cvv || ""}
+                      placeholder="123"
                       onChange={(e) => {
                         const val = e.target.value.replace(/\D/g, '').slice(0, 3);
                         setUser({ ...user, cvv: val });
+                        setPaymentErrors({ ...paymentErrors, cvv: "" });
                       }}
-                      placeholder="123"
                     />
-                  ) : (
-                    "***"
-                  )}
-                </p>
+                  </div>
+                ) : (
+                  "***"
+                )}
+                {paymentErrors.cvv && (
+                  // Come back here
+                  <small className="error-text">{paymentErrors.cvv}</small>
+                )}
+              </div>
 
-                <p>
-                  Billing Address:{" "}
-                  {editingPayment ? (
+              {/* BILLING ADDRESS */}
+              <div className="input-and-label-same-line">
+                <label className='form-label required'>Billing Address: </label>
+                {editingPayment ? (
+                  <div className='icon-inside-input'>
+                    <House className="input-icon" />
                     <input
+                      className="input two-hundred-width"
                       type="text"
                       value={user.billingAddress || ""}
-                      onChange={(e) => setUser({ ...user, billingAddress: e.target.value })}
-                      placeholder="N/A"
+                        placeholder="Enter your billing address"
+                      onChange={(e) => {
+                        setUser({ ...user, billingAddress: e.target.value });
+                        setPaymentErrors({ ...paymentErrors, billingAddress: "" });
+                      }}
                     />
-                  ) : (
-                    user.billingAddress || "N/A"
-                  )}
-                </p>
+                  </div>
+                ) : (
+                  user.billingAddress || "N/A"
+                )}
+                {paymentErrors.billingAddress && (
+                  // Come back here
+                  <small className="error-text">{paymentErrors.billingAddress}</small>
+                )}
+                {paymentSuccessMessage && (
+                  <div className="success-text fade-in">
+                    {paymentSuccessMessage}
+                  </div>
+                )}
               </div>
             </div>
           )}
 
+          {/* History */}
           {activeTab === "history" && (
-            <div className="history-container">
-              <h3 className="section-title">Booking History</h3>
-              <div className="section-body">
+            <div>
+              <h3>Booking History</h3>
+              <div>
                 <BookingHistoryTable />
               </div>
             </div>
@@ -764,62 +763,124 @@ function Profile() {
         </div>
 
         {/* RIGHT SECTION */}
-        <div className="dashboard-right">
+        <div className="inner-right">
           {activeTab === "dashboard" && (
-            <button className="button" onClick={handleSignOut}>
+            <button 
+              className="btn btn-secondary two-hundred-width uppercase" 
+              onClick={handleSignOut}
+            >
               SIGN OUT
             </button>
           )}
 
+          {/* About Me */}
           {activeTab === "about" && (
             <>
+              {/* Save/Edit button */}
               <button
-                className="button"
+                className="btn btn-primary two-hundred-width uppercase"
                 onClick={() => {
                   if (editingAbout) {
                     handleSaveAbout();
                   } else {
+                    setOriginalUser(user); // Save the current values before editing
                     setEditingAbout(true);
                   }
                 }}
               >
+                {editingAbout ? <Check /> : <Pencil /> }
                 {editingAbout ? "SAVE" : "EDIT"}
               </button>
+
+              {/* Cancel button */}
               {editingAbout && (
-                <button className="button cancel-button" onClick={() => setEditingAbout(false)}>
-                  CANCEL
+                <button 
+                  className="btn btn-transparent two-hundred-width uppercase" 
+                  onClick={() => {
+                    setUser(originalUser);
+                    setEditingAbout(false);
+                    setErrors({});
+                    // toast.info(
+                    //   <div>
+                    //     Changes discarded
+                    //   </div>,
+                    //   { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "user-discard-info" }
+                    // );
+                  }}
+                >
+                  <X /> CANCEL
                 </button>
               )}
-              <button className="back-button" onClick={() => setActiveTab("dashboard")}>
-                BACK
-              </button>
+
+              {/* Back button */}
+              {!editingAbout && (
+                <button 
+                  className="btn btn-tertiary two-hundred-width uppercase" 
+                  onClick={() => setActiveTab("dashboard")}
+                >
+                  <ArrowLeft /> BACK
+                </button>
+              )}
             </>
           )}
 
+          {/* My Car */}
           {activeTab === "car" && (
             <>
+              {/* Save/Edit button */}
               <button
-                className="button"
+                className="btn btn-primary two-hundred-width uppercase"
                 onClick={() => {
                   if (editingCar) {
                     handleSaveCar();
                   } else {
+                    setOriginalUser(user); // Save the current values before editing
                     setEditingCar(true);
                   }
                 }}
               >
+                {editingCar ? <Check /> : <Pencil /> }
                 {editingCar ? "SAVE" : "EDIT"}
               </button>
-              <button className="back-button" onClick={() => setActiveTab("dashboard")}>
-                BACK
-              </button>
+              
+              {/* Cancel button */}
+              {editingCar && (
+                <button 
+                  className="btn btn-transparent two-hundred-width uppercase" 
+                  onClick={() => {
+                    setUser(originalUser);
+                    setEditingCar(false);
+                    setErrors({});
+                    // toast.info(
+                    //   <div>
+                    //     Changes discarded
+                    //   </div>,
+                    //   { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "vehicle-discard-info" }
+                    // );
+                  }}
+                >
+                  <X /> CANCEL
+                </button>
+              )}
+
+              {/* Back button */}
+              {!editingCar && (
+                <button 
+                  className="btn btn-tertiary two-hundred-width uppercase" 
+                  onClick={() => setActiveTab("dashboard")}
+                >
+                  <ArrowLeft /> BACK
+                </button>
+              )}
             </>
           )}
 
+          {/* Payment  */}
           {activeTab === "payment" && (
             <>
+              {/* Save/Edit button */}
               <button
-                className="button"
+                className="btn btn-primary two-hundred-width uppercase"
                 onClick={() => {
                   if (editingPayment) {
                     handleSavePayment();
@@ -828,19 +889,40 @@ function Profile() {
                   }
                 }}
               >
+                {editingPayment ? <Check /> : <Pencil /> }
                 {editingPayment ? "SAVE" : "EDIT"}
               </button>
-              <button className="back-button" onClick={() => setActiveTab("dashboard")}>
-                BACK
-              </button>
+              
+              {/* Cancel button */}
+              {editingPayment && (
+                <button 
+                  className="btn btn-transparent two-hundred-width uppercase" 
+                  onClick={() => setEditingPayment(false)}
+                >
+                  <X /> CANCEL
+                </button>
+              )}
+
+              {/* Back button */}
+              {!editingPayment && (
+                <button 
+                  className="btn btn-tertiary two-hundred-width uppercase" 
+                  onClick={() => setActiveTab("dashboard")}
+                >
+                  <ArrowLeft /> BACK
+                </button>
+              )}
             </>
           )}
 
           {/* Booking History */}
           {activeTab === "history" && (
-            <button className="btn btn-tertiary two-hundred-width uppercase" onClick={() => setActiveTab("dashboard")}>
-              <ArrowLeft />
-              back
+            // Back button
+            <button 
+              className="btn btn-tertiary two-hundred-width uppercase" 
+              onClick={() => setActiveTab("dashboard")}
+            >
+                <ArrowLeft /> BACK
             </button>
           )}
         </div> 

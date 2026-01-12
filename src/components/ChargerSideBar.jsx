@@ -375,7 +375,7 @@ export default function ChargerSideBar({ station, onClose }) {
               placeholder={userHasReviewed ? "Update your review..." : "Write your review..."}
               value={userReview.comment}
               onChange={(e) => setUserReview(prev => ({ ...prev, comment: e.target.value }))}
-              required
+              required minLength="5" maxLength="255"
             />
             {/* Min/Max character information*/}
             <p className={(userReview.comment.length <= 4) ? "review-charCount-invalid" : "review-charCount-valid"}>

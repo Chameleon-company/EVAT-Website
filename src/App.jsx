@@ -9,13 +9,11 @@ import Feedback from './pages/Feedback';
 import Favourite from './pages/Favourite';
 import ContactSupport from './pages/ContactSupport';
 import ApiTester from './pages/ApiTester';
+import VoiceQueryPage from './pages/VoiceQueryPage';
 import { UserProvider } from './context/user';
 import { FavouritesProvider } from "./context/FavouritesContext";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ContactSupport from './pages/ContactSupport';
-import ApiTester from './pages/ApiTester';
-import VoiceQueryPage from './pages/VoiceQueryPage';
 
 
 
