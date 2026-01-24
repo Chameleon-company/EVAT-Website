@@ -1,11 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/NavBar';
-import Background from "../components/Background";
 import profileImage from '../assets/game-car.png';
-import '../styles/Profile.css';
 import ChatBubble from "../components/ChatBubble";
-import '../styles/Game.css';
+
+import '../styles/Root.css';
+import '../styles/Buttons.css';
+import '../styles/Elements.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/NavBar.css';
+import '../styles/Sidebar.css';
+import '../styles/Tables.css';
+import '../styles/Validation.css';
 
 function Game() {
   const navigate = useNavigate();
@@ -136,58 +143,81 @@ function Game() {
   };
 
   return (
-    <div className="dashboard-page fade-in">
+    <div>
       <NavBar />
-      <Background>
-        <div className="dashboard-left">
-          <h1 className="dashboard-title">Character</h1>
-          <div className="dashboard-profile-image">
-            <img src={profileImage} alt="Profile" />
+      {/* background */}
+      <div className="background-image" />
+      {/* title */}
+      <h1 className='h1 text-center auto-width'>Rewards</h1>
+      <div className="container horizontal auto-width">
+        <div className="inner-left">
+          <h5>Character</h5>
+          <div>
+            <img src={profileImage} className="character-image" alt="Character Image"  />
           </div>
         </div>
-
-        <div className="dashboard-center">
-          <div className="login-box">
-            <button className="game-dashboard-btn" onClick={handleAppLogin}>
+        <div className="inner-center">
+          <div>
+            <button className="btn btn-primary uppercase" onClick={handleAppLogin}>
               App Login Check-In
             </button>
           </div>
 
-          <div className="action-section">
-            <p className="action-title"><strong>Try Action-Based Rewards:</strong></p>
-            <div className="game-action-buttons">
-              <button onClick={() => triggerGamificationAction("check_in")}>Check-In</button>
-              <button onClick={() => triggerGamificationAction("report_fault")}>Fault Report</button>
-              <button onClick={() => triggerGamificationAction("validate_ai_prediction")}>AI Validation</button>
-              <button onClick={() => triggerGamificationAction("discover_new_station_in_black_spot")}>Black Spot Discovery</button>
-              <button onClick={() => triggerGamificationAction("use_route_planner")}>Route Plan</button>
-              <button onClick={() => triggerGamificationAction("ask_chatbot_question")}>Chatbot Question</button>
+          <div className='spacer' />
+          <div>
+            <h5>Try Action-Based Rewards:</h5>
+            <div className='wrap-center'>
+              <button 
+                className='btn btn-primary btn-small'
+                onClick={() => triggerGamificationAction("check_in")}
+              >Check-In</button>
+              <button 
+                className='btn btn-primary btn-small'
+                onClick={() => triggerGamificationAction("report_fault")}
+              >Fault Report</button>
+              <button 
+                className='btn btn-primary btn-small'
+                onClick={() => triggerGamificationAction("validate_ai_prediction")}
+              >AI Validation</button>
+              <button 
+                className='btn btn-primary btn-small'
+                onClick={() => triggerGamificationAction("discover_new_station_in_black_spot")}
+              >Black Spot Discovery</button>
+              <button 
+                className='btn btn-primary btn-small'
+                onClick={() => triggerGamificationAction("use_route_planner")}
+              >Route Plan</button>
+              <button 
+                className='btn btn-primary btn-small'
+                onClick={() => triggerGamificationAction("ask_chatbot_question")}
+              >Chatbot Question</button>
             </div>
           </div>
 
+          <div className="spacer">  </div>
           {loading ? (
-            <div className="loader">Loading game profile...</div>
+            <div className="message">Loading game profile...</div>
           ) : error ? (
-            <p className="error-message">{error}</p>
+            <p className="validation-error">{error}</p>
           ) : gameProfile ? (
-            <div className="game-info">
+            <div className="container vertical">
               <p>🎯 <strong>Points:</strong> {gameProfile.gamification_profile?.points_balance}</p>
               <p>🔥 <strong>Streak:</strong> {gameProfile.engagement_metrics?.current_app_login_streak} day(s)</p>
               <p>🏆 <strong>Longest Streak:</strong> {gameProfile.engagement_metrics?.longest_app_login_streak} day(s)</p>
               <p>📅 <strong>Last Login:</strong> {new Date(gameProfile.engagement_metrics?.last_login_date).toLocaleDateString()}</p>
-              {loginMessage && <p className="success-message">{loginMessage}</p>}
+              {loginMessage && <p className="validation success font-bold">{loginMessage}</p>}
             </div>
           ) : (
             <p>No game profile data.</p>
           )}
         </div>
 
-        <div className="dashboard-right">
-          <button className="button" onClick={handleSignOut}>
+        <div className="inner-right">
+          <button className="btn btn-secondary two-hundred-width uppercase" onClick={handleSignOut}>
             SIGN OUT
           </button>
         </div>
-      </Background>
+      </div>
       <ChatBubble />
     </div>
   );

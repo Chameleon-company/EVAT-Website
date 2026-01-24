@@ -1,0 +1,185 @@
+
+/* Forms.css  */
+
+/*
+This CSS has the style settings for forms and inputs
+
+WARNING: the sliders are very hard to get right.
+*/
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  min-width: fit-content;
+  margin: var(--form-margin);
+  padding: var(--form-padding);
+}
+
+/* Labels */
+.form-label,
+label {
+  display: block;
+  margin: var(--form-margin);
+  font-weight: var(--weight-medium);
+}
+
+.required::after {
+  content: " *";
+  color: var(--input-required-color);
+}
+
+/* Input & Textarea */
+input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="search"],
+textarea,
+select {
+  width: auto;
+  height: fit-content;
+  padding: var(--form-padding);
+  color: var(--input-text-color);
+  background: var(--input-background-color);
+  border: var(--input-border);
+  border-radius: var(--input-radius);
+  transition: var(--input-transition);
+}
+
+textarea {
+  height: auto;
+  min-height: var(--textarea-height);
+  resize: vertical;
+}
+
+/* Focus & hover states */
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border: var(--input-focus-border);
+  background: var(--input-focus-background-color);
+}
+
+/* Hover state (subtle) */
+input:not(:focus):hover,
+textarea:not(:focus):hover,
+select:not(:focus):hover {
+  border: var(--input-focus-border);
+}
+
+/* Disabled & readonly */
+input:disabled,
+input[readonly],
+textarea:disabled,
+textarea[readonly],
+select:disabled {
+  background: var(--input-disabled-background-color);
+  color: var(--input-disabled-text-color);
+  border: var(--input-disabled-border);
+  cursor: not-allowed;
+}
+
+/* Placeholder */
+::placeholder {
+  color: var(--input-placeholder-color);
+  opacity: 1;
+}
+
+/* Select / Dropdown */
+select {
+  height: fit-content;
+}
+
+/* Slider */
+input[type="range"] {
+  width: 100%;
+  min-width: 120px;
+  height: var(--slider-height);
+  padding: 0;
+  background: var(--slider-background-color);
+  -webkit-appearance: none;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: var(--slider-ball-size);
+  height: var(--slider-ball-size);
+  background: var(--slider-ball-color);
+  border-radius: var(--slider-radius);
+  border: var(--slider-border);
+  cursor: pointer;
+  pointer-events: all;
+  transition: var(--slider-transition);
+  position: relative;
+  z-index: 10;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  background: var(--slider-track-color);
+  height: var(--slider-track-height);
+  border-radius: var(--slider-track-radius);
+}
+
+input.form-full-width {
+  width: stretch;
+  box-sizing: border-box;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--toggle-gap);
+}
+
+.input-and-label-same-line {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* React Stuff */
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  display: inline-block !important;
+  width: 100%;   
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+  text-align: right;
+  box-sizing: border-box;
+}
+
+/* Error and Success states */
+.has-error input,
+.has-error textarea,
+.has-error select {
+  border-color: var(--input-required-color) !important;
+}
+
+.has-error .form-message {
+  color: var(--input-required-color);
+  font-size: 0.8125rem;
+  margin-top: 0.35rem;
+}
+
+.has-success input,
+.has-success textarea,
+.has-success select {
+  border-color: var(--input-success-color);
+}
+
+/* Help text */
+.form-help,
+.form-message {
+  margin-top: 0.35rem;
+}
+

@@ -1,5 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL;
 const baseUrl = `${API_URL}/charger-reviews`;
+const usernameUrl = `${API_URL}/profile/username`;
 
 /**
  * Submit a review for a specific charger
@@ -65,7 +66,6 @@ export const getChargerReviews = async (chargerId, options = {}) => {
   }
 };
 
-//test comment for merge PR
 
 /**
  * Get charger review statistics (average rating, total reviews)
@@ -179,6 +179,35 @@ export const deleteChargerReview = async (reviewId, token) => {
     return result;
   } catch (error) {
     console.error('Error deleting charger review:', error);
+    throw error;
+  }
+};
+
+/**
+ * Get username from ID 
+ * @param {string} userID - The user ID
+ * @param {string} token - JWT token for authentication
+ * @returns {Promise<Object>} - The response from the API
+ */
+export const getUsername = async (userID, token) => {
+  try {
+    const response = await fetch(`${usernameUrl}/${userID}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error fetching username:', error);
     throw error;
   }
 };

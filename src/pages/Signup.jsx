@@ -1,7 +1,18 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Eye, EyeOff, KeyRound, User, Phone } from 'lucide-react';
-import '../styles/Style.css';
+import { Mail, Eye, EyeOff, KeyRound, User, Phone } from 'lucide-react';
+import ErrorMessage from '../components/ErrorMessage'
+import SuccessMessage from '../components/SuccessMessage'
+
+import '../styles/Root.css';
+import '../styles/Buttons.css';
+import '../styles/Elements.css';
+import '../styles/Fonts.css';
+import '../styles/Forms.css';
+import '../styles/NavBar.css';
+import '../styles/Sidebar.css';
+import '../styles/Tables.css';
+import '../styles/Validation.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const url = `${API_URL}/auth/register`;
@@ -109,19 +120,18 @@ function Signup() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          firstName: form.firstName,
-          lastName: form.lastName,
-          email: form.email,
-          password: form.password,
-          mobile: form.mobile,
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password,
+          mobile: mobile,
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-
-        alert(`Sign Up successful: ${data.message}, welcome ${form.firstName}`);
+        alert(`Sign Up successful: ${data.message}, welcome ${firstName}`);
         navigate('/signin');
       } else {
         setErrorMessage(data.message || "Sign up failed");
@@ -135,133 +145,121 @@ function Signup() {
   };
 
   return (
-    <div className="auth-container">
-      <form onSubmit={handleSubmit} className="auth-form">
-        <img src="/chameleon.png" alt="Chameleon" className="logo-image" />
+    <div className="container vertical center">
+      <img src="../src/assets/logo.png" alt="EV Adoption Tool" className="logo-image" />
 
-        <div className='input-container'>
-          <label className="auth-label">First Name</label>
-          <div className="input-group">
-            <User className="icon" />
-            <input
-              type="text"
-              name="firstName"
-              placeholder="First Name"
-              value={form.firstName}
-              onChange={handleChange}
-              className="input"
-            />
-          </div>
-          {validationErrors.firstName && (
-            <div className="error-message">
-              {validationErrors.firstName}
-            </div>
-          )}
+      <form onSubmit={handleSubmit} className="form-section signin-width">
+        {/* Submit Error and Success Messages */}
+        {errorMessage && <ErrorMessage error={errorMessage}/>}
+        {submitted && <SuccessMessage message='Signup successful!'/>}
+        <div className="spacer-small">  </div>
+
+        {/* Enter First Name */}
+        <label className='form-label required'>First Name</label>
+        <div className='icon-inside-input'>
+          <User className="input-icon" />
+          <input
+            className="input"
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            value={form.firstName}
+            onChange={handleChange}
+          />
         </div>
+        <div className="spacer-small">  </div>
+        {/* First Name Error Message */}
+        {validationErrors.firstName && <ErrorMessage error={validationErrors.firstName}/>}
 
-        <div className='input-container'>
-          <label className="auth-label">Last Name</label>
-          <div className="input-group">
-            <User className="icon" />
-            <input
-              type="text"
-              name="lastName"
-              placeholder="Last Name"
-              value={form.lastName}
-              onChange={handleChange}
-              className="input"
-            />
-          </div>
-          {validationErrors.lastName && (
-            <div className="error-message">
-              {validationErrors.lastName}
-            </div>
-          )}
+        {/* Enter Last Name */}
+        <label className='form-label required'>Last Name</label>
+        <div className='icon-inside-input'>
+          <User className="input-icon" />
+          <input
+            className="input"
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            value={form.lastName}
+            onChange={handleChange}
+          />
         </div>
+        <div className="spacer-small">  </div>
+        {/* Last Name Error Message */}
+        {validationErrors.lastName && <ErrorMessage error={validationErrors.lastName}/>}
 
-        <div className='input-container'>
-          <label className="auth-label">Mobile Number</label>
-          <div className="input-group">
-            <Phone className="icon" />
-            <input
-              type="tel"
-              name="mobile"
-              placeholder="04XXXXXXXX"
-              value={form.mobile}
-              onChange={handleChange}
-              className="input"
-            />
-          </div>
-          {validationErrors.mobile && (
-            <div className="error-message">
-              {validationErrors.mobile}
-            </div>
-          )}
+        {/* Enter Mobile */}
+        <label className='form-label required'>Mobile Number</label>
+        <div className='icon-inside-input'>
+          <Phone className="input-icon" />
+          <input
+            className="input"
+            type="tel"
+            name="mobile"
+            placeholder="04XXXXXXXX"
+            value={form.mobile}
+            onChange={handleChange}
+          />
         </div>
+        <div className="spacer-small">  </div>
+        {/* Mobile Error Message */}
+        {validationErrors.mobile && <ErrorMessage error={validationErrors.mobile}/>}
 
-        <div className='input-container'>
-          <label className="auth-label">Email</label>
-          <div className="input-group">
-            <User className="icon" />
-            <input
-              type="text"
-              name="email"
-              placeholder="Email"
-              value={form.email}
-              onChange={handleChange}
-              className="input"
-            />
-          </div>
-          {validationErrors.email && (
-            <div className="error-message">
-              {validationErrors.email}
-            </div>
-          )}
+        {/* Enter Email */}
+        <label className='form-label required'>Email</label>
+        <div className='icon-inside-input'>
+          <Mail className="input-icon"/>
+          <input
+            className="input"
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+          />
         </div>
+        <div className="spacer-small">  </div>
+        {/* Email Error Message */}
+        {validationErrors.email && <ErrorMessage error={validationErrors.email}/>}
 
-        <div className='input-container'>
-          <label className="auth-label">Password</label>
-          <div className="input-group">
-            <KeyRound className="icon" />
-            <input
-              type={showPassword ? 'text' : 'password'}
-              name="password"
-              placeholder="Minimum 8 characters"
-              value={form.password}
-              onChange={handleChange}
-              className="input"
-            />
-            <span
-              className="icon-right"
-              onClick={() => setShowPassword(!showPassword)}
-              style={{ cursor: 'pointer' }}
-            >
-              {showPassword ? <EyeOff /> : <Eye />}
-            </span>
-          </div>
-          {validationErrors.password && (
-            <div className="error-message">
-              {validationErrors.password}
-            </div>
-          )}
+        {/* Enter Password */}
+        <label className='form-label required'>Password</label>
+        <div className='icon-inside-input'>
+          <KeyRound className="input-icon" />
+          <input
+            className="input"
+            type={showPassword ? 'text' : 'password'}
+            name="password"
+            placeholder="Minimum 8 characters"
+            value={form.password}
+            onChange={handleChange}
+          />
+          <span
+            className="input-icon-end"
+            onClick={() => setShowPassword(!showPassword)}
+            style={{ cursor: 'pointer' }}
+          >
+            {showPassword ? <EyeOff /> : <Eye />}
+          </span>
         </div>
+        <div className="spacer-small">  </div>
+        {/* Password Error Message */}
+        {validationErrors.password && <ErrorMessage error={validationErrors.password}/>}
 
-        <div className="button-group">
-            <button type="submit" className="auth-button">
-              CREATE ACCOUNT
-            </button>
-
-            <button
-              type="button"
-              className="auth-button"
-              onClick={() => navigate('/')}
-            >
-              BACK TO SIGN IN
-            </button>
-        </div>
-
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        {submitted && <p className="success-message">Signup successful!</p>}
+        <div className="spacer-small">  </div>
+        <button 
+          type="submit" 
+          className="btn btn-primary"
+        >
+          CREATE ACCOUNT
+        </button>
+        <button
+          type='button'
+          className="btn btn-transparent"
+          onClick={() => navigate('/')}
+        >
+          BACK TO SIGN IN
+        </button>
       </form>
     </div>
   );

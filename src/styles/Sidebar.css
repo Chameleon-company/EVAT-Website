@@ -1,0 +1,223 @@
+/* Sidebar.css */
+
+/*
+This CSS has the style settings for Sidebar (access when clicking on a charger).
+
+*/
+
+.sidebar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-min-width);
+  max-width: var(--sidebar-max-width);
+  height: var(--sidebar-height);
+  background: var(--sidebar-container-background);
+  color: var(--sidebar-text-color);
+  border-right: var(--sidebar-border);
+  box-shadow: var(--sidebar-shadow-right);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  position: relative;
+  padding: var(--sidebar-padding);
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--sidebar-content-padding);
+}
+
+.sidebar-linebreak {
+  margin: var(--linebreak-margin);
+  border-top: var(--linebreak-border-top);
+}
+
+.rating-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: var(--sidebar-gap);
+}
+
+.sidebar-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--sidebar-padding);
+}
+
+.sidebar-detail-label {
+  text-align: left;
+}
+
+.sidebar-detail-value {
+  text-align: right;
+}
+
+.action-buttons {
+  display: flex;
+  padding: var(--sidebar-padding);
+  gap: var(--sidebar-gap);
+}
+
+.sticky-bottom {
+  position: sticky;
+  bottom: 0;
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+}
+
+.favourite-btn {
+  flex: 1;
+  gap:5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: var(--button-favourite-border);
+  background: var(--button-favourite-background);
+}
+
+.favourite-btn:active {
+  background: var(--button-favourite-background-active);
+}
+
+.saved {
+  background: var(--button-favourite-checked-background);
+  border: var(--button-favourite-checked-border);
+  color: var(--button-favourite-checked-text-color);
+}
+
+.saved:active {
+  background: var(--button-favourite-checked-background-active);
+}
+
+.review-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap:5px;
+  border: var(--button-reviewed-border);
+  background: var(--button-reviewed-background);
+}
+
+.review-btn:active {
+  background: var(--button-reviewed-background-active);
+}
+
+.reviewed {
+  background: var(--button-reviewed-checked-background);
+  border: var(--button-reviewed-checked-border);
+  color: var(--button-reviewed-checked-text-color);
+}
+
+.reviewed:active {
+  background: var(--button-reviewed-checked-background-active);
+}
+
+/* Heart */
+.heart-full { 
+  fill: var(--button-favourite-checked-heart-color); 
+  color: var(--button-favourite-checked-heart-border-color);
+}
+
+.heart-empty { 
+  fill: var(--button-favourite-heart-color); 
+  color: var(--button-favourite-heart-border-color);
+}
+
+/* Star */
+.star-full { 
+  fill: var(--button-reviewed-checked-star-color); 
+  color: var(--button-reviewed-checked-star-border-color);
+}
+
+.star-empty { 
+  fill: var(--button-reviewed-star-color); 
+  color: var(--button-reviewed-star-border-color);
+}
+
+.rating-input {
+  display: flex;
+  gap: var(--star-rating-gap);
+  margin-bottom: var(--star-rating-margin-bottom);
+}
+
+.rating-star {
+  cursor: pointer;
+  transition: var(--star-rating-transition);
+}
+
+.rating-star:hover {
+  transform: scale(1.2);
+}
+
+.review-item {
+  margin: var(--review-item-margin);
+}
+
+.reviewer {
+  display: flex;
+  align-content: center;
+  gap: var(--reviewer-gap);
+  max-height: var(--reviewer-name-height);
+  margin-bottom: var(--reviewer-margin);
+}
+
+.reviewer-avatar {
+  min-width: var(--reviewer-name-height);
+  max-height: var(--reviewer-name-heightsize);
+  border-radius:  var(--reviewer-avatar-radius);
+  background-color: var(--reviewer-profile-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.review-time {
+  text-align: right;
+  margin-bottom: var(--reviewer-margin);
+}
+
+.reviewer-name {
+  max-height: var(--reviewer-name-height);
+  margin-bottom: var(--reviewer-margin);
+}
+
+.reviewer-details {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--reviewer-details-gap);
+}
+
+.review-rating {
+  display: flex;
+}
+
+.review-comment {
+  box-sizing: border-box;
+}
+
+.estimated-display {
+  color: var(--estimator-text-color);
+  padding: var(--estimator-padding);
+  background-color: var(--estimator-background-color);
+  border-radius: var(--estimator-border-radius);
+  height: var(--estimator-height);
+  width: var(--estimator-width);
+  text-align: center;
+  box-sizing: border-box;
+  vertical-align: middle;
+}
