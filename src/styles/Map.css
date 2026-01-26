@@ -119,12 +119,75 @@ mode has not been expanded to the rest of the site.
     background:  var(--button-zoom-background-active);
 }
 
+/* status messages */
+.map-status-message {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.map-loading {
+    color: #1976d2;
+}
+
+.map-error {
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.map-info {
+    animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.map-warning {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.9;
+    }
+}
+
 @media (max-width: 768px) {
     .locate-button {
         top: 185px; /* push below mobile smart filter */
     }
     .dark-mode-floating {
         top: 240px; /* push below locate user button */
+    }
+    
+    .map-status-message {
+        max-width: calc(100% - 24px) !important;
+        font-size: 13px !important;
     }
 }
 
