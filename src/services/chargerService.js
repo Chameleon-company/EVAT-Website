@@ -1,5 +1,8 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
+// Fetch chargers from API
+// params.bbox is optional but helps with performance - format: [west, south, east, north]
+// Requires auth token in user object
 export async function getChargers(user, params = {}) {
   const baseUrl = `${API_URL}/chargers`;
   const url = new URL(baseUrl);

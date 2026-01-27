@@ -170,22 +170,37 @@ export default function Map() {
 
     if (!user?.token) {
       setLoading(false);
+      setErr('Please log in to search for charging stations');
       return;
     }
 
     const load = async () => {
       try {
         setErr('');
-        const data = await getChargers(user, bbox ? { bbox } : undefined);
-        if (mounted) setStations(Array.isArray(data) ? data : []);
+        
+        // need bbox to fetch chargers
+        if (!bbox) {
+          if (mounted) {
+            setLoading(false);
+            setErr('');
+          }
+          return;
+        }
+
+        setLoading(true);
+        const data = await getChargers(user, { bbox });
+        if (mounted) {
+          setStations(Array.isArray(data) ? data : []);
+          setLoading(false);
+        }
       } catch (e) {
-        if (mounted) setErr(e.message || 'Failed to load chargers');
-      } finally {
-        if (mounted) setLoading(false);
+        if (mounted) {
+          setErr(e.message || 'Failed to load chargers');
+          setLoading(false);
+        }
       }
     };
 
-    setLoading(true);
     load();
     id = setInterval(load, 15000);
     return () => {
@@ -291,14 +306,88 @@ export default function Map() {
           🔍 Smart Filters
         </button>
 
-        {loading && (
-          <div className='map-message validation-message'>
-            Loading…
+        {loading && bbox && (
+          <div className="map-status-message map-loading" style={{
+            position: 'absolute',
+            top: 12,
+            left: 12,
+            zIndex: 1000,
+            background: '#fff',
+            padding: '8px 12px',
+            borderRadius: 6,
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            fontSize: '14px',
+            fontWeight: 500
+          }}>
+            Loading charging stations…
           </div>
         )}
         {err && (
-          <div className='map-message validation-error'>
+          <div className="map-status-message map-error" style={{
+            position: 'absolute',
+            top: 12,
+            left: 12,
+            zIndex: 1000,
+            background: '#ffebee',
+            color: '#c62828',
+            padding: '8px 12px',
+            borderRadius: 6,
+            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+            fontSize: '14px',
+            fontWeight: 500,
+            borderLeft: '4px solid #f44336',
+            maxWidth: '300px'
+          }}>
             {err}
+          </div>
+        )}
+        {!bbox && !loading && user?.token && (
+          <div className="map-status-message map-info" style={{
+            position: 'absolute',
+            top: 12,
+            left: 12,
+            zIndex: 1000,
+            background: '#e3f2fd',
+            color: '#1565c0',
+            padding: '12px 16px',
+            borderRadius: 8,
+            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+            fontSize: '14px',
+            fontWeight: 500,
+            borderLeft: '4px solid #2196f3',
+            maxWidth: '320px',
+            lineHeight: '1.5'
+          }}>
+            <div style={{ fontWeight: 600, marginBottom: '4px' }}>
+              📍 Map Loading
+            </div>
+            <div style={{ fontSize: '13px', opacity: 0.9 }}>
+              Wait for map to load or move/zoom to search for chargers
+            </div>
+          </div>
+        )}
+        {!user?.token && (
+          <div className="map-status-message map-warning" style={{
+            position: 'absolute',
+            top: 12,
+            left: 12,
+            zIndex: 1000,
+            background: '#fff3cd',
+            color: '#856404',
+            padding: '12px 16px',
+            borderRadius: 8,
+            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+            fontSize: '14px',
+            fontWeight: 500,
+            borderLeft: '4px solid #ffc107',
+            maxWidth: '300px'
+          }}>
+            <div style={{ fontWeight: 600, marginBottom: '4px' }}>
+              ⚠️ Login Required
+            </div>
+            <div style={{ fontSize: '13px', opacity: 0.9 }}>
+              Please log in to search for charging stations
+            </div>
           </div>
         )}
 
