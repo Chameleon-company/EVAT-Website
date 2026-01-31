@@ -14,7 +14,7 @@ import '../styles/Sidebar.css';
 import '../styles/Tables.css';
 import '../styles/Validation.css';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
 const url = `${API_URL}/auth/register`;
 
 function Signup() {
@@ -120,25 +120,30 @@ function Signup() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-          mobile: mobile,
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          password: form.password,
+          mobile: form.mobile,
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        alert(`Sign Up successful: ${data.message}, welcome ${firstName}`);
+        alert(`Sign Up successful: ${data.message}, welcome ${form.firstName}`);
         navigate('/signin');
       } else {
         setErrorMessage(data.message || "Sign up failed");
       }
     } catch (err) {
       console.error('Error signing up:', err);
-      setErrorMessage("An unexpected error occurred");
+      // Provide more helpful error messages
+      if (err instanceof TypeError && err.message.includes('fetch')) {
+        setErrorMessage("Cannot connect to server. Please check if the backend is running and VITE_API_URL is configured correctly.");
+      } else {
+        setErrorMessage(`An unexpected error occurred: ${err.message || 'Network error'}`);
+      }
     } finally {
       setSubmitted(false);
     }
