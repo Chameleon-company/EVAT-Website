@@ -11,6 +11,7 @@ import NavBar from '../components/NavBar';
 import profileImage from '../assets/profileImage.png';
 import ChatBubble from "../components/ChatBubble";
 import BookingHistoryTable from "../components/BookingHistoryTable";
+import EnvironmentalImpact from "../components/EnvironmentalImpact";
 import ErrorMessage from '../components/ErrorMessage'
 import SuccessMessage from '../components/SuccessMessage'
 
@@ -43,6 +44,7 @@ function Profile() {
   const [successMessage, setSuccessMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   // New state for car dropdowns
+  const [loadingVehicles, setLoadingVehicles] = useState(false);
   const [allVehicles, setAllVehicles] = useState([]);
   const [makes, setMakes] = useState([]);
   const [models, setModels] = useState([]);
@@ -52,8 +54,8 @@ function Profile() {
   const [paymentSuccessMessage, setPaymentSuccessMessage] = useState("");
   const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
 
-    const [recentSuccess, setRecentSuccess] = useState(false);
-      const [success, setSuccess] = useState('');
+  const [recentSuccess, setRecentSuccess] = useState(false);
+  const [success, setSuccess] = useState('');
 
   // Reset tab to "dashboard" if user navigates back with reset flag
   useEffect(() => {
@@ -153,24 +155,40 @@ function Profile() {
     fetchUserProfile();
   }, [navigate, token]);
 
+  // Fetch vehicles when editing car OR when opening Environmental Impact tab
   useEffect(() => {
-    if (editingCar) {
-      fetch(`${API_URL}/vehicle`, {
-        headers: { Authorization: `Bearer ${user?.token}` },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          const items = (data.data || []).map((v) => ({
-            ...v,
-            id: v.id || v._id,
-            year: v.year || v.model_release_year,
-          }));
-          setAllVehicles(items);
-          setMakes(["Select", ...new Set(items.map((v) => v.make))]);
-        })
-        .catch((err) => console.error("Failed to load vehicles:", err));
+    if ((activeTab === "car" && editingCar) || activeTab === "env-impact") {
+      fetchAllVehicles();
     }
-  }, [editingCar, user?.token]);
+  }, [activeTab, editingCar, user?.token]);
+
+  // Reusable function to load all vehicles
+  const fetchAllVehicles = async () => {
+    if (!user?.token || loadingVehicles) return;
+
+    setLoadingVehicles(true);
+    try {
+      const res = await fetch(`${API_URL}/vehicle`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch vehicles");
+
+      const data = await res.json();
+      const items = (data.data || []).map((v) => ({
+        ...v,
+        id: v.id || v._id,
+        year: v.year || v.model_release_year,
+      }));
+
+      setAllVehicles(items);
+      setMakes(["Select", ...new Set(items.map((v) => v.make))]);
+    } catch (err) {
+      console.error("Failed to load vehicles:", err);
+    } finally {
+      setLoadingVehicles(false);
+    }
+  };
 
   // Fetch all vehicles when editing starts (to populate dropdown list)
   useEffect(() => {
@@ -471,6 +489,7 @@ function Profile() {
               <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("car")}> <Car /> My Car</button>
               <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("payment")}> <CreditCard /> Payment</button>
               <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("history")}> <BookText /> Booking History</button>
+              <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("env-impact")}> Environmental Impact</button>
             </>
           )}
 
@@ -751,6 +770,20 @@ function Profile() {
               </div>
             </div>
           )}
+
+          {/* Environmental Impact */}
+          {activeTab === "env-impact" && (
+            <div>
+              <h3>Environmental Impact</h3>
+              <div>
+                <EnvironmentalImpact 
+                  user={user}
+                  allElectricVehicles={allVehicles}
+                  makes={makes}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* RIGHT SECTION */}
@@ -782,36 +815,6 @@ function Profile() {
                 {editingAbout ? <Check /> : <Pencil /> }
                 {editingAbout ? "SAVE" : "EDIT"}
               </button>
-
-              {/* Cancel button */}
-              {editingAbout && (
-                <button 
-                  className="btn btn-transparent two-hundred-width spread uppercase" 
-                  onClick={() => {
-                    setUser(originalUser);
-                    setEditingAbout(false);
-                    setErrors({});
-                    // toast.info(
-                    //   <div>
-                    //     Changes discarded
-                    //   </div>,
-                    //   { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "user-discard-info" }
-                    // );
-                  }}
-                >
-                  <X /> CANCEL
-                </button>
-              )}
-
-              {/* Back button */}
-              {!editingAbout && (
-                <button 
-                  className="btn btn-tertiary two-hundred-width spread uppercase" 
-                  onClick={() => setActiveTab("dashboard")}
-                >
-                  <ArrowLeft /> BACK
-                </button>
-              )}
             </>
           )}
 
@@ -833,40 +836,10 @@ function Profile() {
                 {editingCar ? <Check /> : <Pencil /> }
                 {editingCar ? "SAVE" : "EDIT"}
               </button>
-              
-              {/* Cancel button */}
-              {editingCar && (
-                <button 
-                  className="btn btn-transparent two-hundred-width spread uppercase" 
-                  onClick={() => {
-                    setUser(originalUser);
-                    setEditingCar(false);
-                    setErrors({});
-                    // toast.info(
-                    //   <div>
-                    //     Changes discarded
-                    //   </div>,
-                    //   { position: "top-center", autoClose: 2000, closeOnClick: true, draggable: true, closeButton: true, toastId: "vehicle-discard-info" }
-                    // );
-                  }}
-                >
-                  <X /> CANCEL
-                </button>
-              )}
-
-              {/* Back button */}
-              {!editingCar && (
-                <button 
-                  className="btn btn-tertiary two-hundred-width spread uppercase" 
-                  onClick={() => setActiveTab("dashboard")}
-                >
-                  <ArrowLeft /> BACK
-                </button>
-              )}
             </>
           )}
 
-          {/* Payment  */}
+          {/* Payment */}
           {activeTab === "payment" && (
             <>
               {/* Save/Edit button */}
@@ -883,39 +856,49 @@ function Profile() {
                 {editingPayment ? <Check /> : <Pencil /> }
                 {editingPayment ? "SAVE" : "EDIT"}
               </button>
-              
-              {/* Cancel button */}
-              {editingPayment && (
-                <button 
-                  className="btn btn-transparent two-hundred-width spread uppercase" 
-                  onClick={() => setEditingPayment(false)}
-                >
-                  <X /> CANCEL
-                </button>
-              )}
-
-              {/* Back button */}
-              {!editingPayment && (
-                <button 
-                  className="btn btn-tertiary two-hundred-width spread uppercase" 
-                  onClick={() => setActiveTab("dashboard")}
-                >
-                  <ArrowLeft /> BACK
-                </button>
-              )}
             </>
           )}
 
-          {/* Booking History */}
-          {activeTab === "history" && (
+          {/* Handle Cancel button */}
+          { ((activeTab === "payment" && editingPayment) ||   // payment and editing
+            (activeTab === "car" && editingCar) ||            // car and editing
+            (activeTab === "about" && editingAbout)           // about and editing
+            ) && (
+            // Cancel button
+            <button 
+              className="btn btn-transparent two-hundred-width spread uppercase" 
+              onClick={() => {
+                if (activeTab === "about") {
+                  setEditingAbout(false);
+                } else if (activeTab === "car") {
+                  setEditingCar(false);
+                } else if (activeTab === "payment") {
+                  setEditingPayment(false);
+                } 
+                setUser(originalUser);
+                setErrors({});
+              }}
+            >
+              <X /> CANCEL
+            </button>
+          )}
+
+          {/* Handle Back button */}
+          { (activeTab === "history" ||                       // history
+            activeTab === "env-impact" ||                     // environmental impact
+            (activeTab === "payment" && !editingPayment) ||   // payment but not editing
+            (activeTab === "car" && !editingCar) ||           // car but not editing
+            (activeTab === "about" && !editingAbout)          // about but not editing
+            ) && (
             // Back button
             <button 
               className="btn btn-tertiary two-hundred-width spread uppercase" 
               onClick={() => setActiveTab("dashboard")}
             >
-                <ArrowLeft /> BACK
+              <ArrowLeft /> BACK
             </button>
           )}
+
         </div> 
       </div>
       <ChatBubble />
