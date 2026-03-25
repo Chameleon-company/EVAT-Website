@@ -107,6 +107,7 @@ body {
   width: stretch;         /* fills the parent container */
   margin: auto;           /* fills the parent container */
   align-items: center;
+  min-width: 210px;
   justify-items: space-around;
   text-align: center;
 }
@@ -261,6 +262,10 @@ body {
 }
 
 .signin-width {
+  width: 300px;
+}
+
+.three-hundred-width {
   width: 300px;
 }
 
