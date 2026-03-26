@@ -14,6 +14,7 @@ import {
   supportRequest,
   user,
   vehicle,
+  iceVehicle,
 } from '../../data/apiEndpoints';
 
 // on clicking an endpoint item
@@ -54,6 +55,7 @@ const ApiTesterSidebar = ({ onEndpointClick }) => {
     { title: 'Support Request Route', endpoints: supportRequest },
     { title: 'User Route', endpoints: user },
     { title: 'Vehicle Route', endpoints: vehicle },
+    { title: 'ICE Vehicle Route', endpoints: iceVehicle },
   ];
 
   // filter function — searches endpoint, label, method
