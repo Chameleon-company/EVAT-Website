@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^1.14.0",
     "dotenv": "^17.2.2",
     "leaflet": "^1.9.4",
     "leaflet.markercluster": "^1.5.3",

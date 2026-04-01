@@ -10,6 +10,7 @@ import Favourite from './pages/Favourite';
 import ContactSupport from './pages/ContactSupport';
 import ApiTester from './pages/ApiTester';
 import VoiceQueryPage from './pages/VoiceQueryPage';
+import PersonalisedInsightsForm from "./pages/PersonalisedInsightsForm";
 import { UserProvider } from './context/user';
 import { FavouritesProvider } from "./context/FavouritesContext";
 import { ToastContainer } from 'react-toastify';
@@ -35,6 +36,7 @@ function App() {
             <Route path="/support" element={<ContactSupport />} />
             <Route path="/apitester" element={<ApiTester />} />
             <Route path="/voice-query" element={<VoiceQueryPage />} />
+            <Route path="/insights" element={<PersonalisedInsightsForm />} />
             {/* Catch-all Route */}
             <Route path="*" element={<div>404 Page Not Found</div>} />
           </Routes>
