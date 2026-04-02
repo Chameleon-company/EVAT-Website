@@ -222,6 +222,30 @@ const templates = {
   "mobile": "string"
 }`,
 
+// add insight
+  insightAdd:
+`{
+  "userID": "string",
+  "email": "email@email.com",
+  "weekly_km": 0,
+  "trip_length": "string",
+  "driving_frequency": "string",
+  "driving_type": "string";
+  "road_trips": "string";
+  "car_ownership": "string";
+  "fuel_efficiency": "number";
+  "monthly_fuel_spend": "number";
+  "home_charging": "string";
+  "solar_panels": "string";
+  "charging_preference": "string";
+  "budget": "string";
+  "priorities": "string";
+  "postcode": "string";
+  "cluster": 0 | null;
+  "createdAt": "2025-09-07T04:00:00Z";
+  "updatedAt": "2025-09-07T04:00:00Z";
+}`,
+
 };
 
 // Admin Auth Route
@@ -337,6 +361,11 @@ const vehicle = [
   { method: 'GET',    endpoint: '/vehicle/{vehicleId}',           label: 'Get vehicle by ID' },           // tested and working
 ];
 
+//Insights Route
+const insight = [
+  { method: 'POST',   endpoint: '/personalised-ev-insights',                      label: 'Submit insight',                         body: templates.insightAdd}
+];
+
 // export all groups
 export {
   adminAuth,
@@ -352,6 +381,7 @@ export {
   supportRequest,
   user,
   vehicle,
+  insight,
 };
 
 // export as one array
@@ -369,6 +399,7 @@ export const allEndpoints = [
   ...supportRequest,
   ...user,
   ...vehicle,
+  ...insight,
 ];
 
 //export default apiEndpoints;
