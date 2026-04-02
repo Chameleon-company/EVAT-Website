@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { submitInsights } from "../services/personalisedEvInsightsService"
+//import axios from "axios";
 
 export default function PersonalisedInsightsFormComponent() {
+  const tokenFull = localStorage.getItem("currentUser");
+  const token = tokenFull ? JSON.parse(tokenFull).token : null;
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -37,6 +41,28 @@ export default function PersonalisedInsightsFormComponent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const payload = {
+      // userId: "Strawberry",
+      // email: "strawberry@jam.com",
+      weekly_km: 153,
+      trip_length: "Mostly medium trips (10-50 km)",
+      driving_frequency: "Daily",
+      driving_type: "A mix of city/suburban and highway driving",
+      road_trips: "No",
+      car_ownership: "Yes - Petrol",
+      fuel_efficiency: 7.9,
+      monthly_fuel_spend: 84.32,
+      home_charging: "Yes",
+      solar_panels: "Yes",
+      charging_preference: "Home",
+      budget: "<$40,000",
+      priorities: "Cost savings, Environmental impact",
+      postcode: "3095",
+      //cluster: null
+      // createdAt: Date,
+      // updatedAt: Date
+    }
+
     if (!formData.fullName || !formData.email) {
       setMessage("Please fill in the required fields.");
       return;
@@ -46,7 +72,8 @@ export default function PersonalisedInsightsFormComponent() {
       setLoading(true);
       setMessage("");
 
-      await axios.post("http://localhost:8080/api/insights/submit", formData);
+      //await axios.post("http://localhost:8080/api/insights/submit", formData);
+      const response = await submitInsights(payload, token);
 
       setMessage("Form submitted successfully.");
 
