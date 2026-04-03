@@ -43,7 +43,7 @@ export default function EnvironmentalImpact({
       setIceError(null);
 
       try {
-        const res = await fetch(`${API_URL}/vehicle`, {   // ← adjust endpoint if needed
+        const res = await fetch(`${API_URL}/ice-vehicle`, {   // ← adjust endpoint if needed
           headers: { Authorization: `Bearer ${user.token}` },
         });
 
@@ -176,10 +176,10 @@ export default function EnvironmentalImpact({
 
   return (
     <div className="horizontal center">
-      <table className="table">
+      <table className="env-impact-table">
         <thead>
           <tr>
-            <td className="three-hundred-width">
+            <td className="three-hundred-width wrap-center">
               {/* EV Make Dropdown */}
               <select
                 className="input two-hundred-width"
@@ -252,7 +252,7 @@ export default function EnvironmentalImpact({
             </td>
 
             <td className="two-hundred-width"></td>  {/* Blank */}
-            <td className="three-hundred-width">
+            <td className="three-hundred-width wrap-center">
               {/* ICE Make Dropdown */}
               <select
                 className="input two-hundred-width"
@@ -329,26 +329,26 @@ export default function EnvironmentalImpact({
         <tbody>
           <tr>
             {/* EV vehicle details */}
-            <td className="table-col-left">
+            <td className="table-col-left ev-cell vehicle-name">
               {selectedEv != null && (
                 <>
                   <div className="text-xlarge font-bold">{selectedEv.make} {selectedEv.model} </div>
                   <div className="text-small">
-                    {selectedEv.variant} - {selectedEv.year} <br /> 
-                    {selectedEv.fuel_type}
+                    {selectedEv.variant}<br /> 
+                    {selectedEv.fuel_type} - {selectedEv.year} 
                   </div>
                 </>
               )}
             </td>
             <td></td>
             {/* ICE vehicle details */}
-            <td className="table-col-left">
+            <td className="table-col-left ice-cell vehicle-name">
               {selectedIce != null && (
                 <>
                   <div className="text-xlarge font-bold">{selectedIce.make} {selectedIce.model} </div>
                   <div className="text-small">
-                    {selectedIce.variant} - {selectedIce.year} <br /> 
-                    {selectedIce.fuel_type}
+                    {selectedIce.variant}<br /> 
+                    {selectedIce.fuel_type} - {selectedIce.year} 
                   </div>
                 </>
               )}
@@ -356,15 +356,15 @@ export default function EnvironmentalImpact({
           </tr>
           {/* co2 emissions row */}
           <tr>
-            <td className="table-col-center">
+            <td className="table-col-center ev-cell">
               {selectedEv != null && (
                 <>
                   {selectedEv.co2_emissions_combined}
                 </>
               )}
             </td>
-            <td className="font-bold">CO2 Emissions</td>
-            <td className="table-col-center">
+            <td className="font-bold comp-cell">CO2 Emissions</td>
+            <td className="table-col-center ice-cell">
               {selectedIce != null && (
                 <>
                   {selectedIce.co2_emissions_combined}
@@ -374,15 +374,15 @@ export default function EnvironmentalImpact({
           </tr>
           {/* fuel consumption row */}
           <tr>
-            <td className="table-col-center">
+            <td className="table-col-center ev-cell">
               {selectedEv != null && (
                 <>
                   {selectedEv.fuel_consumption_combined}
                 </>
               )}
             </td>
-            <td className="font-bold">Fuel Consumption</td>
-            <td className="table-col-center">
+            <td className="font-bold comp-cell">Fuel Consumption</td>
+            <td className="table-col-center ice-cell">
               {selectedIce != null && (
                 <>
                   {selectedIce.fuel_consumption_combined}
@@ -392,15 +392,15 @@ export default function EnvironmentalImpact({
           </tr>
           {/* life cycle co2 row */}
           <tr>
-            <td className="table-col-center">
+            <td className="table-col-center ev-cell">
               {selectedEv != null && (
                 <>
                   {selectedEv.fuel_life_cycle_co2}
                 </>
               )}
             </td>
-            <td className="font-bold">Fuel Life Cycle CO2</td>
-            <td className="table-col-center">
+            <td className="font-bold comp-cell">Fuel Life Cycle CO2</td>
+            <td className="table-col-center ice-cell">
               {selectedIce != null && (
                 <>
                   {selectedIce.fuel_life_cycle_co2}
@@ -410,15 +410,15 @@ export default function EnvironmentalImpact({
           </tr>
           {/* annual tailpipe co2 row */}
           <tr>
-            <td className="table-col-center">
+            <td className="table-col-center ev-cell">
               {selectedEv != null && (
                 <>
                   {selectedEv.annual_tailpipe_co2}
                 </>
               )}
             </td>
-            <td className="font-bold">Annual Tailpipe CO2</td>
-            <td className="table-col-center">
+            <td className="font-bold comp-cell">Annual Tailpipe CO2</td>
+            <td className="table-col-center ice-cell">
               {selectedIce != null && (
                 <>
                   {selectedIce.annual_tailpipe_co2}
