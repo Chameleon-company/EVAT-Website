@@ -29,6 +29,11 @@ export default function EnvironmentalImpact({
   const [loadingIce, setLoadingIce] = useState(false);
   const [iceError, setIceError] = useState(null);
 
+  // State for comparison result
+  const [comparisonResult, setComparisonResult] = useState(null);
+  const [loadingCompare, setLoadingCompare] = useState(false);
+  const [errorCompare, setErrorCompare] = useState(null);
+
   // Fetch ICE vehicles ONLY when this component mounts
   useEffect(() => {
     const fetchIceVehicles = async () => {
@@ -49,7 +54,8 @@ export default function EnvironmentalImpact({
           ...v,
           id: v.id || v._id,
           year: v.year || v.model_release_year,
-        }));
+        }))
+        .filter((v) => v.fuel_type && v.fuel_type !== "Pure Electric");  // Ensure we only keep ICE vehicles
 
         setAllIceVehicles(items);
         setIceMakes(["Select", ...new Set(items.map((v) => v.make))]);
@@ -94,6 +100,43 @@ export default function EnvironmentalImpact({
 
     setSelectedEv(found || null);
   }, [selectedEvMake, selectedEvModel, selectedEvVariant, selectedEvYear, allElectricVehicles]);
+
+  // Fetch comparison result whenever selected EV or ICE changes
+  useEffect(() => {
+  const fetchComparison = async () => {
+    if (!selectedEv?.id || !selectedIce?.id) return;
+
+    try {
+      setLoadingCompare(true);
+      setErrorCompare(null);
+
+      const res = await fetch(
+        `${API_URL}/environmental-impact/compare?evVehicleId=${selectedEv.id}&iceVehicleId=${selectedIce.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch comparison");
+      }
+
+      const data = await res.json();
+      console.log("COMPARE RESULT:", data);
+
+      setComparisonResult(data);
+    } catch (err) {
+      console.error(err);
+      setErrorCompare(err.message);
+    } finally {
+      setLoadingCompare(false);
+    }
+  };
+
+  fetchComparison();
+}, [selectedEv, selectedIce]);
 
   // Filter ICE models, variants and years based on selection
   const filteredIceModels = allIceVehicles
@@ -391,7 +434,7 @@ export default function EnvironmentalImpact({
         {selectedIce && selectedEv && (
           <>
             <h4>Results</h4>
-            <p className="center">The {selectedEv.make} {selectedEv.model} emits X g/km less CO2 than {selectedIce.make} {selectedIce.model}</p>
+            <p className="center">The {selectedEv.make} {selectedEv.model} emits {selectedIce.co2_emissions_combined - selectedEv.co2_emissions_combined} g/km less CO2 than {selectedIce.make} {selectedIce.model}</p>
           </>
         )}
       </div>
