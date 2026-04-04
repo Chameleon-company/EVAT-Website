@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import { submitInsights } from "../services/personalisedEvInsightsService"
-//import axios from "axios";
 
 export default function PersonalisedInsightsFormComponent() {
   const tokenFull = localStorage.getItem("currentUser");
   const token = tokenFull ? JSON.parse(tokenFull).token : null;
 
   const [formData, setFormData] = useState({
-    userId: "temp-user-id",
-    email: "",
     weekly_km: "",
     trip_length: "",
     driving_frequency: "",
@@ -34,7 +31,6 @@ export default function PersonalisedInsightsFormComponent() {
       ...prev,
       [name]: value
     }));
-    //console.log(name + ": " + value);
   };
 
   const [inputs, setInputs] = useState({
@@ -65,29 +61,6 @@ export default function PersonalisedInsightsFormComponent() {
     if (inputs.brand_design) {priorities.push("Brand/ design")}
     formData.priorities = priorities.join(", ")
     console.log(formData.priorities);
-      
-
-    // const payload = {
-    //   // userId: "Strawberry",
-    //   // email: "strawberry@jam.com",
-    //   weekly_km: 153,
-    //   trip_length: "Mostly medium trips (10-50 km)",
-    //   driving_frequency: "Daily",
-    //   driving_type: "A mix of city/suburban and highway driving",
-    //   road_trips: "No",
-    //   car_ownership: "Yes - Petrol",
-    //   fuel_efficiency: 7.9,
-    //   monthly_fuel_spend: 84.32,
-    //   home_charging: "Yes",
-    //   solar_panels: "Yes",
-    //   charging_preference: "Home",
-    //   budget: "<$40,000",
-    //   priorities: "Cost savings, Environmental impact",
-    //   postcode: "3095",
-    //   //cluster: null
-    //   // createdAt: Date,
-    //   // updatedAt: Date
-    // }
 
     const payload = {
       weekly_km: formData.weekly_km,
@@ -106,23 +79,15 @@ export default function PersonalisedInsightsFormComponent() {
       postcode: formData.postcode,
     }
 
-    // if (!formData.fullName || !formData.email) {
-    //   setMessage("Please fill in the required fields.");
-    //   return;
-    // }
-
     try {
       setLoading(true);
       setMessage("");
 
-      //await axios.post("http://localhost:8080/api/insights/submit", formData);
       const response = await submitInsights(payload, token);
 
       setMessage("Form submitted successfully.");
 
       setFormData({
-        userId: "temp-user-id",
-        email: "",
         weekly_km: "",
         trip_length: "",
         driving_frequency: "",
@@ -158,29 +123,6 @@ export default function PersonalisedInsightsFormComponent() {
         <form onSubmit={handleSubmit} className="insights-form">
           <div className="insights-grid">
             <div>
-              <h3 className="insights-section-title">User Details</h3>
-
-              <div className="form-section">
-                <label className="form-label required">User ID</label>
-                <input
-                  type="text"
-                  name="userId"
-                  placeholder="Enter user ID"
-                  value={formData.userId}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className="form-section">
-                <label className="form-label required">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Enter your email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-              </div>
 
               <h3 className="insights-section-title">Driving Details</h3>
 
@@ -356,17 +298,6 @@ export default function PersonalisedInsightsFormComponent() {
 
               <div className="form-section">
                 <label className="form-label required">Priorities</label>
-                {/* <select
-                  name="priorities"
-                  value={formData.priorities}
-                  onChange={handleChange}
-                >
-                  <option value="">Select priority</option>
-                  <option value="Cost savings">Cost savings</option>
-                  <option value="Environmental impact">Environmental impact</option>
-                  <option value="Performance">Performance</option>
-                  <option value="Low maintenance">Low maintenance</option>
-                </select> */}
                 <div className="checkbox, input-and-label-same-line">
                   <input 
                     name="affordability"
