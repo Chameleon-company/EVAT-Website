@@ -84,6 +84,7 @@ export default function PersonalisedInsightsFormComponent() {
       setMessage("");
 
       const response = await submitInsights(payload, token);
+      console.log(response);
 
       setMessage("Form submitted successfully.");
 
@@ -123,7 +124,6 @@ export default function PersonalisedInsightsFormComponent() {
         <form onSubmit={handleSubmit} className="insights-form">
           <div className="insights-grid">
             <div>
-
               <h3 className="insights-section-title">Driving Details</h3>
 
               <div className="form-section">
