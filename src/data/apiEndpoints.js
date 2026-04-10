@@ -363,7 +363,8 @@ const vehicle = [
 
 //Insights Route
 const insight = [
-  { method: 'POST',   endpoint: '/personalised-ev-insights',                      label: 'Submit insight',                         body: templates.insightAdd}
+  { method: 'POST',   endpoint: '/personalised-ev-insights',                      label: 'Submit insight',                         body: templates.insightAdd},
+  { method: 'GET',    endpoint: '/personalised-ev-insights/{userId}',         label: 'Get insight by ID' }
 ];
 
 // export all groups
