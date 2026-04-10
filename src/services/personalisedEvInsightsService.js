@@ -34,3 +34,29 @@ export const submitInsights = async (EvInsightsData, token) => {
         throw error;
     }
 };
+
+//export const getMyInsights = async (userId, token) => {
+export const getMyInsights = async (token) => {
+    try {
+    //const response = await fetch(`${baseUrl}/${userId}`, {
+    const response = await fetch(`${baseUrl}/me`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result;
+    }
+    catch (error) {
+        console.error('Error fetching insight:', error);
+        throw error;
+    }
+};
