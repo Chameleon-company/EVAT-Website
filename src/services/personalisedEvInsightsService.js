@@ -1,11 +1,24 @@
 const API_URL = import.meta.env.VITE_API_URL;
 const baseUrl = `${API_URL}/personalised-ev-insights`;
 
-//Better comments needed
-
 /**
  * Submit form to the backend
- * @param {Object} EvInsightsData - The feedback data containing name, email, and suggestion
+ * @param {Object} EvInsightsData - The feedback data containing 
+      weekly_km,
+      trip_length,
+      driving_frequency,
+      driving_type,
+      road_trips,
+      car_ownership,
+      fuel_efficiency,
+      monthly_fuel_spend,
+      home_charging,
+      solar_panels,
+      charging_preference,
+      budget,
+      priorities,
+      postcode
+ * @param {*} token - authorisation token for the API
  * @returns {Promise<Object>} - The response from the API
  */
 
@@ -35,10 +48,13 @@ export const submitInsights = async (EvInsightsData, token) => {
     }
 };
 
-//export const getMyInsights = async (userId, token) => {
+/**
+ * Get feedback by ID (Admin only)
+ * @param {*} token - authorisation token for the API
+ * @returns {Promise<Object>} - The response from the API
+ */
 export const getMyInsights = async (token) => {
     try {
-    //const response = await fetch(`${baseUrl}/${userId}`, {
     const response = await fetch(`${baseUrl}/latest`, {
       method: 'GET',
       headers: {

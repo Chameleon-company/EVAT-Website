@@ -25,6 +25,7 @@ export default function PersonalisedInsightsFormComponent() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+  // Updates when values are entered into the form
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -33,6 +34,7 @@ export default function PersonalisedInsightsFormComponent() {
     }));
   };
 
+  // True or false states of the checkboxes
   const [inputs, setInputs] = useState({
     affordability: false,
     driving_range: false,
@@ -42,6 +44,7 @@ export default function PersonalisedInsightsFormComponent() {
     brand_design: false,
   });
 
+  // Handles change for checkboxes
   const handleCheckChange = (e) => {
     const target = e.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -52,6 +55,7 @@ export default function PersonalisedInsightsFormComponent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Creates list based off ticked checkboxes
     const priorities = [];
     if (inputs.affordability) {priorities.push("Affordability")}
     if (inputs.driving_range) {priorities.push("Driving range")}
