@@ -5,7 +5,7 @@ const baseUrl = `${API_URL}/personalised-ev-insights`;
  * Submit form to the backend
  * @param {Object} EvInsightsData - The feedback data containing 
       weekly_km,
-      trip_length,
+      trip_length,  
       driving_frequency,
       driving_type,
       road_trips,

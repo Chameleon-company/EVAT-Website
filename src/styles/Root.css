@@ -500,4 +500,5 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
 
     /* ==================================================== Insights =================================================== */
     --insight-heading-color: #E66C37;
+    --insight-money-color: #35E699
 }

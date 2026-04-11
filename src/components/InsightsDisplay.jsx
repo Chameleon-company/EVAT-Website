@@ -10,7 +10,27 @@ import "../styles/Tables.css";
 import "../styles/PersonalisedInsights.css"
 import "../styles/Buttons.css"
 
-
+function Savings({estimatedSave}) {
+    if (estimatedSave != 0) {
+        return (
+            <div>
+                <p className="text-xlarge text-center orange">Your potential EV savings</p>
+                <p className="text-center">Based on your responses, you could save around</p>
+                <p className="text-center text-xlarge green">${estimatedSave}</p>
+                <p className="text-center">per month on fuel alone.</p>
+            </div>
+        )
+    }
+    else {
+        return (
+            <div>
+                <p className="text-xlarge text-center orange">Your potential EV savings</p>
+                <p className="text-center">Based on your responses, you already own an EV</p>
+                <p className="text-center">savings do not apply.</p>
+            </div>
+        )
+    }
+}
 
 export default function InsightsDisplay() {
     const navigate = useNavigate();
@@ -115,10 +135,7 @@ export default function InsightsDisplay() {
                         </div>
                         <br></br>
                         <div className="container vertical full-width">
-                            <p className="text-xlarge text-center orange">Your potential EV savings</p>
-                            <p className="text-center">Based on your responses, you could save around</p>
-                            <p></p>
-                            <p className="text-center">per month on fuel alone.</p>
+                            <Savings estimatedSave={data.estimatedSavings} />
                         </div>
                     </div>
                 </div>

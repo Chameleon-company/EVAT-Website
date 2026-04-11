@@ -2,6 +2,10 @@
     color: var(--insight-heading-color);
 }
 
+.green {
+    color: var(--insight-money-color)
+}
+
 .container {
     background-color: var(--darker-container-background-color);
 }
