@@ -34,53 +34,36 @@ export default function InsightsDisplay() {
     }, []);
 
     // Set data for graphs
-    const graph1Data = {
+    const createGraphData = (yourValue, similarValue, allValue) => ({
         labels: ['You', 'Compared to Similar Drivers', 'Compared to All Drivers'],
         datasets: [
-        {
-            data: [data.fuel_efficiency, data.similarDriverAverages?.fuel_efficiency, data.allDriverAverages?.fuel_efficiency],
-            backgroundColor: [
-                'rgba(179, 91, 55, 0.8)',
-                'rgba(11, 107, 70, 0.8)',
-                'rgba(250, 250, 250, 0.8)'
-            ],
-            borderColor: 'rgb(0, 0, 0)',
-            borderWidth: 1,
-        },
+            {
+                data: [yourValue, similarValue, allValue],
+                backgroundColor: [
+                    'rgba(179, 91, 55, 0.8)',
+                    'rgba(11, 107, 70, 0.8)',
+                    'rgba(250, 250, 250, 0.8)'
+                ],
+                borderColor: 'rgb(0, 0, 0)',
+                borderWidth: 1,
+            },
         ],
-    };
-
-    const graph2Data = {
-        labels: ['You', 'Compared to Similar Drivers', 'Compared to All Drivers'],
-        datasets: [
-        {
-            data: [data.monthly_fuel_spend, data.similarDriverAverages?.monthly_fuel_spend, data.allDriverAverages?.monthly_fuel_spend],
-            backgroundColor: [
-                'rgba(179, 91, 55, 0.8)',
-                'rgba(11, 107, 70, 0.8)',
-                'rgba(250, 250, 250, 0.8)'
-            ],
-            borderColor: 'rgb(0, 0, 0)',
-            borderWidth: 1,
-        },
-        ],
-    };
-
-    const graph3Data = {
-        labels: ['You', 'Compared to Similar Drivers', 'Compared to All Drivers'],
-        datasets: [
-        {
-            data: [data.weekly_km, data.similarDriverAverages?.weekly_km, data.allDriverAverages?.weekly_km],
-            backgroundColor: [
-                'rgba(179, 91, 55, 0.8)',
-                'rgba(11, 107, 70, 0.8)',
-                'rgba(250, 250, 250, 0.8)'
-            ],
-            borderColor: 'rgb(0, 0, 0)',
-            borderWidth: 1,
-        },
-        ],
-    };
+    });
+    const graph1Data = createGraphData(
+        data.fuel_efficiency,
+        data.similarDriverAverages?.fuel_efficiency,
+        data.allDriverAverages?.fuel_efficiency
+    );
+    const graph2Data = createGraphData(
+        data.monthly_fuel_spend,
+        data.similarDriverAverages?.monthly_fuel_spend,
+        data.allDriverAverages?.monthly_fuel_spend
+    );
+    const graph3Data = createGraphData(
+        data.weekly_km,
+        data.similarDriverAverages?.weekly_km,
+        data.allDriverAverages?.weekly_km
+    );
 
     // Turn negative values into positive and provide correct direction (less than or more than)
     const comparisonMap = Object.fromEntries(
