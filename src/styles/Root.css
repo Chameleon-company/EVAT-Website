@@ -200,6 +200,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
 
     /* Containers */
     --container-background-color: #ffffff2a;
+    --darker-container-background-color: #454545b1;
     --container-border-color: var(--primary-color-base);
     --container-text-color: var(--text-color-white);
     --container-border: 1px solid var(--container-border-color);

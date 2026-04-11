@@ -281,6 +281,9 @@ body {
 .third-width {
   width: 33%;
 }
+.thirty-width {
+  width: 30%;
+}
 
 .half-width {
   width: 50%;
@@ -318,6 +321,10 @@ body {
 
 .auto-height {
   height: auto;
+}
+
+.full-height {
+  height: 100%;
 }
 
 .force-height {
