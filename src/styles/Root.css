@@ -496,4 +496,7 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
 
     --map-visible-width: 100%;
     --map-visible-height: 100%;
+
+    /* ==================================================== Insights =================================================== */
+    --insight-heading-color: #E66C37;
 }

@@ -39,7 +39,7 @@ export const submitInsights = async (EvInsightsData, token) => {
 export const getMyInsights = async (token) => {
     try {
     //const response = await fetch(`${baseUrl}/${userId}`, {
-    const response = await fetch(`${baseUrl}/me`, {
+    const response = await fetch(`${baseUrl}/latest`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

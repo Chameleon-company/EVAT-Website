@@ -21,16 +21,35 @@ ChartJS.register(
 );
 
 const BarChart = (props) => {
-    console.log(props.title);
     const options = {
             responsive: true,
+            aspectRatio: 0.75,
             plugins: {
-            legend: { position: 'top' },
-            title: { display: true, text: props.title },
-        },
+              legend: { display: false },
+              title: { display: true, text: props.title, color: "#FFFFFF", font: {
+                size: 16
+              } },
+            },
+            scales: {
+              x: {
+                ticks: {
+                  color: "#FFFFFF"
+                },
+                grid: {
+                  color: "#acaaaa"
+                }
+              },
+              y: {
+                ticks: {
+                  color: "#FFFFFF"
+                },
+                grid: {
+                  color: "#acaaaa"
+                }
+              }
+            }
     };
 
-    if (!options) return <div>Loading...</div>;
     return (<Bar data={props.data} options={options}/>);
 };
 

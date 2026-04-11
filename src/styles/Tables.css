@@ -10,6 +10,12 @@ This CSS has the style settings for tables
   margin-top: var(--table-margin-top);
 }
 
+.onlyTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--table-margin-top);
+}
+
 .table-wrapper {
   width: stretch;
   max-height: 60vh;
@@ -83,4 +89,8 @@ This CSS has the style settings for tables
 .table-row.restricted:hover {
   background-color: var(--table-restricted-hover-background-color);
   color: var(--table-restricted-hover-text-color);
+}
+
+td.highlight {
+  font-weight: 700;
 }
