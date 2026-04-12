@@ -101,8 +101,8 @@ export default function InsightsDisplay() {
             <div className="background-image"></div>
             <div className="center eighty-width">
                 <div className="container vertical auto-width">
-                    <h2 className="text-center orange">COMPARE YOUR DRIVE</h2>
-                    <h5 className="text-center">Similar Drivers & EV Benefits</h5>
+                    <h4 className="text-center orange">COMPARE YOUR DRIVE</h4>
+                    <h6 className="text-center">Similar Drivers & EV Benefits</h6>
                 </div>
                 <div className="container no-borderBckgrd horizontal auto-width">
                     <div className="container inner-left third-width">                       
@@ -168,6 +168,7 @@ export default function InsightsDisplay() {
                 <br></br>
                 <div className="full-width centerBtn">
                     <button onClick={() => navigate('/insights-form')} className="btn btn-primary">Back to form</button>
+                    <button onClick={() => navigate('/profile')} className="btn btn-primary">Back to Dashboard</button>
                 </div>
             </div>
         </div>

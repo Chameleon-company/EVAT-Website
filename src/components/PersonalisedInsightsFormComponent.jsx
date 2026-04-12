@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import { submitInsights } from "../services/personalisedEvInsightsService"
+import { submitInsights } from "../services/personalisedEvInsightsService";
+import { useNavigate } from 'react-router-dom';
 
 export default function PersonalisedInsightsFormComponent() {
+  const navigate = useNavigate();
   const tokenFull = localStorage.getItem("currentUser");
   const token = tokenFull ? JSON.parse(tokenFull).token : null;
+
+  const [submitted, setSubmitted] = useState(false);
 
   const [formData, setFormData] = useState({
     weekly_km: "",
@@ -54,7 +58,7 @@ export default function PersonalisedInsightsFormComponent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Creates list based off ticked checkboxes
     const priorities = [];
     if (inputs.affordability) {priorities.push("Affordability")}
@@ -108,6 +112,7 @@ export default function PersonalisedInsightsFormComponent() {
         priorities: "",
         postcode: ""
       });
+      setSubmitted(true);
     } catch (error) {
       console.error("Submission error:", error);
       setMessage("Submission failed. Please try again.");
@@ -367,9 +372,13 @@ export default function PersonalisedInsightsFormComponent() {
           </div>
 
           <div className="insights-button-wrap">
-            <button type="submit" className="insights-submit-btn" disabled={loading}>
-              {loading ? "Submitting..." : "Submit"}
-            </button>
+            {!submitted ?
+              <button type="submit" className="insights-submit-btn" disabled={loading}>
+                {loading ? "Submitting..." : "Submit"}
+              </button>
+            :
+              <button className="insights-submit-btn" onClick={() => navigate('/insights')}>View EV Insights</button>
+            }
           </div>
 
           {message && <p className="insights-message">{message}</p>}
