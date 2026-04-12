@@ -490,6 +490,8 @@ function Profile() {
               <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("payment")}> <CreditCard /> Payment</button>
               <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("history")}> <BookText /> Booking History</button>
               <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("env-impact")}> Environmental Impact</button>
+              <button className="btn btn-primary two-hundred-width spread" onClick={() => navigate('/insights-form')}>Submit EV Insight</button>
+              <button className="btn btn-primary two-hundred-width spread" onClick={() => navigate('/insights')}>View EV Insights</button>
             </>
           )}
 

@@ -1,0 +1,25 @@
+.orange {
+    color: var(--insight-heading-color);
+}
+
+.green {
+    color: var(--insight-money-color)
+}
+
+.container {
+    background-color: var(--darker-container-background-color);
+}
+
+.container.no-borderBckgrd {
+    background: none;
+}
+
+.thirty-width {
+    padding: 0 0.5em 0 0.5em;
+}
+
+.centerBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

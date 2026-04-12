@@ -120,3 +120,15 @@ This CSS has the style settings for tables
   border-top-left-radius: var(--eit-border-radius);
   border-top-right-radius: var(--eit-border-radius);
 }
+
+/* Insights table styles */
+
+td.highlight {
+  font-weight: 700;
+}
+
+.onlyTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--table-margin-top);
+}

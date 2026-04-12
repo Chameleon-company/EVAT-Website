@@ -183,3 +183,133 @@ input.form-full-width {
   margin-top: 0.35rem;
 }
 
+/* Personalised EV Usage Insights Page */
+
+.insights-page-wrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 120px);
+  padding: 40px 20px 60px;
+}
+
+.insights-panel {
+  width: 90%;
+  max-width: 1200px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(111, 255, 180, 0.6);
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  padding: 35px 40px;
+  color: #ffffff;
+}
+
+.insights-title {
+  text-align: center;
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: #ffffff;
+}
+
+.insights-subtitle {
+  text-align: center;
+  font-size: 1.25rem;
+  margin: 0 0 30px;
+  color: #f0f0f0;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.insights-section-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 10px 0 8px;
+  color: #ffffff;
+}
+
+.insights-panel .form-section {
+  margin: 0 0 6px;
+  padding: 0;
+}
+
+.insights-panel .form-label,
+.insights-panel label {
+  color: #ffffff;
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.insights-panel input,
+.insights-panel input[type="text"],
+.insights-panel input[type="email"],
+.insights-panel input[type="number"],
+.insights-panel select {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 1rem;
+}
+
+.insights-button-wrap {
+  text-align: center;
+  margin-top: 28px;
+}
+
+.insights-submit-btn {
+  min-width: 220px;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 10px;
+  background: #67d48c;
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+  transition: 0.2s ease-in-out;
+}
+
+.insights-submit-btn:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+.insights-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.insights-message {
+  text-align: center;
+  margin-top: 18px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .insights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .insights-title {
+    font-size: 2.4rem;
+  }
+
+  .insights-subtitle {
+    font-size: 1rem;
+  }
+
+  .insights-panel {
+    width: 94%;
+    padding: 24px 20px;
+  }
+}
