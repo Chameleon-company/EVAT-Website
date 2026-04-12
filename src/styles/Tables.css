@@ -10,12 +10,6 @@ This CSS has the style settings for tables
   margin-top: var(--table-margin-top);
 }
 
-.onlyTable {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: var(--table-margin-top);
-}
-
 .table-wrapper {
   width: stretch;
   max-height: 60vh;
@@ -91,6 +85,50 @@ This CSS has the style settings for tables
   color: var(--table-restricted-hover-text-color);
 }
 
+/* sytles for environmental impact table */
+
+.env-impact-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: var(--eit-margin-top);
+  padding: var(--eit-cell-padding);
+}
+
+.ev-cell {
+  background-color: var(--eit-ev-background-color);
+  border: var(--eit-ev-border);
+  padding-left: var(--eit-cell-padding);
+  padding-right: var(--eit-cell-padding);
+}
+
+.ice-cell {
+  background-color: var(--eit-ice-background-color);
+  border: var(--eit-ice-border);
+  padding-left: var(--eit-cell-padding);
+  padding-right: var(--eit-cell-padding);
+}
+
+.comp-cell {
+  background-color: var(--eit-comp-background-color);
+  border: var(--eit-comp-border);
+  padding-left: var(--eit-cell-padding);
+  padding-right: var(--eit-cell-padding);
+}
+
+.vehicle-name {
+  border-top-left-radius: var(--eit-border-radius);
+  border-top-right-radius: var(--eit-border-radius);
+}
+
+/* Insights table styles */
+
 td.highlight {
   font-weight: 700;
+}
+
+.onlyTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--table-margin-top);
 }

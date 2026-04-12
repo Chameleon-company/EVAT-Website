@@ -11,6 +11,7 @@ import NavBar from '../components/NavBar';
 import profileImage from '../assets/profileImage.png';
 import ChatBubble from "../components/ChatBubble";
 import BookingHistoryTable from "../components/BookingHistoryTable";
+import EnvironmentalImpact from "../components/EnvironmentalImpact";
 import ErrorMessage from '../components/ErrorMessage'
 import SuccessMessage from '../components/SuccessMessage'
 
@@ -471,6 +472,7 @@ function Profile() {
               <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("car")}> <Car /> My Car</button>
               <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("payment")}> <CreditCard /> Payment</button>
               <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("history")}> <BookText /> Booking History</button>
+              <button className="btn btn-primary two-hundred-width spread" onClick={() => setActiveTab("env-impact")}> Environmental Impact</button>
               <button className="btn btn-primary two-hundred-width spread" onClick={() => navigate('/insights-form')}>Submit EV Insight</button>
               <button className="btn btn-primary two-hundred-width spread" onClick={() => navigate('/insights')}>View EV Insights</button>
             </>
@@ -750,6 +752,20 @@ function Profile() {
               <h3>Booking History</h3>
               <div>
                 <BookingHistoryTable />
+              </div>
+            </div>
+          )}
+
+          {/* Environmental Impact */}
+          {activeTab === "env-impact" && (
+            <div>
+              <h3>Environmental Impact</h3>
+              <div>
+                <EnvironmentalImpact 
+                  user={user}
+                  allElectricVehicles={allVehicles}
+                  makes={makes}
+                />
               </div>
             </div>
           )}

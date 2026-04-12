@@ -192,6 +192,29 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --table-restricted-hover-background-color: var(--danger-color-light);
     --table-restricted-hover-text-color: var(--text-color-black);
 
+    /* ============================================== Environmental Impact Table ====================================================== */
+    --eit-margin-top: 1rem;                               /* margin left above the table */
+    --eit-max-height: 80vh;                               /* maximum size of the table */
+    --eit-row-height: 1rem;                               /* row height */
+    --eit-cell-padding: var(--website-padding);           /* cell padding */
+    --eit-small-cell-width: 5.5rem;                       /* width for a small cell */
+    --eit-border-radius: var(--website-radius);
+
+    /* comparison title cells */
+    --eit-comp-background-color: var(--grey-dark);
+    --eit-comp-border-color: var(--black);
+    --eit-comp-border: 1px solid var(--eit-comp-border-color);
+
+    /* ev cells */
+    --eit-ev-background-color: var(--primary-color-dark);
+    --eit-ev-border-color: var(--primary-color-base);
+    --eit-ev-border: 1px solid var(--eit-ev-border-color);
+
+    /* ice cells */
+    --eit-ice-background-color: var(--secondary-color-base);
+    --eit-ice-border-color: var(--secondary-color-light);
+    --eit-ice-border: 1px solid var(--eit-ice-border-color);
+
     /* ====================================================== Elements ====================================================== */
     --element-radius: var(--website-radius);
     --element-padding: 1rem;

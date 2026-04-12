@@ -361,6 +361,12 @@ const vehicle = [
   { method: 'GET',    endpoint: '/vehicle/{vehicleId}',           label: 'Get vehicle by ID' },           // tested and working
 ];
 
+// ICE Vehicle Route
+const iceVehicle = [
+  { method: 'GET',    endpoint: '/ice-vehicle',                   label: 'Get all ICE vehicles' },            // tested and working
+  { method: 'GET',    endpoint: '/ice-vehicle/{vehicleId}',       label: 'Get ICE vehicle by ID' },           // tested and working
+];
+
 //Insights Route
 const insight = [
   { method: 'POST',   endpoint: '/personalised-ev-insights',                      label: 'Submit insight',                         body: templates.insightAdd},
@@ -382,6 +388,7 @@ export {
   supportRequest,
   user,
   vehicle,
+  iceVehicle,
   insight,
 };
 
@@ -400,6 +407,7 @@ export const allEndpoints = [
   ...supportRequest,
   ...user,
   ...vehicle,
+  ...iceVehicle,
   ...insight,
 ];
 
