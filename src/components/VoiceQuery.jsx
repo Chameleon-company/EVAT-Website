@@ -3,6 +3,34 @@ import { Search, Mic, MicOff, Loader2 } from 'lucide-react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import '../styles/VoiceQuery.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+const buildVoiceQueryEndpoint = () => {
+  const baseUrl = (API_URL || '').replace(/\/+$/, '');
+  if (baseUrl.endsWith('/api')) {
+    return `${baseUrl}/voice/query`;
+  }
+  return `${baseUrl}/api/voice/query`;
+};
+
+const getUserLocation = () =>
+  new Promise((resolve) => {
+    if (!navigator.geolocation) {
+      resolve(null);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      },
+      () => resolve(null),
+      { enableHighAccuracy: true, timeout: 3000, maximumAge: 30000 }
+    );
+  });
+
 function VoiceQuery({ onQueryResult }) {
   const {
     transcript,
@@ -61,7 +89,7 @@ function VoiceQuery({ onQueryResult }) {
     setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!query.trim()) {
@@ -78,72 +106,52 @@ function VoiceQuery({ onQueryResult }) {
     setError('');
     setResult(null);
 
-    setTimeout(() => {
-      const normalizedQuery = query.trim().toLowerCase();
+    try {
+      const userLocation = await getUserLocation();
+      const response = await fetch(buildVoiceQueryEndpoint(), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: query.trim(),
+          user_location: userLocation,
+        }),
+      });
 
-      let fakeData = {
-        answer_text: 'A nearby charging station has been highlighted on the map.',
-        intent: 'general_query',
-        entities: {
-          congestion: 'unknown'
-        }
-      };
-
-      if (normalizedQuery.includes('cheap')) {
-        fakeData = {
-          answer_text: 'The most cost-effective available charging station has been selected.',
-          intent: 'find_low_cost_station',
-          entities: {
-            congestion: 'low'
-          }
-        };
-      } else if (
-        normalizedQuery.includes('nearest') ||
-        normalizedQuery.includes('nearby') ||
-        normalizedQuery.includes('closest')
-      ) {
-        fakeData = {
-          answer_text: 'The nearest available charging station has been selected.',
-          intent: 'find_nearest_station',
-          entities: {
-            congestion: 'medium'
-          }
-        };
-      } else if (
-        normalizedQuery.includes('low congestion') ||
-        normalizedQuery.includes('less busy') ||
-        normalizedQuery.includes('not busy')
-      ) {
-        fakeData = {
-          answer_text: 'A less busy charging station has been selected for you.',
-          intent: 'find_low_congestion',
-          entities: {
-            congestion: 'low'
-          }
-        };
-      } else if (
-        normalizedQuery.includes('high congestion') ||
-        normalizedQuery.includes('busy')
-      ) {
-        fakeData = {
-          answer_text: 'A busy charging station was identified. You may want to avoid it.',
-          intent: 'find_high_congestion',
-          entities: {
-            congestion: 'high'
-          }
-        };
+      const rawText = await response.text();
+      let data = null;
+      try {
+        data = rawText ? JSON.parse(rawText) : null;
+      } catch (parseError) {
+        data = null;
       }
 
-      setResult(fakeData);
+      if (!response.ok) {
+        setResult(null);
+        const serverMessage =
+          data?.message ||
+          (rawText && rawText.trim()) ||
+          `Request failed (${response.status})`;
+        setError(serverMessage);
+        return;
+      }
 
+      setResult(data || null);
       if (onQueryResult) {
-        onQueryResult(fakeData);
+        onQueryResult(data);
       }
 
-      console.log('Intent:', fakeData.intent);
-      console.log('Entities:', fakeData.entities);
+      console.log('Intent:', data.intent);
+      console.log('Entities:', data.entities);
+      console.log('Station ID:', data.station_id);
+    } catch (err) {
+      console.error('Error querying voice API:', err);
+      setResult(null);
+      setError('Network error or server not responding, please try again later');
+    } finally {
       setLoading(false);
-    }, 700);
+    }
   };
 
   const handleClear = () => {
@@ -274,12 +282,12 @@ function VoiceQuery({ onQueryResult }) {
 
               <div style={{ marginTop: '12px', fontSize: '14px', color: '#475569' }}>
                 <p><strong>Intent:</strong> {result.intent || 'N/A'}</p>
-                <p><strong>Congestion:</strong> {result.entities?.congestion || 'N/A'}</p>
+                <p>
+                  <strong>Congestion:</strong>{' '}
+                  {result.entities?.congestion || result.entities?.congestion_level || 'N/A'}
+                </p>
+                <p><strong>Station ID:</strong> {result.station_id || 'N/A'}</p>
               </div>
-            </div>
-
-            <div className="debug-info">
-              <small>Note: intent and entities are logged to the browser console</small>
             </div>
           </div>
         )}
