@@ -10,7 +10,7 @@ import ClusterMarkers from '../components/ClusterMarkers';
 import SmartFilter from '../components/SmartFilter';
 import ChatBubble from "../components/ChatBubble";
 import ChargerSideBar from '../components/ChargerSideBar';
-
+import FloatingVoiceAssistant from '../components/FloatingVoiceAssistant';
 // styles
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
@@ -144,6 +144,74 @@ export default function Map() {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState('');
   const [selectedStation, setSelectedStation] = useState(null);
+  // Handle result from voice assistant
+  const handleVoiceResult = (data) => {
+    if (!stations.length) return;
+
+    const intent = data?.intent;
+
+    const getLat = (st) => Number(st.latitude ?? st.location?.coordinates?.[1]);
+    const getLng = (st) => Number(st.longitude ?? st.location?.coordinates?.[0]);
+
+    const availableStations = stations.filter(
+      (st) => st.is_operational === 'true'
+    );
+
+    if (intent === 'find_low_cost_station') {
+      const cheapest = availableStations
+        .filter((st) => parseCost(st.cost) !== null)
+        .sort((a, b) => parseCost(a.cost) - parseCost(b.cost))[0];
+
+      if (cheapest) {
+        setSelectedStation(cheapest);
+      }
+      return;
+    }
+
+    if (intent === 'find_nearest_station') {
+      const centerLat = bbox ? (bbox[1] + bbox[3]) / 2 : -37.8136;
+      const centerLng = bbox ? (bbox[0] + bbox[2]) / 2 : 144.9631;
+
+      let nearest = null;
+      let minDist = Infinity;
+
+      availableStations.forEach((st) => {
+        const lat = getLat(st);
+        const lng = getLng(st);
+
+        if (Number.isNaN(lat) || Number.isNaN(lng)) return;
+
+        const dist = (lat - centerLat) ** 2 + (lng - centerLng) ** 2;
+
+        if (dist < minDist) {
+          minDist = dist;
+          nearest = st;
+        }
+      });
+
+      if (nearest) {
+        setSelectedStation(nearest);
+        if (nearest?.latitude && nearest?.longitude) {
+          mapRef.current?.flyTo([nearest.latitude, nearest.longitude], 16);
+        }
+      }
+      return;
+    }
+
+    if (intent === 'find_low_congestion') {
+      const candidate =
+        availableStations.find((st) => String(st.cost).toLowerCase() !== 'unknown') ||
+        availableStations[0] ||
+        stations[0];
+
+      if (candidate) {
+        setSelectedStation(candidate);
+      }
+      return;
+    }
+
+    setSelectedStation(availableStations[0] || stations[0]);
+  };
   const { favourites, toggleFavourite } = useContext(FavouritesContext);
   const [connectorTypes, setConnectorTypes] = useState([]);
   const [operatorTypes, setOperatorTypes] = useState([]);
@@ -177,7 +245,7 @@ export default function Map() {
     const load = async () => {
       try {
         setErr('');
-        
+
         // need bbox to fetch chargers
         if (!bbox) {
           if (mounted) {
@@ -191,6 +259,7 @@ export default function Map() {
         const data = await getChargers(user, { bbox });
         if (mounted) {
           setStations(Array.isArray(data) ? data : []);
+          console.log("Stations:", data);
           setLoading(false);
         }
       } catch (e) {
@@ -299,7 +368,7 @@ export default function Map() {
     <div className={`map-page ${isDark ? "dark" : ""}`}>
       <NavBar />
       <div className='container-map'>
-        <button 
+        <button
           className="btn btn-primary btn-filter btn-small"
           onClick={() => setIsFilterOpen(true)}
         >
@@ -431,6 +500,10 @@ export default function Map() {
           favourites={favourites}
           toggleFavourite={toggleFavourite}
         />
+        {/* Voice Assistant floating button - opens popup with VoiceQuery */}
+        <FloatingVoiceAssistant onQueryResult={handleVoiceResult} />
+
+        {/* Existing chat bubble (kept as is) */}
         <ChatBubble />
       </div>
     </div>

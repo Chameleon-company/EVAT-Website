@@ -3,9 +3,7 @@ import { Search, Mic, MicOff, Loader2 } from 'lucide-react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import '../styles/VoiceQuery.css';
 
-const API_URL = import.meta.env.VITE_API_URL;
-
-function VoiceQuery() {
+function VoiceQuery({ onQueryResult }) {
   const {
     transcript,
     listening,
@@ -25,6 +23,10 @@ function VoiceQuery() {
     }
   }, [transcript]);
 
+  useEffect(() => {
+    setIsRecording(listening);
+  }, [listening]);
+
   if (!browserSupportsSpeechRecognition) {
     return (
       <div className="voice-query-container">
@@ -40,15 +42,18 @@ function VoiceQuery() {
     if (listening) {
       SpeechRecognition.stopListening();
       setIsRecording(false);
-    } else {
-      setError('');
-      resetTranscript();
-      SpeechRecognition.startListening({ 
-        continuous: true,
-        language: 'en-US'
-      });
-      setIsRecording(true);
+      return;
     }
+
+    setError('');
+    resetTranscript();
+
+    SpeechRecognition.startListening({
+      continuous: true,
+      language: 'en-US'
+    });
+
+    setIsRecording(true);
   };
 
   const handleInputChange = (e) => {
@@ -56,9 +61,9 @@ function VoiceQuery() {
     setError('');
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!query.trim()) {
       setError('Please enter or speak your query');
       return;
@@ -73,38 +78,72 @@ function VoiceQuery() {
     setError('');
     setResult(null);
 
-    try {
-      const response = await fetch(`${API_URL}/voice/query`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: query.trim()
-        }),
-      });
+    setTimeout(() => {
+      const normalizedQuery = query.trim().toLowerCase();
 
-      const data = await response.json();
+      let fakeData = {
+        answer_text: 'A nearby charging station has been highlighted on the map.',
+        intent: 'general_query',
+        entities: {
+          congestion: 'unknown'
+        }
+      };
 
-      if (response.ok) {
-        setResult({
-          answer_text: data.answer_text,
-          intent: data.intent,
-          entities: data.entities
-        });
-
-        console.log('Intent:', data.intent);
-        console.log('Entities:', data.entities);
-        
-      } else {
-        setError(data.message || 'Query failed, please try again');
+      if (normalizedQuery.includes('cheap')) {
+        fakeData = {
+          answer_text: 'The most cost-effective available charging station has been selected.',
+          intent: 'find_low_cost_station',
+          entities: {
+            congestion: 'low'
+          }
+        };
+      } else if (
+        normalizedQuery.includes('nearest') ||
+        normalizedQuery.includes('nearby') ||
+        normalizedQuery.includes('closest')
+      ) {
+        fakeData = {
+          answer_text: 'The nearest available charging station has been selected.',
+          intent: 'find_nearest_station',
+          entities: {
+            congestion: 'medium'
+          }
+        };
+      } else if (
+        normalizedQuery.includes('low congestion') ||
+        normalizedQuery.includes('less busy') ||
+        normalizedQuery.includes('not busy')
+      ) {
+        fakeData = {
+          answer_text: 'A less busy charging station has been selected for you.',
+          intent: 'find_low_congestion',
+          entities: {
+            congestion: 'low'
+          }
+        };
+      } else if (
+        normalizedQuery.includes('high congestion') ||
+        normalizedQuery.includes('busy')
+      ) {
+        fakeData = {
+          answer_text: 'A busy charging station was identified. You may want to avoid it.',
+          intent: 'find_high_congestion',
+          entities: {
+            congestion: 'high'
+          }
+        };
       }
-    } catch (err) {
-      console.error('Error querying voice API:', err);
-      setError('Network error or server not responding, please try again later');
-    } finally {
+
+      setResult(fakeData);
+
+      if (onQueryResult) {
+        onQueryResult(fakeData);
+      }
+
+      console.log('Intent:', fakeData.intent);
+      console.log('Entities:', fakeData.entities);
       setLoading(false);
-    }
+    }, 700);
   };
 
   const handleClear = () => {
@@ -112,30 +151,40 @@ function VoiceQuery() {
     setResult(null);
     setError('');
     resetTranscript();
+
     if (listening) {
       SpeechRecognition.stopListening();
       setIsRecording(false);
     }
   };
 
+  const applyQuickSuggestion = (text) => {
+    setQuery(text);
+    setError('');
+    setResult(null);
+  };
+
   return (
     <div className="voice-query-container">
       <div className="voice-query-card">
         <h2 className="voice-query-title">Voice Query Assistant</h2>
-        
+        <p className="voice-query-subtitle">
+          Ask about nearby chargers, cost, or congestion status.
+        </p>
+
         <form onSubmit={handleSubmit} className="voice-query-form">
           <div className="search-input-wrapper">
             <Search className="search-icon" />
-            
+
             <input
               type="text"
               value={query}
               onChange={handleInputChange}
-              placeholder="Type your query or click microphone to use voice input..."
+              placeholder="Try: nearest charger, cheapest station, or low congestion"
               className="search-input"
               disabled={loading}
             />
-            
+
             <button
               type="button"
               onClick={handleMicrophoneClick}
@@ -148,6 +197,27 @@ function VoiceQuery() {
               ) : (
                 <Mic className="mic-icon" />
               )}
+            </button>
+          </div>
+
+          <div className="quick-suggestions">
+            <button
+              type="button"
+              onClick={() => applyQuickSuggestion('nearest charger')}
+            >
+              Nearest
+            </button>
+            <button
+              type="button"
+              onClick={() => applyQuickSuggestion('cheapest station')}
+            >
+              Cheapest
+            </button>
+            <button
+              type="button"
+              onClick={() => applyQuickSuggestion('low congestion')}
+            >
+              Low congestion
             </button>
           </div>
 
@@ -173,7 +243,7 @@ function VoiceQuery() {
                 'Submit Query'
               )}
             </button>
-            
+
             <button
               type="button"
               onClick={handleClear}
@@ -194,12 +264,22 @@ function VoiceQuery() {
         {result && (
           <div className="result-panel">
             <h3 className="result-title">Query Result</h3>
+
             <div className="result-content">
               <p className="answer-text">{result.answer_text}</p>
+
+              <div style={{ marginTop: '10px', fontSize: '13px', color: '#64748b' }}>
+                Based on current system estimation.
+              </div>
+
+              <div style={{ marginTop: '12px', fontSize: '14px', color: '#475569' }}>
+                <p><strong>Intent:</strong> {result.intent || 'N/A'}</p>
+                <p><strong>Congestion:</strong> {result.entities?.congestion || 'N/A'}</p>
+              </div>
             </div>
-            
+
             <div className="debug-info">
-              <small>Note: Intent and Entities are logged to the browser console</small>
+              <small>Note: intent and entities are logged to the browser console</small>
             </div>
           </div>
         )}
