@@ -7,24 +7,20 @@ import { FavouritesContext } from '../context/FavouritesContext';
 import { getChargerCongestion } from '../services/chargerCongestionService';
 import { UserContext } from '../context/user';
 
-function ClusterMarkers({ showCongestion, stations, onSelectStation }) {
+function ClusterMarkers({ showCongestion, stations, selectedStation, onSelectStation }) {
   const map = useMap();
   const { favourites } = useContext(FavouritesContext);
   const { user } = useContext(UserContext);
   
-  // Store cluster group in ref to persist
   const clusterGroupRef = useRef(null);
-  
-  // Store congestion data in state
   const [congestionLevels, setCongestionLevels] = useState({});
   
-  // Memoize station IDs to prevent unnecessary API calls
   const stationIDs = useMemo(
     () => stations.map(station => station._id),
     [stations]
   );
-  
-  // Initialize cluster group
+
+  // Init cluster group
   useEffect(() => {
     clusterGroupRef.current = L.markerClusterGroup();
     map.addLayer(clusterGroupRef.current);
@@ -36,8 +32,8 @@ function ClusterMarkers({ showCongestion, stations, onSelectStation }) {
       }
     };
   }, [map]);
-  
-  // Fetch congestion data separately
+
+  // Fetch congestion
   useEffect(() => {
     if (!user?.token || stationIDs.length === 0) return;
     
@@ -47,7 +43,6 @@ function ClusterMarkers({ showCongestion, stations, onSelectStation }) {
       try {
         const response = await getChargerCongestion(stationIDs, user.token);
         if (!cancelled && response?.data?.congestionLevels) {
-          // Convert array to lookup object
           const levelsMap = response.data.congestionLevels.reduce((map, level) => {
             map[level.chargerId] = level;
             return map;
@@ -65,36 +60,54 @@ function ClusterMarkers({ showCongestion, stations, onSelectStation }) {
       cancelled = true;
     };
   }, [stationIDs, user?.token]);
-  
-  // Update markers when data changes
+
+  // Render markers
   useEffect(() => {
     if (!clusterGroupRef.current) return;
     
     const group = clusterGroupRef.current;
-    
-    // Clear existing markers
     group.clearLayers();
-    
-    // Add new markers
+
     stations.forEach((st) => {
       const lat = parseFloat(st.latitude);
       const lng = parseFloat(st.longitude);
       if (isNaN(lat) || isNaN(lng)) return;
-      
-      // Safely access congestion level
+
       const level = congestionLevels[st._id]?.congestion_level;
-      const icon = congestionIcon(showCongestion, level) || new L.Icon.Default();
+
+      const isSelected =
+        selectedStation && st._id === selectedStation._id;
+
+      let icon;
+
+      if (isSelected) {
+        // 🔥 Highlight marker
+        icon = L.divIcon({
+          className: 'selected-marker',
+          html: '⚡',
+          iconSize: [40, 40],
+          iconAnchor: [20, 20],
+        });
+
+        // Zoom + focus
+        map.flyTo([lat, lng], 16);
+      } else {
+        icon =
+          congestionIcon(showCongestion, level) ||
+          new L.Icon.Default();
+      }
+
       const marker = L.marker([lat, lng], { icon });
-      
+
       marker.on('click', () => {
         onSelectStation?.(st);
-        console.log(st._id);
       });
-      
+
       group.addLayer(marker);
     });
-  }, [stations, showCongestion, congestionLevels, onSelectStation]);
-  
+
+  }, [stations, showCongestion, congestionLevels, onSelectStation, selectedStation, map]);
+
   return null;
 }
 
