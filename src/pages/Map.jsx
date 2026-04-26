@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useContext } from 'react';
+import React, { useEffect, useState, useMemo, useContext, useRef } from 'react';
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import { UserContext } from '../context/user';
@@ -144,6 +144,7 @@ export default function Map() {
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState('');
   const [selectedStation, setSelectedStation] = useState(null);
+  const mapRef = useRef(null);
   // Handle result from voice assistant
   const handleVoiceResult = (data) => {
     if (!stations.length) return;
@@ -460,7 +461,14 @@ export default function Map() {
           </div>
         )}
 
-        <MapContainer className="map-visible-area hide-scrollbar " center={[-37.8136, 144.9631]} zoom={13}>
+        <MapContainer
+          className="map-visible-area hide-scrollbar "
+          center={[-37.8136, 144.9631]}
+          zoom={13}
+          whenCreated={(mapInstance) => {
+            mapRef.current = mapInstance;
+          }}
+        >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution="&copy; OpenStreetMap contributors"
