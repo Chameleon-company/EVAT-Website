@@ -159,26 +159,57 @@ export default function Map() {
     );
 
     if (intent === 'find_low_cost_station') {
-      const cheapest = availableStations
+      const userLat = data?.user_location?.lat;
+      const userLng = data?.user_location?.lng;
+
+      const centerLat = userLat ?? (bbox ? (bbox[1] + bbox[3]) / 2 : -37.8136);
+      const centerLng = userLng ?? (bbox ? (bbox[0] + bbox[2]) / 2 : 144.9631);
+
+      const getDistanceKm = (st) => {
+        const lat = getLat(st);
+        const lng = getLng(st);
+
+        if (Number.isNaN(lat) || Number.isNaN(lng)) return Infinity;
+
+        const R = 6371;
+        const dLat = ((lat - centerLat) * Math.PI) / 180;
+        const dLng = ((lng - centerLng) * Math.PI) / 180;
+
+        const a =
+          Math.sin(dLat / 2) ** 2 +
+          Math.cos((centerLat * Math.PI) / 180) *
+          Math.cos((lat * Math.PI) / 180) *
+          Math.sin(dLng / 2) ** 2;
+
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      };
+
+      const cheapest = stations
         .filter((st) => parseCost(st.cost) !== null)
+        .filter((st) => getDistanceKm(st) <= 20)
         .sort((a, b) => parseCost(a.cost) - parseCost(b.cost))[0];
 
       if (cheapest) {
         setSelectedStation(cheapest);
       }
+
       return;
     }
 
     if (intent === 'find_nearest_station') {
-      const centerLat = bbox ? (bbox[1] + bbox[3]) / 2 : -37.8136;
-      const centerLng = bbox ? (bbox[0] + bbox[2]) / 2 : 144.9631;
+      const userLat = data?.user_location?.lat;
+      const userLng = data?.user_location?.lng;
+
+      // fallback if BE don't return user_location
+      const centerLat = userLat ?? (bbox ? (bbox[1] + bbox[3]) / 2 : -37.8136);
+      const centerLng = userLng ?? (bbox ? (bbox[0] + bbox[2]) / 2 : 144.9631);
 
       let nearest = null;
       let minDist = Infinity;
 
-      availableStations.forEach((st) => {
-        const lat = getLat(st);
-        const lng = getLng(st);
+      stations.forEach((st) => {
+        const lat = Number(st.latitude ?? st.location?.coordinates?.[1]);
+        const lng = Number(st.longitude ?? st.location?.coordinates?.[0]);
 
         if (Number.isNaN(lat) || Number.isNaN(lng)) return;
 
@@ -192,22 +223,75 @@ export default function Map() {
 
       if (nearest) {
         setSelectedStation(nearest);
-        if (nearest?.latitude && nearest?.longitude) {
-          mapRef.current?.flyTo([nearest.latitude, nearest.longitude], 16);
-        }
+        mapRef.current?.flyTo([nearest.latitude, nearest.longitude], 16);
       }
+
       return;
     }
 
     if (intent === 'find_low_congestion') {
-      const candidate =
-        availableStations.find((st) => String(st.cost).toLowerCase() !== 'unknown') ||
-        availableStations[0] ||
-        stations[0];
+      const userLat = Number(data?.user_location?.lat);
+      const userLng = Number(data?.user_location?.lng);
 
-      if (candidate) {
-        setSelectedStation(candidate);
+      const hasUserLocation =
+        !Number.isNaN(userLat) && !Number.isNaN(userLng);
+
+      const centerLat = hasUserLocation
+        ? userLat
+        : bbox
+          ? (bbox[1] + bbox[3]) / 2
+          : -37.8136;
+
+      const centerLng = hasUserLocation
+        ? userLng
+        : bbox
+          ? (bbox[0] + bbox[2]) / 2
+          : 144.9631;
+
+      const getDistanceKm = (st) => {
+        const lat = getLat(st);
+        const lng = getLng(st);
+
+        if (Number.isNaN(lat) || Number.isNaN(lng)) return Infinity;
+
+        const R = 6371;
+        const dLat = ((lat - centerLat) * Math.PI) / 180;
+        const dLng = ((lng - centerLng) * Math.PI) / 180;
+
+        const a =
+          Math.sin(dLat / 2) ** 2 +
+          Math.cos((centerLat * Math.PI) / 180) *
+          Math.cos((lat * Math.PI) / 180) *
+          Math.sin(dLng / 2) ** 2;
+
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      };
+
+      const nearbyStations = stations
+        .map((st) => ({
+          ...st,
+          distanceKm: getDistanceKm(st),
+        }))
+        .filter((st) => st.distanceKm <= 20)
+        .sort((a, b) => a.distanceKm - b.distanceKm);
+
+      const lowCongestionStation =
+        nearbyStations.find(
+          (st) =>
+            String(st.congestion_level || st.congestion || '')
+              .toLowerCase()
+              .includes('low')
+        ) ||
+        nearbyStations[0];
+
+      if (lowCongestionStation) {
+        setSelectedStation(lowCongestionStation);
+        mapRef.current?.flyTo(
+          [Number(lowCongestionStation.latitude), Number(lowCongestionStation.longitude)],
+          16
+        );
       }
+
       return;
     }
 
@@ -477,6 +561,7 @@ export default function Map() {
           <ClusterMarkers
             showCongestion={filters.showCongestion}
             stations={filteredStations}
+            selectedStation={selectedStation}
             onSelectStation={(st) => setSelectedStation(st)}
           />
           <LocateUser />

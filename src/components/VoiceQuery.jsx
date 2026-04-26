@@ -139,7 +139,10 @@ function VoiceQuery({ onQueryResult }) {
 
       setResult(data || null);
       if (onQueryResult) {
-        onQueryResult(data);
+        onQueryResult({
+          ...data,
+          user_location: userLocation,
+        });
       }
 
       console.log('Intent:', data.intent);
