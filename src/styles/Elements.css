@@ -132,7 +132,7 @@ body {
 /* Background */
 .background-image {
   position: fixed;        /* doesnt move */
-  top: 76px;              /* starts below the navbar */
+  top: var(--navbar-height); /* starts below the navbar */
   left: 0;
   width: 100%;
   height: 100%;
@@ -145,7 +145,7 @@ body {
 .background-image::before {
   content: "";
   position: absolute;
-  top: -76px;
+  top: calc(var(--navbar-height) * -1);
   left: 0;
   right: 0;
   bottom: 0;
@@ -186,6 +186,7 @@ body {
   position: absolute;
   display: block;
   margin: 0 auto;
+  z-index: 0;
 }
 
 /* game reward image */
@@ -197,6 +198,7 @@ body {
   display: block;
   position: absolute;
   margin: auto;
+  z-index: 0;
 }
 
 .cost-image {

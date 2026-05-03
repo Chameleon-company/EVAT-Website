@@ -24,7 +24,7 @@ DO NOT add hard values for items not related to font style, size, or weight
   --button-font-tiny: clamp(0.7rem, 0.96vw + 0.5rem, 0.8rem);
   --button-font-small: clamp(0.8rem, 0.96vw + 0.7rem, 0.9rem);
   --button-font-large: clamp(1rem, 0.96vw + 0.8rem, 1.125rem);
-  --navbar-font-size: clamp(1rem, 0.96vw + 0.8rem, 1.125rem);
+  --navbar-font-size: clamp(0.8rem, 0.96vw + 0.7rem, 0.9rem);
 
   /* Modular scale ratio */
   --scale-ratio: 1.25;

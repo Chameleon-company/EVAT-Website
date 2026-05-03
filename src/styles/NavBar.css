@@ -10,32 +10,46 @@ The right side holds the navigation buttons and the profile icon is on the far r
 
 .navbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     width: 100%;
-    background-color: var(--secondary-color-dark);
-    padding: var(--narbar-padding);
-    top: 0;
-    left: 0;
-    right: 0;
-    height: var(--narbar-height);
-    z-index: 1000;
-    flex-wrap: nowrap;
+    background-color: var(--secondary-color-light);
+    padding: var(--navbar-padding);
+    height: var(--navbar-height);
     position: sticky;
-}
-
-.left-navbar {
-    display: flex;
-    align-items: center;
-    gap: var(--narbar-left-gap);
-    padding: var(--navbar-left-padding);
+    z-index: 5000;
 }
 
 .title-navbar {
     margin: var(--navbar-title-marging);
-    padding: var(--navbar-title-padding);
     padding: var(--navbar-left-padding);
     vertical-align: middle;
+}
+
+.left-navbar {
+    display: flex;
+    align-items: center; 
+    justify-content: start;
+    vertical-align: middle;
+    width: 250px;
+    height: inherit;
+}
+
+.center-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: calc(100% - 500px);
+    height: inherit;
+}
+
+.right-navbar {
+    display: flex;
+    align-items: center; 
+    justify-content: end;
+    vertical-align: middle;
+    gap: var(--narbar-right-gap);
+    width: 250px;
+    height: inherit;
 }
 
 .logo-navbar {
@@ -44,17 +58,11 @@ The right side holds the navigation buttons and the profile icon is on the far r
     flex-shrink: 0;
 }
 
-.right-navbar {
-    display: flex;
-    padding: var(--navbar-right-padding);
-    align-items: center;
-    gap: var(--narbar-right-gap);
-}
 
 .icon-navbar {
     width: var(--navbar-profile-icon-size);
     height: var(--navbar-profile-icon-size);
-    border-radius: vAr(--navbar-profile-icon-radius);
+    border-radius: var(--navbar-profile-icon-radius);
     background-image: url('../assets/profileIcon.png');
     background-size: cover;
     background-position: center;
@@ -63,67 +71,63 @@ The right side holds the navigation buttons and the profile icon is on the far r
     flex-shrink: 0;
 }
 
-/* @media (max-width: 1024px) {
-    .left-section {
-        gap: 0.2rem;
-        margin-left: 1rem;
-    }
-
-    .nav-button {
-        font-size: 0.9rem;
-    }
-
-    .icon-navbar {
-        width: 35px;
-        height: 35px;
-    }
+.navbar-menu-option {
+    display:inline;
+    vertical-align: middle;
+    cursor: pointer;
 }
 
-@media (max-width: 768px) {
-    .nav-bar {
-        flex-direction: row;
-        align-items: flex-start;
-        padding: 0.5rem 1rem;
-    }
+.dropdown > .navbar-menu-option:focus, 
+.navbar-menu-option:hover {
+  color: var(--navbar-button-hover-text);
+}
 
-    .left-section {
-        margin-left: 0.5rem;
-        margin-bottom: 0;
-    }
+.dropdown {
+    position: relative;
+}
 
-    .right-section {
-        flex-direction: column;
-        gap: 0.5rem;
-        align-items: flex-end;
-        margin-left: auto;
-        margin-right: 1rem;
-    }
+.dropdown-menu {
+    position: absolute;
+    top: calc(var(--navbar-height) - 2px);
+    left: 10px;
+    padding: var(--dropdown-menu-item-padding);
+    box-shadow: var(--dropdown-menu-shadow);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 5000;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    background: var(--dropdown-menu-background-color);
+    border: var(--dropdown-menu-border);
+    border-radius: var(--element-radius);
+    border-top-left-radius: 0;
+}
 
-    .nav-buttons {
-        flex-direction: column;
-        gap: 0.1rem;
-        width: auto;
-        align-items: flex-end;
-        margin-right: 1rem;
-    }
+.dropdown-menu.show,
+.dropdown > .navbar-menu-option:focus + .dropdown-menu {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 5000;
+}
 
-    .nav-button {
-        width: auto;
-        max-width: 160px;
-        text-align: right;
-        margin-right: 0;
-    }
+.dropdown-menu-item {
+    padding: var(--dropdown-menu-item-padding);
+    height: fit-content;
+    border: none;
+    text-align: left;
+    background: none;
+    box-shadow: none;
+    font-size: var(--navbar-font-size);
+    color: var(--text-color-white);
+}
 
-    .icon-navbar {
-        display: none;
-    }
-
-    .logo-text {
-        display: none;
-    }
-
-    .logo {
-        width: 70px;
-        height: 70px;
-    }
-} */
+.dropdown-menu-item:hover {
+    background-color: var(--primary-color-base);
+    color: var(--text-color-black);
+}

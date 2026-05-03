@@ -788,14 +788,14 @@ function Profile() {
 
         {/* RIGHT SECTION */}
         <div className="inner-right">
-          {activeTab === "dashboard" && (
+          {/* {activeTab === "dashboard" && (
             <button 
               className="btn btn-secondary two-hundred-width spread uppercase" 
               onClick={handleSignOut}
             >
               SIGN OUT
             </button>
-          )}
+          )} */}
 
           {/* About Me */}
           {activeTab === "about" && (

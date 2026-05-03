@@ -228,6 +228,15 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --container-border: 1px solid var(--container-border-color);
     --container-margin-top: 1rem;
 
+    /* Dropdown Menu */
+    --dropdown-menu-background-color: #000000a6;
+    --dropdown-menu-border-color: var(--primary-color-base);
+    --dropdown-menu-text-color: var(--text-color-white);
+    --dropdown-menu-border: 1px solid var(--dropdown-menu-border-color);
+    --dropdown-menu-margin-top: 1rem;
+    --dropdown-menu-shadow: var(--website-shadow-hover);
+    --dropdown-menu-item-padding: 0.3rem;
+
     /* Cards */
     --card-background-color: var(--primary-color-base);
     --card-border-color: var(--primary-color-base);
@@ -420,16 +429,22 @@ clamp(<minimum size>, <preferred size>, <maximum size>);
     --narbar-padding: var(--website-padding);
     --navbar-title-padding: 0.1rem;
     --navbar-title-marging: 0.1rem;
-    --navbar-height: 6vh;
-    --navbar-logo-height: 50px;
+    --navbar-height: 45px;
+    --navbar-logo-height: 35px;
 
     /* Left Side */
     --navbar-left-gap: var(--website-gap);
-    --navbar-left-padding: 0 0 0 1.5rem;
+    --navbar-left-padding: 0 0 0 1rem;
+    --navbar-menu-icon-size: 35px;
+    
+    /* Center */
+    --navbar-center-gap: var(--website-gap);
+    --navbar-center-padding: 0 0 0 1.5rem;
+
     /* Right Side */
     --navbar-right-gap: var(--website-gap);
-    --navbar-right-padding: 0 1.5rem 0 0;
-    --navbar-profile-icon-size: 45px;
+    --navbar-right-padding: 0 1rem 0 0;
+    --navbar-profile-icon-size: 35px;
     --navbar-profile-icon-radius: 50%;
 
     /* Button */

@@ -155,6 +155,8 @@ and transparent) include the colour differences.
   border: var(--navbar-button-border);
   color: var(--navbar-button-text);
   font-size: var(--navbar-font-size);
+  cursor: pointer;
+  display:flex;
 }
 
 /* hover state - set colour */
