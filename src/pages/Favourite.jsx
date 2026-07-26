@@ -49,7 +49,8 @@ function Favourite() {
                   <th>Cost</th>
                   <th>Charging points</th>
                   <th>Status</th>
-                  <th></th> {/* Unsave button column */}
+                  {/* Unsave button column */}
+                  <th></th>
                 </tr>
               </thead>
               <tbody>

@@ -1,4 +1,6 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
+import { UserContext } from "./user";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const FavouritesContext = createContext();
@@ -8,13 +10,18 @@ export function FavouritesProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const storedUser = JSON.parse(localStorage.getItem("currentUser"));
-  const token = storedUser?.token;
+  const { user } = useContext(UserContext);
+  const token = user?.token;
 
   // Fetch favourites from backend
   useEffect(() => {
     const fetchFavourites = async () => {
-      if (!token) return;
+      if (!token) {
+        setFavourites([]);
+        setLoading(false);
+        setError(null);
+        return;
+      }
 
       setLoading(true);
       setError(null);
@@ -45,11 +52,13 @@ export function FavouritesProvider({ children }) {
   // Toggle favourite station (save/remove in DB)
   const toggleFavourite = async (station) => {
     if (!token) {
-      setError("Not authenticated");
-      return;
+      const authError = new Error("Not authenticated");
+      setError(authError.message);
+      throw authError;
     }
 
     const isFav = favourites.some((s) => s._id === station._id);
+
     const url = isFav
       ? `${API_URL}/profile/remove-favourite-station`
       : `${API_URL}/profile/add-favourite-station`;
@@ -66,20 +75,25 @@ export function FavouritesProvider({ children }) {
 
       if (!res.ok) throw new Error("Failed to update favourite");
 
-      // Optimistically update UI
+      // Update UI after successful backend request
       if (isFav) {
-        setFavourites((prev) => prev.filter((s) => s._id !== station._id));
+        setFavourites((prev) =>
+          prev.filter((s) => s._id !== station._id)
+        );
       } else {
         setFavourites((prev) => [station, ...prev]);
       }
     } catch (err) {
       console.error("Toggle favourite error:", err);
       setError(err.message);
+      throw err;
     }
   };
 
   return (
-    <FavouritesContext.Provider value={{ favourites, toggleFavourite, loading, error }}>
+    <FavouritesContext.Provider
+      value={{ favourites, toggleFavourite, loading, error }}
+    >
       {children}
     </FavouritesContext.Provider>
   );
