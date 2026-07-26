@@ -77,9 +77,7 @@ export function FavouritesProvider({ children }) {
 
       // Update UI after successful backend request
       if (isFav) {
-        setFavourites((prev) =>
-          prev.filter((s) => s._id !== station._id)
-        );
+        setFavourites((prev) => prev.filter((s) => s._id !== station._id));
       } else {
         setFavourites((prev) => [station, ...prev]);
       }
@@ -91,9 +89,7 @@ export function FavouritesProvider({ children }) {
   };
 
   return (
-    <FavouritesContext.Provider
-      value={{ favourites, toggleFavourite, loading, error }}
-    >
+    <FavouritesContext.Provider value={{ favourites, toggleFavourite, loading, error }}>
       {children}
     </FavouritesContext.Provider>
   );
