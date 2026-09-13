@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
 
 export const predictWeatherAwareRouting = async (payload, token) => {
   const response = await fetch(`${API_URL}/weather-aware-routing/predict`, {
