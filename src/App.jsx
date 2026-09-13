@@ -16,12 +16,14 @@ import { FavouritesProvider } from "./context/FavouritesContext";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EVChatBubble from "./components/EVChatBubble";
+import PersonalisedInsightsForm from "./pages/PersonalisedInsightsForm";
+import PersonalisedInsights from "./pages/PersonalisedInsights";
 
 // Use Case Dashboard and pages
 import Dashboard from "./pages/Dashboard";
 import EnvironmentalImpact from "./pages/EnvironmentalImpact";
 import DemandForecasting from "./pages/DemandForecasting";
-import WeatherRouting from "./pages/WeatherRouting";
+import WeatherAwareRouting from "./pages/WeatherAwareRouting";
 import Chatbot from "./pages/Chatbot";
 
 function App() {
@@ -43,6 +45,9 @@ function App() {
             <Route path="/apitester" element={<ApiTester />} />
             <Route path="/voice-query" element={<VoiceQueryPage />} />
             <Route path="/achievements" element={<Achievements />} />
+            <Route path="/weather-aware-routing" element={<WeatherAwareRouting />} />
+            <Route path="/insights-form" element={<PersonalisedInsightsForm />} />
+            <Route path="/insights" element={<PersonalisedInsights />} />
             {/* Catch-all Route */}
             <Route path="*" element={<div>404 Page Not Found</div>} />
           </Routes>
